@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+}
+
+img {
+    height: 20px;
+    width: 20px;
+}
+
+table {
+    display: inline;
+}
+h1 {
+    text-align: center;
+}
+
+ul {
+    padding: 0;
+    margin-top: 0;
+    list-style: none;
+    background-color: lightslategray; 
+}
+
+li {
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+td {
+    text-align: center;
+    padding: 5px;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: center;
+}
+
+.form {
+    margin-top: 20px;
+}
+
+#content {
+    width:30%;
+    font-size: 1.2em;
+
+}
+input {
+    height:30px;
+}
