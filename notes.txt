@@ -1,0 +1,22 @@
+Running from WSL:
+
+Installing Python and pip:  
+    sudo apt update && upgrade
+    sudo apt install python3 python3-pip ipython3
+    sudo apt install python3-venv
+
+Likely python path in WSL:
+~/mnt/c/Users/
+
+Navagate to your github folder and create a venv:
+    python3 -m venv <name your env>
+
+Activate your env:
+    path/to/the/env/dir source my_project/bin/activate
+    or
+    cd to the env/bin dir and type:
+        source activate
+
+Install packages from the txt file:
+    (cd to the dir containing requirments.txt)
+    pip3 install -r requirments.txt

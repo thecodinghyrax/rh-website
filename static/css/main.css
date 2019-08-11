@@ -4,21 +4,11 @@ body {
     text-align: center;
 }
 
-.top-nav > li img {
-    height: 20px;
-    width: 20px;
-    
-}
-
-table {
-    display: inline;
-}
-
 video {
     position: fixed;
     right: 0;
     bottom: 0;
-    top: 25px;
+    top: 40px;
     min-width: 100%;
     min-height: 100%;
 }
@@ -41,40 +31,31 @@ li {
     padding-bottom: 5px;
 }
 
-td {
-    text-align: center;
-    padding: 5px;
-}
-
 .top-nav {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.top-nav > li img {
+    height: 30px;
+    width: 30px;
+    padding: 0;
 }
 
 a {
     color: white;
-
 }
 
 .logo {
     position: fixed;
-    top: 0;
+    top: 41px;
     bottom: 0;
     right: 0;
     left: 25%;
     width: 50%;
 }
 
-.form {
-    margin-top: 20px;
-}
-
-
 #content {
     width:30%;
     font-size: 1.2em;
-
-}
-input {
-    height:30px;
-}
