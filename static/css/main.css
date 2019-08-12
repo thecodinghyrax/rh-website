@@ -1,16 +1,36 @@
 body {
     margin: 0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    text-align: center;
 }
 
-video {
+#myVideo {
     position: fixed;
-    right: 0;
-    bottom: 0;
+    z-index: -1;
     top: 40px;
-    min-width: 100%;
-    min-height: 100%;
+}
+
+@media (min-aspect-ratio: 16/9) {
+#myVideo {
+    width: 100%;
+    height: auto;
+    }
+}
+
+@media (max-aspect-ratio: 16/9) {
+    #myVideo {
+        width: auto;
+        height: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    #myVideo {
+        display: none;
+    }
+    body {
+        background: url('../img/poster.png');
+        background-size: 100vh;
+    }
 }
 
 h1 {
