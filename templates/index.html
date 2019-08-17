@@ -1,16 +1,27 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 <title>Renewed Hope Home Page</title>
 {% endblock %}
 
 {% block body %}
-    <div>
+    <!-- <div>
         <img class="logo" src="../static/img/RH wow logo.png" alt="Renewed Hope logo">
     </div> 
 
     <video id="myVideo" poster="../static/img/video_still.jpg" autoplay muted loop  >
-        <source src="../static/img/wow-bkg-small2.mp4" type="video/mp4">
-    </video>
+        <source src="../static/img/wow-bkg-small.mp4" type="video/mp4">
+    </video> -->
  
+    <header class="v-header container">
+        <div class="fullscreen-video-wrap">
+            <video src="../static/img/wow-bkg-large.mp4" autoplay="true" loop="true"></video>
+        </div>
+        <div class="header-overlay"></div> -->
+        <div class="header-content">
+            <img class="logo" src="../static/img/RH wow logo.png" alt="Renewed Hope logo">
+        </div>
+        <a href="#" class="btn">Apply to Renewed Hope</a>
+    </header>
 {% endblock %}
