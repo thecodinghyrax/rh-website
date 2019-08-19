@@ -55,9 +55,9 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/devotionals')
+@app.route('/devotional')
 def devotionals():
-    return render_template('devotionals.html')
+    return render_template('devotional.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

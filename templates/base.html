@@ -9,7 +9,7 @@
     <script src="https://kit.fontawesome.com/d7f10e001b.js"></script>
     <style>
         body {
-            background-color: blue;
+            background-color: black;
             box-sizing: border-box;
         }
 
@@ -22,8 +22,7 @@
             padding: 0;
             margin: 0;
             list-style: none;
-            /* background-color: rgba(56, 56, 61, 0.99); */
-            background-color: black;
+            background-color: rgba(19, 19, 29, 0.75);
         }
 
         .top-nav > li {
@@ -42,16 +41,30 @@
         .top-nav > li a {
             color: white;
         }
+
+        .btn {
+            display: flex;
+            white-space: nowrap;
+            word-wrap: none;
+            height: 3rem;
+            width: 7rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            align-items: baseline;
+            justify-items: center;
+            border-radius: 10px;
+        }
     </style>
     {% block head %}{% endblock %}
 </head>
 <body>
     <nav>
         <ul class="top-nav" role="navigation">
-            <li><img src="../static/img/RH custom logo.png" alt="Renewed Hope small logo"></li>
+            <!-- <li><img src="../static/img/RH custom logo.png" alt="Renewed Hope small logo"></li> -->
+            <li><a href="#" class="btn">Apply to the guild</a></li>
             <li><a href="/"><i class="fa fa-home"></i></a></li>  
             <li><a href="./discord"><i class="fab fa-discord"></i></a></li>
-            <li><a href="./devotionals"><i class="fas fa-book-reader"></i></a></li>
+            <li><a href="./devotional"><i class="fas fa-book-reader"></i></a></li>
             <li><a href="./about"><i class="fas fa-info-circle"></i></a></li>
         </ul>
     </nav>
