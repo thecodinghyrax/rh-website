@@ -4,70 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> -->
-    <link rel="shortcut icon" href="#" />
     <script src="https://kit.fontawesome.com/d7f10e001b.js"></script>
     <style>
-        body {
-            background-color: black;
-            box-sizing: border-box;
+         body {
+            margin: 0;
+            padding: 0;
+            background: black;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .top-nav {
-            z-index: 99999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 3rem;
-            padding: 0;
-            margin: 0;
-            list-style: none;
-            background-color: rgba(19, 19, 29, 0.75);
-        }
-
-        .top-nav > li {
-            z-index: 99999;
-            margin-left: 10%;
-            margin-right: 10%;
-        }
-
-        .top-nav > li img {
-            z-index: 99999;
-            height: 30px;
-            width: 30px;
-            padding: 0;
-        }
-
-        .top-nav > li a {
-            color: white;
-        }
-
-        .btn {
-            display: flex;
-            white-space: nowrap;
-            word-wrap: none;
-            height: 3rem;
-            width: 7rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            align-items: baseline;
-            justify-items: center;
+            display: grid;
+            grid-template-columns: 20% 20% 20% 20% 20%;
+            grid-template-rows: 2rem 1rem;
+            background: #111;
             border-radius: 10px;
         }
+
+        .grid-item {
+            justify-self: center;
+            text-align: center;
+        }
+
+        .grid-item a {
+            text-decoration: none;
+        }
+
+        .icon, .name {
+            color: #fff;
+        }
+
+        .grid-item a:hover {
+            font-size: 1.1rem;
+        }
+
     </style>
     {% block head %}{% endblock %}
 </head>
 <body>
-    <nav>
-        <ul class="top-nav" role="navigation">
-            <!-- <li><img src="../static/img/RH custom logo.png" alt="Renewed Hope small logo"></li> -->
-            <li><a href="#" class="btn">Apply to the guild</a></li>
-            <li><a href="/"><i class="fa fa-home"></i></a></li>  
-            <li><a href="./discord"><i class="fab fa-discord"></i></a></li>
-            <li><a href="./devotional"><i class="fas fa-book-reader"></i></a></li>
-            <li><a href="./about"><i class="fas fa-info-circle"></i></a></li>
-        </ul>
-    </nav>
+    <div class="top-nav" role="navigation">
+            <div class="grid-item"><a href="https://docs.google.com/forms/d/e/1FAIpQLSdmm8LJ4lVInWACbNqikWDBdfJfxqdDhHXy9X3QIhlvPRY3xw/viewform" target="#">
+                    <div class="icon"><i class="fa fa-id-card-o" aria-hidden="true"></i></div>
+                    <div class="name" data-text="Apply">Apply</div>
+                </a></div>
+            <div class="grid-item"><a href="/">
+                    <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                    <div class="name" data-text="Home">Home</div>
+                </a></div>
+            <div class="grid-item"><a href="/discord">
+                    <div class="icon"><i class="fab fa-discord"></i></div>
+                    <div class="name" data-text="Discord">Discord</div>
+                </a></div>
+            <div class="grid-item"><a href="/devotional">
+                    <div class="icon"><i class="fa fa-book-reader"></i></div>
+                    <div class="name" data-text="Devotionals">Devotionals</div>
+                </a></div>
+            <div class="grid-item"><a href="/about">
+                    <div class="icon"><i class="fa fa-info-circle"></i></div>
+                    <div class="name" data-text="About">About</div>
+                </a></div>
+            </div>
     {% block body %}{% endblock %}
 </body>
 </html>
