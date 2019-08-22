@@ -1,5 +1,35 @@
 body {
-    color: white;
-    text-align: center;
+    color: rgb(12, 11, 26);
+
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#container {
+    background-image: url("../img/Parchment-cut.jpg");
+    background-repeat: repeat-y;
+    background-position-x: center;
+    background-size: 90%;
+    margin: 0 5%;
+    padding: 0 15%;
+    border-radius: 5px;
+    border-width: 90%
+}
+
+p {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1rem;
+}
+h1 {
+
+    font-size: 3rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+#title {
+    text-align: center;
+    margin-top: 0.5rem;
+}
+#faction {
+    margin-top: 0;
+    padding-top: 0;
+    text-align: center;
 }
