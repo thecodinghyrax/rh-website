@@ -5,46 +5,23 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///devotional.db'
 db = SQLAlchemy(app)
 
-# class Todo(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     content = db.Column(db.String(200), nullable=False)
-#     date_created = db.Column(db.DateTime, default= datetime.utcnow)
+class Devotional(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    date = db.Column(db.String(30), nullable=False)
+    content = db.Column(db.String(10000), nullable=False)
+    download_link = db.Column(db.String(1000), nullable=False)
+    date_updated = db.Column(db.DateTime, default= datetime.utcnow)
 
-#     def __repr__(self):
-#         return '<Task %r>' % self.id
+    def __repr__(self):
+        return '<Devotional %r>' % self.id
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-# @app.route('/delete/<int:id>')
-# def delete(id):
-#     task_to_delete = Todo.query.get_or_404(id)
-
-#     try:
-#         db.session.delete(task_to_delete)
-#         db.session.commit()
-#         return redirect('/')
-#     except:
-#         return 'There was a problem deleting the task :('
-
-# @app.route('/update/<int:id>', methods=['GET', 'POST'])
-# def update(id):
-#     task = Todo.query.get_or_404(id)
-#     if request.method == 'POST':
-#         task.content = request.form['content']
-#         print('This is the request.form - content ', request.form)
-#         try:
-#             db.session.commit()
-#             return redirect('/')
-#         except:
-#             return 'Couldn\'t update this record'
-#     else:
-#         return render_template('update.html', task=task)
-
 
 @app.route('/discord')
 def discord():
@@ -54,10 +31,59 @@ def discord():
 def about():
     return render_template('about.html')
 
-
 @app.route('/devotional')
 def devotionals():
-    return render_template('devotional.html')
+    devotionals = Devotional.query.order_by(Devotional.date).all()
+    return render_template('devotional.html', devotionals=devotionals)
+
+@app.route('/add_devotional', methods=['POST', 'GET'])
+def add_devotional():
+    if request.method == 'POST':
+        date = request.form['date']
+        discription = request.form['discription']
+        link = request.form['link']
+        title = request.form['title']
+        new_devotional = Devotional(title=title, date=date, content=discription, download_link=link)
+        try:
+            db.session.add(new_devotional)
+            db.session.commit()
+            return redirect('/add_devotional')
+        except:
+            return "There was a problem adding this to the database :("
+    else:
+        devotionals = Devotional.query.order_by(Devotional.date).all()
+        return render_template('add_devotional.html', devotionals=devotionals)
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    devotional_to_delete = Devotional.query.get_or_404(id)
+
+    try:
+        db.session.delete(devotional_to_delete)
+        db.session.commit()
+        return redirect('/add_devotional')
+    except:
+        return "There was an issue deleting the devotional :("
+
+
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    devotional_to_update = Devotional.query.get_or_404(id)
+    if request.method == 'POST':
+        devotional_to_update.title = request.form['title']
+        devotional_to_update.date = request.form['date']
+        devotional_to_update.content = request.form['discription']
+        devotional_to_update.download_link = request.form['link']
+
+        try:
+            db.session.commit()
+            return redirect('/add_devotional')
+        except:
+            return "There was an issue updating this devotional :("
+    else:
+        return render_template('update.html', devotional=devotional_to_update)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

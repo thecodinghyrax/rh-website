@@ -7,8 +7,22 @@
 
 {% block body %}
 
-<div>
-    <h1>This is the Devotional page!</h1>
-</div>
+    <h1>Devotionals</h1>
+    <br>
+    <br>
+
+
+            {% for devotional in devotionals %}
+            <div class="container">
+                <a href="{{ devotional.download_link }}" target="#">
+                    <h3>{{ devotional.title }}</h3>
+                    <p>{{ devotional.content }}</p>
+                </a>
+            </div>
+
+            <br>
+            {% endfor %}
+
+
 
 {% endblock %}

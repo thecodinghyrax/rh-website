@@ -3,3 +3,22 @@ body {
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+.container {
+    background-color: blue;
+    border-radius: 15px;
+    text-align: left;
+    padding: 1rem;
+    margin: 0 3rem ;
+}
+.container:hover {
+    padding: 2rem 1rem;
+    border: 2px solid gray;
+}
+a {
+    text-decoration: none;
+    color: white;
+}
+a:hover {
+    font-size: 1.1rem;
+}
+
