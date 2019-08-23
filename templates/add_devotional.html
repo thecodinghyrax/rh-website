@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add Devotional</title>
+<style>
+    body {
+        background-color: antiquewhite;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="devotional">
+        <h1>Devotional Panel</h1>
+        <form action="/add_devotional", method="POST">
+            <label name="title">Title</label>
+            <input type="text" name="title", id="title">
+            <br>
+            <label name="date">Date</label>
+            <input type="date" name="date", id="date">
+            <br>
+            <label name="discription">Discription</label>
+            <input type="text" name="discription", id="discription">
+            <br>
+            <label name="link">Download Link</label>
+            <input type="text" name="link", id="link">
+            <br>
+            <input type="submit" value="Add Devotional">
+
+        </form>
+        <br>
+        <br>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Discription</th>
+                <th>Download Link</th>
+                <th>Date Updated</th>
+                <th>Actions</th>
+            </tr>
+            {% for devotional in devotionals %}
+            
+            <tr>
+                <td>{{ devotional.title }}</td>
+                <td>{{ devotional.date }}</td>
+                <td>{{ devotional.content }}</td>
+                <td>{{ devotional.download_link }}</td>
+                <td>{{ devotional.date_updated }}</td>
+                <td>
+                    <a href="/delete/{{ devotional.id }}">Delete</a>
+                    <br>
+                    <a href="/update/{{ devotional.id }}">Update</a>
+                </td>
+            </tr>
+            
+            {% endfor %}
+        </table>
+
+    </div>
+
+{% endblock %}
