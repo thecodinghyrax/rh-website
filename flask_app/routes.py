@@ -17,7 +17,8 @@ def about():
 
 @app.route('/devotional')
 def devotionals():
-    devotionals = Devotional.query.order_by(Devotional.date).all()
+    devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
+
     return render_template('devotional.html', devotionals=devotionals)
 
 @app.route('/add_devotional', methods=['POST', 'GET'])
