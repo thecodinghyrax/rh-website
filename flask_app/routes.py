@@ -1,6 +1,8 @@
-from flask import render_template, url_for, request, redirect
-from flask_app import app, db
-from flask_app.models import Devotional
+from flask import render_template, url_for, request, redirect, flash
+from flask_app import app, db, bcrypt
+from flask_app.models import Devotional, User
+from forms import RegistrationForm, LoginForm
+from datetime import datetime
 
 
 @app.route('/')
@@ -15,6 +17,30 @@ def discord():
 def about():
     return render_template('about.html')
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Your account has been created and you are now able to login', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('register.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'd@mail.com' and form.password.data == 'pass':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('login.html', form=form)
+
 @app.route('/devotional')
 def devotionals():
     devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
@@ -28,6 +54,7 @@ def add_devotional():
         discription = request.form['discription']
         link = request.form['link']
         title = request.form['title']
+        date_updated = datetime.utcnow()
         new_devotional = Devotional(title=title, date=date, content=discription, download_link=link)
         try:
             db.session.add(new_devotional)
@@ -36,7 +63,7 @@ def add_devotional():
         except:
             return "There was a problem adding this to the database :("
     else:
-        devotionals = Devotional.query.order_by(Devotional.date).all()
+        devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
         return render_template('add_devotional.html', devotionals=devotionals)
 
 @app.route('/delete/<int:id>')
@@ -59,6 +86,7 @@ def update(id):
         devotional_to_update.date = request.form['date']
         devotional_to_update.content = request.form['discription']
         devotional_to_update.download_link = request.form['link']
+        devotional_to_update.date_updated = datetime.utcnow()
 
         try:
             db.session.commit()

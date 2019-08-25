@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/d7f10e001b.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
          body {
             margin: 0;
@@ -38,7 +39,9 @@
         .grid-item a:hover {
             font-size: 1.1rem;
         }
-
+        .pop-up {
+            z-index: 9999;
+        }
     </style>
     {% block head %}{% endblock %}
 </head>
@@ -48,23 +51,23 @@
                     <div class="icon"><i class="fa fa-id-card-o" aria-hidden="true"></i></div>
                     <div class="name" data-text="Apply">Apply</div>
                 </a></div>
-            <div class="grid-item"><a href="/">
+            <div class="grid-item"><a href="{{ url_for('index') }}">
                     <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
                     <div class="name" data-text="Home">Home</div>
                 </a></div>
-            <div class="grid-item"><a href="/discord">
+            <div class="grid-item"><a href="{{ url_for('discord') }}">
                     <div class="icon"><i class="fab fa-discord"></i></div>
                     <div class="name" data-text="Discord">Discord</div>
                 </a></div>
-            <div class="grid-item"><a href="/devotional">
+            <div class="grid-item"><a href="{{ url_for('devotionals') }}">
                     <div class="icon"><i class="fa fa-book-reader"></i></div>
                     <div class="name" data-text="Devotionals">Devotionals</div>
                 </a></div>
-            <div class="grid-item"><a href="/about">
+            <div class="grid-item"><a href="{{ url_for('about') }}">
                     <div class="icon"><i class="fa fa-info-circle"></i></div>
                     <div class="name" data-text="About">About</div>
                 </a></div>
-            </div>
+            </div class="pop-up">
     {% block body %}{% endblock %}
 </body>
 </html>

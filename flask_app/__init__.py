@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
 import os.path
+from flask_bcrypt import Bcrypt
 
 
 
@@ -12,5 +13,6 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/drewxcom/rh.db'
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 
 from flask_app import routes

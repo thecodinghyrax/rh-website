@@ -49,8 +49,6 @@ body {
 
 .header-content {
     z-index: 2;
-    /* display: block; */
-    border: 2px soild red;
     text-align: center;
 }
 
