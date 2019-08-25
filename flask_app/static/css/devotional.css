@@ -11,7 +11,6 @@ body {
     margin: 0 3rem ;
 }
 .container:hover {
-    padding: 0 1rem;
     border: 3px solid gray;
     background-color: rgb(57, 57, 214);
 }
@@ -21,5 +20,7 @@ a {
 }
 a:hover {
     font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
 }
 
