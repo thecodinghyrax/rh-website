@@ -3,6 +3,7 @@ from flask_app import app, db, bcrypt
 from flask_app.models import Devotional, User
 from forms import RegistrationForm, LoginForm
 from datetime import datetime
+from flask_login import login_user, current_user, logout_user
 
 
 @app.route('/')
@@ -17,29 +18,39 @@ def discord():
 def about():
     return render_template('about.html')
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash(f'Your account has been created and you are now able to login', 'success')
-        return redirect(url_for('login'))
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('index'))
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+#         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+#         db.session.add(user)
+#         db.session.commit()
+#         flash(f'Your account has been created and you are now able to login', 'success')
+#         return redirect(url_for('login'))
 
-    return render_template('register.html', form=form)
+#     return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'd@mail.com' and form.password.data == 'pass':
-            flash('You have been logged in!', 'success')
-            return redirect(url_for('index'))
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            return redirect(url_for('add_devotional'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route('/devotional')
 def devotionals():
@@ -63,6 +74,8 @@ def add_devotional():
         except:
             return "There was a problem adding this to the database :("
     else:
+        if not current_user.is_authenticated:
+            return redirect(url_for('login'))
         devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
         return render_template('add_devotional.html', devotionals=devotionals)
 

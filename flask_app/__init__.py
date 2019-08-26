@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import os.path
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 
 
@@ -14,5 +15,6 @@ else:
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
 
 from flask_app import routes

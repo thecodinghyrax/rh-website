@@ -22,3 +22,7 @@ Install packages from the txt file:
     pip3 install -r requirments.txt
     
 The JSON file currently has 10 entires that do not have an href (8/21/19)
+
+
+If I ever use the register pages, I might want to put this back at the bottom of the login page:
+<!-- Need An Account? <a class="ml-2" href="{{ url_for('register') }}">Sign Up</a> -->
