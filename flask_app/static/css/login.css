@@ -1,3 +1,15 @@
 body {
     color: white;
 }
+.content-section {
+    margin-top: 15vh;
+}
+
+.form-group, .form-check {
+    width: 50%;
+    margin-left:25%;
+    margin-right:25%;
+}
+.form-control-label {
+    color:white;
+}

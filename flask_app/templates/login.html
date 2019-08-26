@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 <title>Login</title>
 {% endblock %}
 
@@ -45,17 +45,17 @@
                         {{ form.remember.label(class="form-check-label") }}
                     </div>
             </fieldset>
-            </div class="form-group">
+            <div class="form-group">
                  {{ form.submit(class="btn btn-outline-info") }}
-            <div>
-            <small class="text-muted ml-2">
+            </div>
+            <small class="text-muted form-group">
                 <a href="#">Forgot Password?</a>
             </small>
         </form>
     </div>
-    <div class="border-top pt-3">
+    <div class="border-top form-group">
         <small class="text-muted">
-            Need An Account? <a class="ml-2" href="{{ url_for('register') }}">Sign Up</a>
+            
         </small>
         
     </div>

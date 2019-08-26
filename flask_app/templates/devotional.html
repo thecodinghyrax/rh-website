@@ -12,12 +12,12 @@
     <br>
 
 
-            {% for devotional in devotionals %}
-            <a href="{{ devotional.download_link }}" target="#">
+        {% for devotional in devotionals %}
+        <a href="{{ devotional.download_link }}" target="#">
             <div class="container">
                 
-                    <h3>{{ devotional.title }}</h3>
-                    <p>{{ devotional.content }}</p>
+                <h3>{{ devotional.title }}</h3>
+                <p>{{ devotional.content }}</p>
                 
             </div>
         </a>
