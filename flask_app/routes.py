@@ -1,14 +1,20 @@
-from flask import render_template, url_for, request, redirect, flash
+from flask import render_template, url_for, request, redirect, flash, send_from_directory
 from flask_app import app, db, bcrypt
 from flask_app.models import Devotional, User
 from forms import RegistrationForm, LoginForm
 from datetime import datetime
 from flask_login import login_user, current_user, logout_user
+import os
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 @app.route('/discord')
 def discord():
