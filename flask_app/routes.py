@@ -60,7 +60,9 @@ def logout():
 
 @app.route('/devotional')
 def devotionals():
-    devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
+    page = request.args.get('page', 1, type=int)
+    # devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
+    devotionals = Devotional.query.order_by(Devotional.date.desc()).paginate(page=page, per_page=20)
 
     return render_template('devotional.html', devotionals=devotionals)
 
