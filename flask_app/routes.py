@@ -9,7 +9,8 @@ import os
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    devotional = Devotional.query.order_by(Devotional.date.desc()).first()
+    return render_template('index.html', devotional=devotional)
 
 @app.route('/favicon.ico')
 def favicon():
@@ -23,21 +24,6 @@ def discord():
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     if current_user.is_authenticated:
-#         return redirect(url_for('index'))
-#     form = RegistrationForm()
-#     if form.validate_on_submit():
-#         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-#         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-#         db.session.add(user)
-#         db.session.commit()
-#         flash(f'Your account has been created and you are now able to login', 'success')
-#         return redirect(url_for('login'))
-
-#     return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -61,7 +47,6 @@ def logout():
 @app.route('/devotional')
 def devotionals():
     page = request.args.get('page', 1, type=int)
-    # devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
     devotionals = Devotional.query.order_by(Devotional.date.desc()).paginate(page=page, per_page=20)
 
     return render_template('devotional.html', devotionals=devotionals)
@@ -116,3 +101,18 @@ def update(id):
             return "There was an issue updating this devotional :("
     else:
         return render_template('update.html', devotional=devotional_to_update)
+
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('index'))
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+#         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+#         db.session.add(user)
+#         db.session.commit()
+#         flash(f'Your account has been created and you are now able to login', 'success')
+#         return redirect(url_for('login'))
+
+#     return render_template('register.html', form=form)

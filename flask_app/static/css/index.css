@@ -9,15 +9,24 @@ body {
     overflow-x: hidden; 
 }
 
-.v-header {
-    height: 94vh;
-    display: flex;
-    align-items: center;
+::-webkit-scrollbar {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
     color: white;
 }
 
-.container {
-    max-width: 960px;
+.v-header {
+    height: 94.7vh;
+    width: 100vw;
+    /* display: flex;
+    align-items: center; */
+    color: white;
     margin: auto;
     text-align: center;
 }
@@ -47,44 +56,112 @@ body {
     opacity: 0.8;
 }
 
-.header-content {
-    z-index: 2;
-    text-align: center;
-}
-
-.btn-div {
+.logo-div {
     z-index: 3;
-    top: 3.1rem;
-    left: 0;
-    height: 3em;
-    width: 5em;
-}
+    width: 100vw;
+    height: 20vh;
+    position: absolute;
 
-.btn {
-    background: #133bff;
-    color: #fff;
-    font-size: 0.5em;
-    padding: 1em 2em;
-    text-decoration: none;
-}
-
-@media (max-width:960px){
-    .container {
-        padding-right: 3.1rem;
-        padding-left: 3.1rem;
-    }
-}
-@media (max-height:900px){
-    ::-webkit-scrollbar {
-        display: none;
-    }
 }
 
  .logo {
-    position: fixed;
-    top: 3.1rem;
-    bottom: 0;
-    right: 0;
-    left: 25%;
-    width: 50%;
+    width: auto;
+    height: 20vh;
 }  
+
+.card-holder {
+    height: 70vh;
+    position: absolute;
+    bottom: 0;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 5rem;
+    margin: 2rem 10rem;
+    margin-top: 5rem;
+    font-size: 1.4rem;
+}
+
+.extra-life-container {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    height: 39rem;
+}
+
+.extra-life-widget {
+    width: 20rem;
+    height: 36rem; 
+    padding: 0; 
+    overflow: hidden;
+}
+
+iframe {
+    -ms-zoom: 1.2;
+    -moz-transform: scale(1.20);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(1.20);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(1.20);
+    -webkit-transform-origin: 0 0;
+}
+
+.announcment-card-label, .devotional-card-label {
+    text-align: left;
+}
+
+.announcment-card-content, .devotional-card-content {
+    background-color: rgba(1, 1, 1, 0.5);
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+@media screen and (max-width: 1600px) {
+    .card-holder {
+        font-size: 1rem;
+        margin: 1rem 4rem;
+        margin-top: 3rem;
+        grid-gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .card-holder {
+        font-size: 1rem;
+        margin: 1rem 4rem;
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        justify-items: center;
+        top: 35rem;
+    }
+
+    .announcment-card-label {
+        order: 1;
+    }
+
+    .announcment-card-content {
+        order: 2;
+    }
+
+    .devotional-card-label {
+        order: 3;
+    }
+
+    .devotional-card-content {
+        order: 4;
+    }
+
+    .extra-life-container {
+        order: 5;
+        margin: auto;
+        margin-top: 7rem;
+    }
+
+    .extra-life-widget {
+        order: 6;
+        margin: auto;
+        
+    }
+}
