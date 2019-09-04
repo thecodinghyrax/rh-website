@@ -12,19 +12,32 @@
     <br>
 
 
-        {% for devotional in devotionals %}
-        <a href="{{ devotional.download_link }}" target="#">
+        {% for devotional in devotionals.items %}
+        
             <div class="container">
-                
-                <h3>{{ devotional.title }}</h3>
-                <p>{{ devotional.content }}</p>
-                
+                <a href="{{ devotional.download_link }}" target="#">
+                    
+                    <h3>{{ devotional.title }}</h3>
+                    <p>{{ devotional.content }}</p>
+                </a>
             </div>
-        </a>
-
+            
             <br>
             {% endfor %}
 
+        <div class="pag">
+            {% for page_num in devotionals.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if devotionals.page == page_num %}
+                    <a class="btn btn-info mb-4" href="{{ url_for('devotionals', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                    <a class="btn btn-outline-info mb-4" href="{{ url_for('devotionals', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+                {% else %}
+                ...
+            {% endif %}
+            {% endfor %}
+        </div>
 
 
 {% endblock %}

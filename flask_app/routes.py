@@ -1,14 +1,21 @@
-from flask import render_template, url_for, request, redirect, flash
+from flask import render_template, url_for, request, redirect, flash, send_from_directory
 from flask_app import app, db, bcrypt
 from flask_app.models import Devotional, User
 from forms import RegistrationForm, LoginForm
 from datetime import datetime
 from flask_login import login_user, current_user, logout_user
+import os
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    devotional = Devotional.query.order_by(Devotional.date.desc()).first()
+    return render_template('index.html', devotional=devotional)
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 @app.route('/discord')
 def discord():
@@ -17,21 +24,6 @@ def discord():
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     if current_user.is_authenticated:
-#         return redirect(url_for('index'))
-#     form = RegistrationForm()
-#     if form.validate_on_submit():
-#         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-#         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-#         db.session.add(user)
-#         db.session.commit()
-#         flash(f'Your account has been created and you are now able to login', 'success')
-#         return redirect(url_for('login'))
-
-#     return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -54,7 +46,8 @@ def logout():
 
 @app.route('/devotional')
 def devotionals():
-    devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
+    page = request.args.get('page', 1, type=int)
+    devotionals = Devotional.query.order_by(Devotional.date.desc()).paginate(page=page, per_page=20)
 
     return render_template('devotional.html', devotionals=devotionals)
 
@@ -108,3 +101,18 @@ def update(id):
             return "There was an issue updating this devotional :("
     else:
         return render_template('update.html', devotional=devotional_to_update)
+
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('index'))
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+#         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+#         db.session.add(user)
+#         db.session.commit()
+#         flash(f'Your account has been created and you are now able to login', 'success')
+#         return redirect(url_for('login'))
+
+#     return render_template('register.html', form=form)
