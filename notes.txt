@@ -21,8 +21,10 @@ Install packages from the txt file:
     (cd to the dir containing requirments.txt)
     pip3 install -r requirments.txt
     
-The JSON file currently has 10 entires that do not have an href (8/21/19)
 
 
 If I ever use the register pages, I might want to put this back at the bottom of the login page:
 <!-- Need An Account? <a class="ml-2" href="{{ url_for('register') }}">Sign Up</a> -->
+
+Inorder to get the Secret_key environment variable to be found on Pythonanywhere:
+https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
