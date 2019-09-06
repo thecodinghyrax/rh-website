@@ -83,6 +83,11 @@ def delete(id):
     except:
         return "There was an issue deleting the devotional :("
 
+@app.route('/confirm/<int:id>')
+def confirm(id):
+    devotional = Devotional.query.get(id)
+    return render_template('confirm.html', id=id, devotional=devotional)
+
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
