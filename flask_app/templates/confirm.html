@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Confirm</title>
+<style>
+    .confirm-container {
+        color: brown;
+        text-align: center;
+    }
+    .btn-container {
+        display: flex;
+        justify-content: center;
+    }
+    .delete {
+        padding: 5rem;
+        margin: 0 5rem;
+        border-radius: 10px;
+        background-color: red;
+        color: white;
+    }
+    .cancel {
+        padding: 5rem;
+        margin: 0 5rem;
+        border-radius: 10px;
+        background-color: green;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="confirm-container">
+    <h1>Are you sure you want to delete the devotional for {{ devotional.date }}?</h1>
+    <br>
+    <div class="btn-container">
+        <a class="delete" href="/delete/{{ devotional.id }}">Delete</a>
+        <a class="cancel" href="{{ url_for('add_devotional') }}">Keep</a>
+    </div>
+
+    </div>
+
+{% endblock %}
