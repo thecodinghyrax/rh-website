@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /add_devotional
+Disallow: /delete/
+Disallow: /login
+Disallow: /logout
+Disallow: /confirm/
+Disallow: /update/
+
+Sitemap: https://renewedhope.us/sitemap.xml
