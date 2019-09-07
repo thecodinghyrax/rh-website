@@ -6,11 +6,19 @@ from datetime import datetime
 from flask_login import login_user, current_user, logout_user
 import os
 
+@app.route('/robots.txt')
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 @app.route('/')
 def index():
     devotional = Devotional.query.order_by(Devotional.date.desc()).first()
     return render_template('index.html', devotional=devotional)
+
+@app.route('/sitemap')
+def sitemap():
+    return render_template('sitemap.xml')
 
 @app.route('/favicon.ico')
 def favicon():
@@ -82,6 +90,11 @@ def delete(id):
         return redirect('/add_devotional')
     except:
         return "There was an issue deleting the devotional :("
+
+@app.route('/confirm/<int:id>')
+def confirm(id):
+    devotional = Devotional.query.get(id)
+    return render_template('confirm.html', id=id, devotional=devotional)
 
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])

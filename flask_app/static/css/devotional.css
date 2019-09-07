@@ -38,6 +38,8 @@ a:hover {
 .btn {
     color: white;
     border: 1px solid blue;
+    padding: 0.5rem 2rem;
+    border-radius: 10px;
 
 }
 .btn-info {
