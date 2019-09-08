@@ -1,0 +1,48 @@
+body {
+    color: white;;
+}
+.calendar_container {
+
+    }
+
+.month-bar {
+    text-align: center;
+}
+
+/* .day-bar div {
+    width: 15vw;
+    height: 3vh;
+} */
+
+.week {
+    display: flex;
+    width: 75vw;
+    height: 13vh;
+    justify-items: center;
+    justify-content: center;
+    margin: 0 10vw;
+}
+
+.week-top {
+    height: 3vh;
+}
+
+.day-bar {
+    width: 15vw;
+    height: 3vh;
+}
+
+.day {
+    width: 15vw;
+    height: 13vh;
+    border: 1px solid white;
+    background-color: #222;
+}
+
+.day-lg:hover {
+    width: 30vw;
+    height: 26vh;
+    z-index: 1;
+    border-radius: 5px;
+    background-color: #111;
+}

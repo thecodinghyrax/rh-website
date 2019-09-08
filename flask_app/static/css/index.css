@@ -15,10 +15,12 @@ body {
 a {
     text-decoration: none;
 }
-a:hover {
+
+a#devo:hover {
     border: 2px solid gray;
     border-radius: 10px;
 }
+
 .main-container {
     height: 94.7vh;
     display: grid;

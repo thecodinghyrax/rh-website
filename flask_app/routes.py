@@ -4,7 +4,7 @@ from flask_app.models import Devotional, User
 from forms import RegistrationForm, LoginForm
 from datetime import datetime
 from flask_login import login_user, current_user, logout_user
-import os
+import os, calendar 
 
 @app.route('/robots.txt')
 @app.route('/sitemap.xml')
@@ -114,6 +114,21 @@ def update(id):
             return "There was an issue updating this devotional :("
     else:
         return render_template('update.html', devotional=devotional_to_update)
+
+@app.route('/guild_calendar')
+def guild_calendar():
+    today = datetime.now()
+    year = int(today.strftime('%Y'))
+    month = int(today.strftime('%m'))
+    current_day = int(today.strftime('%d'))
+    month_text = calendar.month_name[month]
+    cal = calendar.Calendar()
+    current_cal = cal.monthdayscalendar(year, month)
+    event = [5, 'Raid Night', '8:00 PM Server Time', 'Come join us for the latest raid. Let\'s down some bosses!!!!']
+
+    return render_template('calendar.html', cal=current_cal, month=month_text, year=year, event=event, current_day=current_day )
+
+
 
 # @app.route('/register', methods=['GET', 'POST'])
 # def register():

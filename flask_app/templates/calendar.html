@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calendar.css') }}">
+<title>Renewed Hope Discord</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="calendar-container" style="background-color: black">
+    <div class="month-bar">
+        <h1>{{month}} - {{year}}</h1>
+    </div>
+
+
+    <div class="calendar-grid">
+        <div class="week week-top">
+            <div class="day-bar">Sunday</div>
+            <div class="day-bar">Monday</div>
+            <div class="day-bar">Tuesday</div>
+            <div class="day-bar">Wednesday</div>
+            <div class="day-bar">Thursday</div>
+            <div class="day-bar">Friday</div>
+            <div class="day-bar">Saturday</div>
+        </div>
+        {% for week in cal %}
+        <div class="week">
+            {% for day in week %}
+            {% if day == 0 %}
+            <div class="day"></div>
+            {% else %}
+            {%if day == current_day %}
+            <div style="background-color:red" class="day day-{{day}} day-lg">
+                {% else %}
+                <div class="day day-{{day}} day-lg">
+                    {% endif %}
+                    {{day}}
+                    {% if day == event[0] %}
+                    <div class="event">
+                        <div class="title">{{ event[1] }}</div>
+                        <div class="time">{{ event[2] }}</div>
+                        <div class="discription">{{ event[3] }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    {% endblock %}
