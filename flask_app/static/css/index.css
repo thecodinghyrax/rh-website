@@ -4,9 +4,8 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: #333;
-    overflow-x: hidden; 
 }
 
 ::-webkit-scrollbar {
@@ -16,152 +15,80 @@ body {
 a {
     text-decoration: none;
 }
-
-a:visited {
-    color: white;
+a:hover {
+    border: 2px solid gray;
+    border-radius: 10px;
 }
-
-.v-header {
+.main-container {
     height: 94.7vh;
-    width: 100vw;
-    /* display: flex;
-    align-items: center; */
-    color: white;
-    margin: auto;
-    text-align: center;
-}
-
-.fullscreen-video-wrap {
-    position: absolute;
-    top: 3.1rem;
-    left: 0;
-    width: 100%;
-    height: 94.7vh;
-    overflow: hidden;
-}
-
-.fullscreen-video-wrap video {
-    min-width: 100%;
-    min-height: 100%;
-}
-
-.header-overlay {
-    height: 94.7vh;
-    width: 100vw;
-    position: absolute;
-    top: 3.1rem;
-    left: 0;
-    background: #00126b;
-    z-index: 1;
-    opacity: 0.8;
-}
-
-.logo-div {
-    z-index: 3;
-    width: 100vw;
-    height: 20vh;
-    position: absolute;
-
-}
-
- .logo {
-    width: auto;
-    height: 20vh;
-}  
-
-.card-holder {
-    height: 70vh;
-    position: absolute;
-    bottom: 0;
-    z-index: 3;
     display: grid;
-    grid-template-columns: 1fr 5fr;
-    grid-template-rows: 1fr 1fr;
-    grid-gap: 5rem;
-    margin: 2rem 10rem;
-    margin-top: 5rem;
-    font-size: 1.4rem;
+    grid-template-areas: "header header header"
+                         "leftbar content rightbar";
+    grid-template-rows: 40vh 54vh;
+    grid-template-columns: 1fr 3fr 1fr;
+}
+
+.banner-container {
+    grid-row: header;
+    grid-column: header;
+    background-image: url("../img/Renewed Hope Banner cut.jpg");
+    width: 75%;
+    height: auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 auto;
 }
 
 .extra-life-container {
-    grid-row-start: 1;
-    grid-row-end: 3;
-    height: 39rem;
+    grid-row: leftbar;
+    grid-column: leftbar;
+    justify-items: stretch;
+    margin: auto;
+    color: white;
+}
+.announcment-container {
+    grid-row: content;
+    grid-column: content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    justify-items: center;
+    font-size: 1.1rem;
 }
 
-.extra-life-widget {
-    width: 20rem;
-    height: 36rem; 
-    padding: 0; 
-    overflow: hidden;
+.widgets {
+    grid-row: rightbar;
+    grid-column: rightbar;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    justify-items: center;
 }
 
-iframe {
-    -ms-zoom: 1.2;
-    -moz-transform: scale(1.20);
-    -moz-transform-origin: 0 0;
-    -o-transform: scale(1.20);
-    -o-transform-origin: 0 0;
-    -webkit-transform: scale(1.20);
-    -webkit-transform-origin: 0 0;
-}
-
-.announcment-card-label, .devotional-card-label {
-    text-align: left;
-}
-
-.announcment-card-content, .devotional-card-content {
-    background-color: rgba(1, 1, 1, 0.5);
+.announcment-card-label {
+    align-self: start;
+    color: white;
+    background-color: rgb(22, 22, 22);
+    padding: 1rem 2rem 3rem 2rem;
     border-radius: 10px;
-    padding: 2rem;
+
 }
 
-@media screen and (max-width: 1600px) {
-    .card-holder {
-        font-size: 1rem;
-        margin: 1rem 4rem;
-        margin-top: 3rem;
-        grid-gap: 1rem;
-    }
+.devotional-card-label {
+    align-self: end;
+    color: white;
+    background-color: rgb(22, 22, 22);
+    padding: 1rem 2rem 3rem 2rem;
+    border-radius: 10px;
+}
+.widget-1, .widget-2, .widget-3{
+    /* padding: 2rem; */
+    color: white;
+    background-color: rgb(22, 22, 22);
+    border-radius: 10px;
+    margin: auto;
 }
 
-@media screen and (max-width: 800px) {
-    .card-holder {
-        font-size: 1rem;
-        margin: 1rem 4rem;
-        
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        justify-items: center;
-        top: 35rem;
-    }
-
-    .announcment-card-label {
-        order: 1;
-    }
-
-    .announcment-card-content {
-        order: 2;
-    }
-
-    .devotional-card-label {
-        order: 3;
-    }
-
-    .devotional-card-content {
-        order: 4;
-    }
-
-    .extra-life-container {
-        order: 5;
-        margin: auto;
-        margin-top: 7rem;
-    }
-
-    .extra-life-widget {
-        order: 6;
-        margin: auto;
-        
-    }
+a img:hover { 
+    border: 0;
 }
