@@ -3,6 +3,7 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 <title>Renewed Hope Home Page</title>
+<script type="text/javascript" src="http://static.wowhead.com/widgets/newsfeed.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -55,16 +56,18 @@
 
     <div class="widgets">
         <div class="widget-1">
-            <a href="https://wowprogress.com/">
+            <a id="wowprogress" href="https://wowprogress.com/">
                 <img alt="WoW Guild Rankings" src="https://wowprogress.com/guild_img/755221/out/type.site" border="0" />
             </a>
         </div>
         <div class="widget-2">
-            <h1>Second widget</h1>
+            <script type="text/javascript">
+                $WowheadNewsFeed.fetch();
+                </script>
         </div>
-        <div class="widget-3">
+        <!-- <div class="widget-3">
             <h1>Third widget</h1>
-        </div>
+        </div> -->
 
     </div>
 

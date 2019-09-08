@@ -56,15 +56,6 @@ a:hover {
     font-size: 1.1rem;
 }
 
-.widgets {
-    grid-row: rightbar;
-    grid-column: rightbar;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    justify-items: center;
-}
-
 .announcment-card-label {
     align-self: start;
     color: white;
@@ -81,6 +72,16 @@ a:hover {
     padding: 1rem 2rem 3rem 2rem;
     border-radius: 10px;
 }
+
+.widgets {
+    grid-row: rightbar;
+    grid-column: rightbar;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    justify-items: center;
+}
+
 .widget-1, .widget-2, .widget-3{
     /* padding: 2rem; */
     color: white;
@@ -89,6 +90,124 @@ a:hover {
     margin: auto;
 }
 
-a img:hover { 
+.widget-1 {
+margin-bottom: 0;
+}
+
+.widget-2 {
+    -webkit-transform: scale(0.85); /* WebKit */
+    -moz-transform: scale(0.85); /* Mozilla */
+    -o-transform: scale(0.85); /* Opera */
+    -ms-transform: scale(0.85); /* Internet Explorer */
+    transform: scale(0.85); /* CSS3 */
+    margin-top: 0;
+}
+.widgets a:hover { 
     border: 0;
+}
+
+@media screen and (max-width: 1600px){
+    .announcment-container {
+        font-size: 0.8rem;
+        padding: 0 ;
+    }
+
+    .extra-life-container {
+            -webkit-transform: scale(0.85); /* WebKit */
+            -moz-transform: scale(0.85); /* Mozilla */
+            -o-transform: scale(0.85); /* Opera */
+            -ms-transform: scale(0.85); /* Internet Explorer */
+            transform: scale(0.85); /* CSS3 */
+            margin-top: 0;
+    }
+
+    .banner-container {
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 1350px){
+    .announcment-container {
+        font-size: 0.8rem;
+        padding: 0 ;
+    }
+
+    .extra-life-container {
+            -webkit-transform: scale(0.75); /* WebKit */
+            -moz-transform: scale(0.75); /* Mozilla */
+            -o-transform: scale(0.75); /* Opera */
+            -ms-transform: scale(0.75); /* Internet Explorer */
+            transform: scale(0.75); /* CSS3 */
+            margin-top: 0;
+            justify-items: start;
+    }
+
+    .banner-container {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 760px){
+    .main-container {
+        /* height: 94.7vh; */
+        margin-top: 25rem;
+        display: flex;
+       justify-content: center;
+       justify-items: center;
+       flex-direction: column;
+    }
+
+    .extra-life-container {
+        -webkit-transform: scale(0.95); /* WebKit */
+        -moz-transform: scale(0.95); /* Mozilla */
+        -o-transform: scale(0.95); /* Opera */
+        -ms-transform: scale(0.95); /* Internet Explorer */
+        transform: scale(0.95); /* CSS3 */
+        margin-top: 0;
+        justify-items: start;
+        order: 4;
+    }
+
+    .banner-container {
+        order: 1;
+        width: 95%;
+        height: 20rem;
+        position: absolute;
+        top: 3rem;
+        margin-left: 3rem;
+        margin-right: 0;
+    }
+
+    .announcment-container {
+        font-size: 0.8rem;
+        padding: 0 ;
+        order: 2;
+        margin: 5rem;
+        margin-top: 13rem;
+        margin-bottom: 0;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .announcment-card-label {
+        order: 3;
+        margin: 1rem 0;
+    }
+
+    .devotional-card-label {
+        order: 4;
+        margin: 1rem 0;
+    }
+
+    .widgets {
+        order: 5
+    }
+
+    .widget-1 {
+        order: 5
+    }
+
+    .widget-2 {
+        order: 6;
+    }
 }
