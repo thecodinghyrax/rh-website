@@ -1,6 +1,6 @@
 from flask import render_template, url_for, request, redirect, flash, send_from_directory
 from flask_app import app, db, bcrypt
-from flask_app.models import Devotional, User
+from flask_app.models import Devotional, User, Event
 from forms import RegistrationForm, LoginForm
 from datetime import datetime
 from flask_login import login_user, current_user, logout_user
@@ -80,25 +80,42 @@ def add_devotional():
         devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
         return render_template('add_devotional.html', devotionals=devotionals)
 
-@app.route('/delete/<int:id>')
-def delete(id):
-    devotional_to_delete = Devotional.query.get_or_404(id)
 
-    try:
-        db.session.delete(devotional_to_delete)
-        db.session.commit()
-        return redirect('/add_devotional')
-    except:
-        return "There was an issue deleting the devotional :("
+@app.route('/delete')
+def delete():
+    confirm_type = request.args.get('confirm_type')
+    id = request.args.get('id')
+    if confirm_type == "Devotional":
+        item_to_delete = Devotional.query.get_or_404(id)
+        try:
+            db.session.delete(item_to_delete)
+            db.session.commit()
+            return redirect('/add_devotional')
+        except:
+            return "There was an issue deleting the devotional :("
+    elif confirm_type == "Event":
+        item_to_delete = Event.query.get_or_404(id)
+        try:
+            db.session.delete(item_to_delete)
+            db.session.commit()
+            return redirect('/add_event')
+        except:
+            return "There was an issue deleting the devotional :("
 
-@app.route('/confirm/<int:id>')
-def confirm(id):
-    devotional = Devotional.query.get(id)
-    return render_template('confirm.html', id=id, devotional=devotional)
+@app.route('/confirm')
+def confirm():
+    confirm_type = request.args.get('confirm_type')
+    id = request.args.get('id')
+    if confirm_type == "Devotional":
+        item_to_delete = Devotional.query.get(id)
+    elif confirm_type == "Event":
+        item_to_delete = Event.query.get(id)
+    # devotional = Devotional.query.get(id)
+    return render_template('confirm.html', id=id, item_to_delete=item_to_delete, confirm_type=confirm_type)
 
 
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
-def update(id):
+@app.route('/devotional_update/<int:id>', methods=['GET', 'POST'])
+def devotional_update(id):
     devotional_to_update = Devotional.query.get_or_404(id)
     if request.method == 'POST':
         devotional_to_update.title = request.form['title']
@@ -113,20 +130,61 @@ def update(id):
         except:
             return "There was an issue updating this devotional :("
     else:
-        return render_template('update.html', devotional=devotional_to_update)
+        return render_template('devotional_update.html', devotional=devotional_to_update)
+
+@app.route('/event_update/<int:id>', methods=['GET', 'POST'])
+def event_update(id):
+    event_to_update = Event.query.get_or_404(id)
+    if request.method == 'POST':
+        event_to_update.title = request.form['title']
+        event_to_update.time = request.form['time']
+        event_to_update.date = request.form['date']
+        event_to_update.content = request.form['content']
+
+        try:
+            db.session.commit()
+            return redirect('/add_event')
+        except:
+            return "There was an issue updating this event :("
+    else:
+        return render_template('event_update.html', event=event_to_update)
+
+@app.route('/add_event', methods=['POST', 'GET'])
+def add_event():
+    if request.method == 'POST':
+        title = request.form['title']
+        time = request.form['time']
+        date = request.form['date']
+        content = request.form['content']
+        new_event = Event(title=title, date=date, time=time, content=content)
+        try:
+            db.session.add(new_event)
+            db.session.commit()
+            return redirect('/add_event')
+        except:
+            return "There was a problem adding this to the database :("
+    else:
+        if not current_user.is_authenticated:
+            return redirect(url_for('login'))
+        # devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
+        event = Event.query.order_by(Event.title).all()
+        return render_template('add_event.html', event=event)
 
 @app.route('/guild_calendar')
 def guild_calendar():
+    events = Event.query.order_by(Event.title).all()
     today = datetime.now()
     year = int(today.strftime('%Y'))
     month = int(today.strftime('%m'))
     current_day = int(today.strftime('%d'))
     month_text = calendar.month_name[month]
     cal = calendar.Calendar()
+    cal.setfirstweekday(calendar.SUNDAY)
+    
     current_cal = cal.monthdayscalendar(year, month)
-    event = [5, 'Raid Night', '8:00 PM Server Time', 'Come join us for the latest raid. Let\'s down some bosses!!!!']
+    # event = [5, 'Raid Night', '8:00 PM Server Time', 'Come join us for the latest raid. Let\'s down some bosses!!!!']
 
-    return render_template('calendar.html', cal=current_cal, month=month_text, year=year, event=event, current_day=current_day )
+    return render_template('calendar.html', cal=current_cal, month=month_text, year=year, events=events, current_day=current_day )
 
 
 

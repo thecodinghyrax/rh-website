@@ -52,9 +52,9 @@
                 <td>{{ devotional.download_link }}</td>
                 <td>{{ devotional.date_updated }}</td>
                 <td>
-                    <a href="/confirm/{{ devotional.id }}">Delete</a>
+                    <a href="/confirm?id={{ devotional.id }}&confirm_type=Devotional">Delete</a>
                     <br>
-                    <a href="/update/{{ devotional.id }}">Update</a>
+                    <a href="/devotional_update/{{ devotional.id }}">Update</a>
                 </td>
             </tr>
             
