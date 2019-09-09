@@ -1,26 +1,19 @@
 body {
     color: white;;
 }
-.calendar_container {
-
-    }
 
 .month-bar {
     text-align: center;
 }
 
-/* .day-bar div {
-    width: 15vw;
-    height: 3vh;
-} */
-
 .week {
     display: flex;
     width: 75vw;
-    height: 13vh;
+    height: 11vh;
     justify-items: center;
     justify-content: center;
-    margin: 0 10vw;
+    margin: 0 12.5vw;
+   
 }
 
 .week-top {
@@ -34,15 +27,30 @@ body {
 
 .day {
     width: 15vw;
-    height: 13vh;
+    height: 11vh;
     border: 1px solid white;
     background-color: #222;
 }
 
-.day-lg:hover {
+.event {
+    height: 4vh;
+    overflow: hidden;
+    font-size: 0.8rem;
+    background-color: darkblue;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.event:hover {
     width: 30vw;
-    height: 26vh;
+    height: 20vh;
+    position: absolute;
     z-index: 1;
     border-radius: 5px;
+    border: 2px solid gray;
     background-color: #111;
+}
+
+.today {
+    margin-right: 0;
 }

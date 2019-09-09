@@ -14,10 +14,10 @@
 
 <div class="devotional">
     <br>
-        <h1>Update Devotional</h1>
+        <h1>Devotional Update</h1>
         <br>
         <div class="form-container">
-            <form action="/update/{{ devotional.id }}", method="POST" id="devo">
+            <form action="/devotional_update/{{ devotional.id }}", method="POST" id="devo">
                 <label name="title">Title</label>
                 <input type="text" name="title", id="title", value="{{ devotional.title }}">
                 <br>

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/update.css') }}">
+<title>Event Update</title>
+<style>
+        body {
+            background-color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<div class="event">
+    <br>
+        <h1>Event Update</h1>
+        <br>
+        <div class="form-container">
+            <form action="/event_update/{{ event.id }}", method="POST" id="event">
+                <label name="title">Title</label>
+                <input type="text" name="title", id="title", value="{{ event.title }}">
+                <br>
+                <label name="time">Time</label>
+                <input type="text" name="time", id="time", value="{{ event.time }}">
+                <br>
+                <label name="date">Date</label>
+                <input type="date" name="date", id="date", value="{{ event.date }}">
+                <br>
+                <label name="content">Content</label>
+                <textarea name="content" form="event">{{ event.content }}</textarea>
+                <br>
+                <input type="submit" value="Update">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

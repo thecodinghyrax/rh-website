@@ -27,3 +27,15 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    date = db.Column(db.String(40), nullable=False)
+    time = db.Column(db.String(40), nullable=False)
+    content = db.Column(db.String(300), nullable=False)
+
+    def __repr__(self):
+        return f"Event('{self.title}', '{self.date}', '{self.time}', '{self.content}')"
+
+
