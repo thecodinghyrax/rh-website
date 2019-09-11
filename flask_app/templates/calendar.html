@@ -9,9 +9,10 @@
 
 <div class="calendar-container" style="background-color: black">
     <div class="month-bar">
-        <h1>{{month}} - {{year}}</h1>
+        <a href="./guild_calendar?month={{ month - 1 }}&year={{ year }}" class="back"><i class="fas fa-less-than"></i></a>
+        <h1>{{month_name}} - {{year}}</h1>
+        <a href="./guild_calendar?month={{ month + 1 }}&year={{ year }}" class="next"><i class="fas fa-greater-than"></i></a>
     </div>
-
 
     <div class="calendar-grid">
 
@@ -34,11 +35,11 @@
 
                     {% if day == 0 %}
 
-                        <div class="day">
+                        <div class="day empty-day">
         
                     {% else %}
 
-                        {%if day == current_day %}
+                        {%if month == current_month and day == current_day %}
                             <div style="background-color:rgb(65, 64, 71)" class="day day-{{day}} day-lg">{{day}} &emsp;&emsp;&emsp; Today
                         {% else %}
                             <div class="day day-{{day}} day-lg">{{day}}
