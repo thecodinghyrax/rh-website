@@ -1,11 +1,22 @@
 body {
-    color: white;;
+    color: #DDD;
 }
 
+h1 {
+    color: white;
+}
 .month-bar {
+    display: flex;
     text-align: center;
+    justify-content: center;
+    justify-items: center;
 }
 
+.back, .next {
+    height: 1em;
+    margin: auto 2rem;
+    color: white;
+}
 .week {
     display: flex;
     width: 75vw;
@@ -30,6 +41,10 @@ body {
     height: 11vh;
     border: 1px solid white;
     background-color: #222;
+}
+
+.empty-day {
+    background-color: black;
 }
 
 .event {

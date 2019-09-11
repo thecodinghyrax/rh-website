@@ -172,19 +172,40 @@ def add_event():
 
 @app.route('/guild_calendar')
 def guild_calendar():
-    events = Event.query.order_by(Event.title).all()
     today = datetime.now()
     year = int(today.strftime('%Y'))
+    current_month =int(today.strftime('%m'))
     month = int(today.strftime('%m'))
+    if request.args.get('year'):
+        year = int(request.args.get('year'))
+    if request.args.get('month'):
+        month = int(request.args.get('month'))
+        if month < 1:
+            month = 12
+            year = year - 1
+        elif month > 12:
+            month = 1
+            year = year + 1
+    # events = Event.query.order_by(Event.title).all()
+    if month < 10:
+        year_plus_month = str(year) + "-0" + str(month)
+    else:
+        year_plus_month = str(year) + "-" + str(month)
+    events = Event.query.filter(Event.date.startswith(year_plus_month)).all()
     current_day = int(today.strftime('%d'))
-    month_text = calendar.month_name[month]
+    month_name = calendar.month_name[month]
     cal = calendar.Calendar()
     cal.setfirstweekday(calendar.SUNDAY)
-    
     current_cal = cal.monthdayscalendar(year, month)
-    # event = [5, 'Raid Night', '8:00 PM Server Time', 'Come join us for the latest raid. Let\'s down some bosses!!!!']
+    if len(current_cal) < 6:
+        extra_week = [[0,0,0,0,0,0,0]]
+        current_cal = current_cal + extra_week
+       
+    
+    
 
-    return render_template('calendar.html', cal=current_cal, month=month_text, year=year, events=events, current_day=current_day )
+
+    return render_template('calendar.html', cal=current_cal, month=month, month_name=month_name, current_month=current_month, year=year, events=events, current_day=current_day)
 
 
 
