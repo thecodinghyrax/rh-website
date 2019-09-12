@@ -28,3 +28,17 @@ If I ever use the register pages, I might want to put this back at the bottom of
 
 Inorder to get the Secret_key environment variable to be found on Pythonanywhere:
 https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
+
+Color pallet:
+
+Discord
+https://www.color-hex.com/color-palette/25362
+
+Other Dark
+http://paletton.com/#uid=13L0u0k3V4WaYgf7Lb1ac80gJaQ
+
+
+Audio link help:
+
+force a link from iframe to open in partent window
+https://stackoverflow.com/questions/1037839/how-to-force-link-from-iframe-to-be-opened-in-the-parent-window
