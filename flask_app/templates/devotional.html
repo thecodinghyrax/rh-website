@@ -16,11 +16,14 @@
         {% for devotional in devotionals.items %}
         
             <div class="container">
-                <a href="{{ devotional.download_link }}" target="#">
+                <!-- <a href="{{ devotional.download_link }}" target="#"> -->
                     
                     <h3>{{ devotional.title }}</h3>
                     <p>{{ devotional.content }}</p>
-                </a>
+                    <audio controls>
+                        <source src="{{ devotional.download_link }}">
+                    </audio>
+                <!-- </a> -->
             </div>
             
             <br>

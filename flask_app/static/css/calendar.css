@@ -3,7 +3,7 @@ body {
 }
 
 h1 {
-    color: white;
+    color: #7289da;
 }
 .month-bar {
     display: flex;
@@ -34,13 +34,18 @@ h1 {
 .day-bar {
     width: 15vw;
     height: 3vh;
+    min-width: 45px;
+    min-height: 45px;
 }
 
 .day {
     width: 15vw;
+    min-width: 45px;
     height: 11vh;
+    min-height: 15px;
     border: 1px solid white;
     background-color: #222;
+    color: white;
 }
 
 .empty-day {
@@ -51,7 +56,8 @@ h1 {
     height: 4vh;
     overflow: hidden;
     font-size: 0.8rem;
-    background-color: darkblue;
+    color: white;
+    background-color: #7289da;
     border: 1px solid gray;
     border-radius: 5px;
 }
@@ -60,12 +66,30 @@ h1 {
     width: 30vw;
     height: 20vh;
     position: absolute;
+    font-size: 1.2rem;
     z-index: 1;
     border-radius: 5px;
     border: 2px solid gray;
-    background-color: #111;
+    background-color: #7289da;
 }
 
 .today {
     margin-right: 0;
+    background-color: #2c2f33;
+}
+
+@media screen and (max-width: 1900px) {
+
+    .event:hover {
+        font-size: 1.1rem;
+    }
+ 
+}
+
+@media screen and (max-width: 800px) {
+
+    .event:hover {
+        font-size: 0.8rem;
+    }
+ 
 }
