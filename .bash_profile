@@ -1,1 +1,1 @@
-export SECRET_KEY="Wwzan791cUhd#AXEjr9Fi^^kZ6I%vXf"
+export SECRET_KEY="kZnu^U0jK39Hn&^7cwNvrotUWKF1#X"
