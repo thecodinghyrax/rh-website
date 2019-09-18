@@ -13,6 +13,8 @@ class Devotional(db.Model):
     content = db.Column(db.Text, nullable=False)
     download_link = db.Column(db.String(1000), nullable=False)
     date_updated = db.Column(db.DateTime, default=datetime.utcnow)
+    lead = db.Column(db.String(20), nullable=False)
+
 
     def __repr__(self):
         return f"Devotional('{self.id}', '{self.title}', '{self.date}')"
@@ -39,3 +41,12 @@ class Event(db.Model):
         return f"Event('{self.title}', '{self.date}', '{self.time}', '{self.content}')"
 
 
+class Scheduledevent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    day = db.Column(db.String(10), nullable=False)
+    time = db.Column(db.String(40), nullable=False)
+    content = db.Column(db.String(300), nullable=False)
+
+    def __repr__(self):
+        return f"Scheduledevent('{self.title}', '{self.day}', '{self.time}', '{self.content}')"
