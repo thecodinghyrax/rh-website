@@ -1,0 +1,74 @@
+{% extends 'admin-nav.html' %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:image" content="{{ url_for('static', filename='img/RH_icon.png') }}" /> 
+    <meta name=”description” content="This is the admin panel.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <title>Admin Page</title>
+{% endblock %}
+
+
+{% block body %}
+       
+        <table class="d-table">
+            <h1>Recent Devotionals</h1>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Lead</th>
+                    <th>Date</th>
+                    <th>Discription</th>
+                    <th>Link</th>
+                    <th>Updated</th>
+                    <th>Action</th>
+                </tr>
+                {% for devotional in devotionals %}
+            
+                <tr>
+                    <td>{{ devotional.title }}</td>
+                    <td>{{ devotional.lead }}</td>
+                    <td>{{ devotional.date }}</td>
+                    <td>{{ devotional.content }}</td>
+                    <td>{{ devotional.download_link }}</td>
+                    <td>{{ devotional.date_updated }}</td>
+                    <td>
+                        <a href="/confirm?id={{ devotional.id }}&confirm_type=Devotional">Delete</a>
+                        <br>
+                        <a href="/devotional_update/{{ devotional.id }}">Update</a>
+                    </td>
+                </tr>
+                
+                {% endfor %}
+            </thead>
+        </table>
+        <table class="e-table">
+                <h1>Scheduled Events</h1>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Discription</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for event in events %}
+                
+                    <tr>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.day }}</td>
+                        <td>{{ event.time }}</td>
+                        <td>{{ event.content }}</td>
+                        <td>
+                            <a href="/confirm?id={{ event.id }}&confirm_type=Event">Delete</a>
+                            <br>
+                            <a href="/devotional_update/{{ event.id }}">Update</a>
+                        </td>
+                    </tr>
+                    
+                    {% endfor %}
+                </thead>
+            </table>
+{% endblock %}

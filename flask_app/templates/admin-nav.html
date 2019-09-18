@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:image" content="{{ url_for('static', filename='img/RH_icon.png') }}" /> 
+    <meta name=”description” content="This is the admin panel.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+   <style>
+       * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: black;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-around;
+            justify-items: center;
+            align-items: center;
+            background-color: #111;
+            color: white;
+            height: 5rem;
+        }
+
+        .grid-item {
+            border: 1px solid gray;
+            padding: 1rem;
+            border-radius: 10px;
+            background-color: aqua;
+        }
+
+        .grid-item a{
+            text-decoration: none;
+            color: black;
+
+        }
+   </style>
+   {% block head %}{% endblock %}
+</head>
+<body>
+    
+
+<header>
+    <div class="top-nav" role="navigation">
+        <div class="grid-item"><a href="{{ url_for('index') }}">
+                <div class="name" data-text="Home">Home</div>
+            </a></div>
+        <div class="grid-item"><a href="{{ url_for('add_devotional') }}">
+                <div class="name" data-text="Add Devotional">Add Devotional</div>
+            </a></div>
+        <div class="grid-item"><a href="{{ url_for('devotionals') }}">
+            <div class="name" data-text="Devotionals">Devotional Page</div>
+        </a></div>
+        <div class="grid-item"><a href="{{ url_for('add_event') }}">
+            <div class="name" data-text="Add Event">Add Event</div>
+        </a></div>
+        <div class="grid-item"><a href="{{ url_for('guild_calendar') }}">
+                <div class="name" data-text="guild_calendar">Events</div>
+            </a></div>
+        <div class="grid-item"><a href="{{ url_for('logout') }}">
+            <div class="name" data-text="Logout">Logout</div>
+        </a></div>
+        <!-- <div class="grid-item"><a href="#">
+                <div class="name" data-text="Apply">Users</div>
+            </a></div>
+        <div class="grid-item"><a href="#">
+                <div class="name" data-text="About">Edit About</div>
+            </a></div>
+        <div class="grid-item"><a href="{{ url_for('about') }}">
+            <div class="name" data-text="About">About</div>
+        </a></div> -->
+        </div>
+</header>
+{% block body %}{% endblock %}
+</body>
+</html>

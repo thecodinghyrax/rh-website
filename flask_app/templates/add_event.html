@@ -1,17 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'admin-nav.html' %}
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/add_event.css') }}">
-<title>Add Eventl</title>
+<title>Add Event</title>
 {% endblock %}
 
 {% block body %}
     <div class="event">
         <div class="title-bar">
-            <h1>Event Panel</h1>
-            <div class="btn btn-outline-info">
-                <a class="btn" href="{{ url_for('logout') }}">Log out</a>
-            </div>
+            <h1>Add a single event</h1>
         </div>
         <br>
         <div class="form-container">

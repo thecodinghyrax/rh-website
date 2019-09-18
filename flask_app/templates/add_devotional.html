@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'admin-nav.html' %}
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/add_devotional.css') }}">
@@ -9,15 +9,15 @@
     <div class="devotional">
         <div class="title-bar">
             <h1>Devotional Panel</h1>
-            <div class="btn btn-outline-info">
-                <a class="btn" href="{{ url_for('logout') }}">Log out</a>
-            </div>
         </div>
         <br>
         <div class="form-container">
             <form action="/add_devotional", method="POST" id=devo>
                 <label name="title">Title</label>
                 <input type="text" name="title", id="title">
+                <br>
+                <label name="lead">Lead</label>
+                <input type="text" name="lead", id="lead">
                 <br>
                 <label name="date">Date</label>
                 <input type="date" name="date", id="date">
@@ -37,6 +37,7 @@
         <table>
             <tr>
                 <th class="title">Title</th>
+                <th>Lead</th>
                 <th class="date">Date</th>
                 <th>Discription</th>
                 <th>Download Link</th>
@@ -47,6 +48,7 @@
             
             <tr>
                 <td>{{ devotional.title }}</td>
+                <td>{{ devotional.lead }}</td>
                 <td>{{ devotional.date }}</td>
                 <td>{{ devotional.content }}</td>
                 <td>{{ devotional.download_link }}</td>
