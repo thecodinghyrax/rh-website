@@ -9,7 +9,7 @@ body {
 }
 
 h1 {
-    color: white;
+    color: rgb(65, 76, 228);
 }
 table, th, td {
 
@@ -20,3 +20,34 @@ th, td {
     border: 1px solid white;
     font-size: 1rem;
 }
+
+a {
+    text-decoration: none;
+}
+
+#update {
+    color: green;
+    padding: 1rem;
+    line-height: 2rem;
+
+
+}
+
+#delete {
+    color: red;
+    padding: 1rem;
+
+}
+
+.all-link {
+    border: 1px solid gray;
+    padding: 1rem;
+    margin-top: 12rem;
+    border-radius: 10px;
+    background-color: aqua;
+}
+hr {
+    border : 0;
+    height: 1px; 
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)); 
+  }
