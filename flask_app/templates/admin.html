@@ -35,15 +35,24 @@
                     <td>{{ devotional.download_link }}</td>
                     <td>{{ devotional.date_updated }}</td>
                     <td>
-                        <a href="/confirm?id={{ devotional.id }}&confirm_type=Devotional">Delete</a>
+                        <a id="update" href="/devotional_update/{{ devotional.id }}">Update</a>
                         <br>
-                        <a href="/devotional_update/{{ devotional.id }}">Update</a>
+                        <a id="delete" href="/confirm?id={{ devotional.id }}&confirm_type=Devotional">Delete</a>
+                       
+                        
                     </td>
                 </tr>
                 
                 {% endfor %}
             </thead>
         </table>
+        <br>
+        <div>
+                <a class="all-link" href="{{ url_for('add_devotional') }}">All Devotionals</a>
+            </div>
+            <br>
+            <br>
+            <hr>
         <table class="e-table">
                 <h1>Scheduled Events</h1>
                 <thead>
@@ -62,9 +71,11 @@
                         <td>{{ event.time }}</td>
                         <td>{{ event.content }}</td>
                         <td>
-                            <a href="/confirm?id={{ event.id }}&confirm_type=Event">Delete</a>
+                            <a id="update" href="/devotional_update/{{ event.id }}">Update</a>
                             <br>
-                            <a href="/devotional_update/{{ event.id }}">Update</a>
+                            <a id="delete" href="/confirm?id={{ event.id }}&confirm_type=Event">Delete</a>
+                           
+                           
                         </td>
                     </tr>
                     
