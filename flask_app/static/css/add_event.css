@@ -16,6 +16,43 @@ body {
     left: 0;
     text-align: right;
 }
+
+input {
+    margin-bottom: 0.2rem;
+}
+
+label {
+    vertical-align: top;
+}
+
+.pag {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin: 2rem auto;
+    margin-top: 0;
+    font-size: 1.9rem;
+    letter-spacing: 0.2rem;
+    text-align: center;
+}
+
+.btn {
+    color: white;
+    border: 1px solid #7289da;
+    padding: 0.5rem 2rem;
+    border-radius: 10px;
+
+}
+
+.btn-info {
+    background-color: #7289da;
+}
+
+.btn:hover, .btn-info:hover {
+    background-color: #7289da;
+    border: 1px solid #7289da;
+}
+
 table {
     border-collapse: collapse;
   }
