@@ -8,7 +8,7 @@
 {% block body %}
     <div class="event">
         <div class="title-bar">
-            <h1>Add a single event</h1>
+            <h1>Add an Event</h1>
         </div>
         <br>
         <div class="form-container">
@@ -25,6 +25,12 @@
                 <label name="content">Content</label>
                 <textarea name="content" form="event"></textarea>
                 <br>
+                <label name="n-days">This event repeats every X number of days</label>
+                <input type="text" name="n-days", id="n-days" placeholder="Enter X as a number. Hint: 7 = every week. Leave blank for no repeat!">
+                <br>
+                <label name="n-times">How many times do you want to repeat this event?</label>
+                <input type="text" name="n-times", id="n-times" placeholder="Enter as number.">
+                <br>
 
                 <input type="submit" value="Add Event">
 
@@ -32,14 +38,27 @@
         </div>
         <br>
         <br>
-        <table>
+        <div class="pag">
+            {% for page_num in event.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if event.page == page_num %}
+                    <a class="btn btn-info mb-4" href="{{ url_for('add_event', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                    <a class="btn btn-outline-info mb-4" href="{{ url_for('add_event', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+                {% else %}
+                ...
+            {% endif %}
+            {% endfor %}
+        </div>
+        <table id="main-table">
             <tr>
                 <th class="title">Title</th>
                 <th class="time">Time</th>
                 <th>Date</th>
                 <th>Content</th>
             </tr>
-            {% for guild_event in event %}
+            {% for guild_event in event.items %}
             
             <tr>
                 <td>{{ guild_event.title }}</td>

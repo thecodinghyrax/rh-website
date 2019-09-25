@@ -2,7 +2,7 @@ from flask import render_template, url_for, request, redirect, flash, send_from_
 from flask_app import app, db, bcrypt
 from flask_app.models import Devotional, User, Event, Scheduledevent
 from forms import RegistrationForm, LoginForm
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from flask_login import login_user, current_user, logout_user
 import os, calendar 
 
@@ -207,25 +207,43 @@ def event_update(id):
     else:
         return render_template('event_update.html', event=event_to_update)
 
+
 @app.route('/add_event', methods=['POST', 'GET'])
 def add_event():
     if request.method == 'POST':
         title = request.form['title']
         time = request.form['time']
-        date = request.form['date']
+        form_date = request.form['date']
+        event_date = date.fromisoformat(form_date)
         content = request.form['content']
-        new_event = Event(title=title, date=date, time=time, content=content)
-        try:
-            db.session.add(new_event)
-            db.session.commit()
+        
+        if request.form['n-days'] != '':
+            repeat_num_days = int(request.form['n-days'])
+            repeat_num_times = int(request.form['n-times'])
+            repeat_delta = timedelta(days=repeat_num_days)
+            for event in range(repeat_num_times):
+                new_event = Event(title=title, date=event_date, time=time, content=content)
+                try:
+                    db.session.add(new_event)
+                    db.session.commit()
+                except:
+                    return "There was a problem adding this to the database :("
+                event_date = event_date + repeat_delta
             return redirect('/add_event')
-        except:
-            return "There was a problem adding this to the database :("
+        else:
+            new_event = Event(title=title, date=event_date, time=time, content=content)
+            try:
+                db.session.add(new_event)
+                db.session.commit()
+                return redirect('/add_event')
+            except:
+                return "There was a problem adding this to the database :("
     else:
         if not current_user.is_authenticated:
             return redirect(url_for('login'))
-        # devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
-        event = Event.query.order_by(Event.title).all()
+        page = request.args.get('page', 1, type=int)
+        event = Event.query.order_by(Event.date.desc()).paginate(page=page, per_page=20)
+        # event = Event.query.order_by(Event.date.desc())
         return render_template('add_event.html', event=event)
 
 @app.route('/admin', methods=['POST', 'GET'])

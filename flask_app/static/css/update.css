@@ -1,10 +1,12 @@
 html {
     background-color: black;
+    
 }
 
 body {
-
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
+    
 }
 h1 {
     background-color: black;
@@ -15,13 +17,16 @@ h1 {
 }
 
 .form-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: black;
     width: 68%;
     left: 0;
     text-align: right;
 }
 
-
+.event {
+    background-color: black;
+}
 input {
     width: 600px;
 }
@@ -29,8 +34,13 @@ textarea {
     width: 600px;
     height: 400px;
     word-wrap: break-word;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
 }
 input[type=submit] {
     background-color: blue;
     color: white;
+}
+#title, #time, #date, #event {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
