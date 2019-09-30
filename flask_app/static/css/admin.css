@@ -16,10 +16,25 @@ table, th, td {
     color: white;
 
 }
+
 th, td {
     border: 1px solid white;
     font-size: 1rem;
 }
+
+.search-box {
+    display: flex;
+    flex-direction: row;
+    justify-items: left;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.search {
+    height: 2rem;
+}
+
+
 
 a {
     text-decoration: none;
@@ -50,4 +65,11 @@ hr {
     border : 0;
     height: 1px; 
     background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)); 
+  }
+
+  #delete-all  {
+      background-color: red;
+      border-radius: 15px;
+      padding: 1.2rem;
+      color: white;
   }

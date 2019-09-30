@@ -22,8 +22,8 @@
                 <label name="date">Date</label>
                 <input type="date" name="date", id="date">
                 <br>
-                <label name="content">Content</label>
-                <textarea name="content" form="event"></textarea>
+                <label name="description">Discription</label>
+                <textarea name="description" form="event"></textarea>
                 <br>
                 <label name="n-days">This event repeats every X number of days</label>
                 <input type="text" name="n-days", id="n-days" placeholder="Enter X as a number. Hint: 7 = every week. Leave blank for no repeat!">
@@ -63,12 +63,12 @@
             <tr>
                 <td>{{ guild_event.title }}</td>
                 <td>{{ guild_event.time }}</td>
-                <td>{{ guild_event.date }}</td>
-                <td>{{ guild_event.content }}</td>
+                <td>{{ guild_event.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ guild_event.description }}</td>
                 <td>
-                    <a href="/confirm?id={{ guild_event.id }}&confirm_type=Event">Delete</a>
+                    <a id="delete" href="/confirm?id={{ guild_event.id }}&confirm_type=Event">Delete</a>
                     <br>
-                    <a href="/event_update/{{ guild_event.id }}">Update</a>
+                    <a id="update" href="/event_update/{{ guild_event.id }}">Update</a>
                 </td>
             </tr>
             

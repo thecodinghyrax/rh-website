@@ -25,10 +25,10 @@
                 <input type="text" name="time", id="time", value="{{ event.time }}">
                 <br>
                 <label name="date">Date</label>
-                <input type="date" name="date", id="date", value="{{ event.date }}">
+                <input type="date" name="date", id="date", value="{{ event.date.strftime('%Y-%m-%d') }}">
                 <br>
-                <label name="content">Content</label>
-                <textarea name="content" form="event">{{ event.content }}</textarea>
+                <label name="description">Description</label>
+                <textarea name="description" form="event">{{ event.description }}</textarea>
                 <br>
                 <input type="submit" value="Update">
             </form>
