@@ -1,0 +1,12 @@
+# DONE
+1. from the admin page you should be able to click on one of the scheduled events
+and it will pass that info to the "Add Events" pages for easy calendar functionality.
+Actually...The admin page should display the next five events from the calendar...not shceduled events
+
+# Done
+2. Add a (calendar???) search box to the admin page. this will open another page that
+lists all search results with check marks by them that will allow you to delete all 
+selected pages at once. Maybe redirect to the conformation page?
+
+3. Make a page scrape script that gets the top 6 wowhead new links and stores them in the
+db for faster access. This can be ran every 4 to 6 hours as a task in pythonanywhere.

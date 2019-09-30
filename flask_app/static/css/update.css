@@ -44,3 +44,7 @@ input[type=submit] {
 #title, #time, #date, #event {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+label {
+    vertical-align: top;
+}

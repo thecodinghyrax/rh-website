@@ -29,20 +29,36 @@
 {% endblock %}
 
 {% block body %}
-
-<div class="confirm-container">
-    <h1>Are you sure you want to delete the {{ item_to_delete.title }} {{ confirm_type }}?</h1>
+ 
+{% if search%}
+ <div class="confirm-container">
+    <h1>Are you sure you want to delete the following events?</h1>
+    {% for event in events_to_delete %}
+        <br><h1>{{ event.title }} on {{ event.date.strftime('%m-%d-%Y') }}</h1>
+    {% endfor %}
     <br>
     <div class="btn-container">
-        {% if confirm_type == "Devotional" %}
-            <a class="delete" href="/delete?id={{ item_to_delete.id }}&confirm_type=Devotional">Delete</a>
-            <a class="cancel" href="{{ url_for('add_devotional') }}">Keep</a>
-        {% elif confirm_type == "Event" %}
-            <a class="delete" href="/delete?id={{ item_to_delete.id }}&confirm_type=Event">Delete</a>
-            <a class="cancel" href="{{ url_for('add_event') }}">Keep</a>
-        {% endif %}
+            <a class="delete" href="/delete?all={{ search }}">Delete All</a>
+            <a class="cancel" href="{{ url_for('admin') }}">Keep</a>
     </div>
+    </div>
+{% else %}
+    <div class="confirm-container">
+        <h1>Are you sure you want to delete the {{ item_to_delete.title }} {{ confirm_type }} for {{ item_to_delete.date }}?</h1>
+        <br>
+        <div class="btn-container">
+            {% if confirm_type == "Devotional" %}
+                <a class="delete" href="/delete?id={{ item_to_delete.id }}&confirm_type=Devotional">Delete</a>
+                <a class="cancel" href="{{ url_for('add_devotional') }}">Keep</a>
+            {% elif confirm_type == "Event" %}
+                <a class="delete" href="/delete?id={{ item_to_delete.id }}&confirm_type=Event">Delete</a>
+                <a class="cancel" href="{{ url_for('add_event') }}">Keep</a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
 
-    </div>
+
+
 
 {% endblock %}

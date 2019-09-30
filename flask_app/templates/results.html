@@ -7,18 +7,18 @@
     <meta property="og:image" content="{{ url_for('static', filename='img/RH_icon.png') }}" /> 
     <meta name=”description” content="This is the admin panel.">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
-    <title>Admin Page</title>
+    <title>Results Page</title>
 {% endblock %}
 
 
 {% block body %}
-       {{ devotionals }}
+       {% if devotionals %}
         <table class="d-table">
 
             <div class="search-box">
 
                 <div>
-                    <h1>Recent Devotionals</h1>
+                    <h1>Devotional Search Results</h1>
                 </div>
 
                 <div class="devo-search">
@@ -50,11 +50,7 @@
                     <td>{{ devotional.date }}</td>
                     <td>{{ devotional.content }}</td>
                     <td>{{ devotional.download_link }}</td>
-                    {% if devotional.date_updated == None %}
                     <td>{{ devotional.date_updated }}</td>
-                    {% else %}
-                    <td>{{ devotional.date_updated.strftime('%m-%d-%Y') }}</td>
-                    {% endif %}
                     <td>
                         <a id="update" href="/devotional_update/{{ devotional.id }}">Update</a>
                         <br>
@@ -67,23 +63,29 @@
                 {% endfor %}
             </thead>
         </table>
+        
+        
         <br>
         <div>
                 <a class="all-link" href="{{ url_for('add_devotional') }}">All Devotionals</a>
             </div>
+            {% endif %}
+
             <br>
             <br>
+            
+            {% if events %}
             <hr>
         <table class="e-table">
-
                 <div class="search-box">
-                        <div><h1>Upcoming Events</h1></div>
+                        <div><h1>Scheduled Event Search Results</h1></div>
+                        <div class="btn"><a id="delete-all" href="/confirm?delete={{ search }}">Delete All Results!</a></div>
                         <div class="event-search">
                             <form action="/results/">
                                 <button class="search" type="submit" value="Search">
                                     <i class="fas fa-search"></i>
                                 </button>
-                            <input class="search" type="text" name="event" placeholder="Search Events">
+                            <input class="search" type="text" name="event" placeholder="Search Again">
                         </form>
                         </div>
                     </div>
@@ -94,17 +96,16 @@
                         <th>Date</th>
                         <th>Time</th>
                         <th>Discription</th>
-                        <th>Action</th>
                     </tr>
                     {% for event in events %}
                 
                     <tr>
                         <td>{{ event.title }}</td>
-                        <td>{{ event.date.strftime('%m-%d-%Y') }}</td>
+                        <td>{{ event.date.strftime('%Y-%m-%d') }}</td>
                         <td>{{ event.time }}</td>
                         <td>{{ event.description }}</td>
                         <td>
-                            <a id="update" href="/event_update/{{ event.id }}">Update</a>
+                            <a id="update" href="/devotional_update/{{ event.id }}">Update</a>
                             <br>
                             <a id="delete" href="/confirm?id={{ event.id }}&confirm_type=Event">Delete</a>
                            
@@ -115,4 +116,5 @@
                     {% endfor %}
                 </thead>
             </table>
+            {% endif %}
 {% endblock %}
