@@ -47,19 +47,19 @@
 </head>
 <body>
     <div class="top-nav" role="navigation">
-            <div class="grid-item"><a href="{{ url_for('index') }}">
+            <div class="grid-item"><a href="{{ url_for('main.index') }}">
                     <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
                     <div class="name" data-text="Home">Home</div>
                 </a></div>
-            <div class="grid-item"><a href="{{ url_for('guild_calendar') }}">
+            <div class="grid-item"><a href="{{ url_for('main.guild_calendar') }}">
                     <div class="icon"><i class="far fa-calendar-alt"></i></div>
                     <div class="name" data-text="guild_calendar">Events</div>
                 </a></div>
-            <div class="grid-item"><a href="{{ url_for('discord') }}">
+            <div class="grid-item"><a href="{{ url_for('main.discord') }}">
                     <div class="icon"><i class="fab fa-discord"></i></div>
                     <div class="name" data-text="Discord">Discord</div>
                 </a></div>
-            <div class="grid-item"><a href="{{ url_for('devotionals') }}">
+            <div class="grid-item"><a href="{{ url_for('main.devotionals') }}">
                     <div class="icon"><i class="fa fa-book-reader"></i></div>
                     <div class="name" data-text="Devotionals">Devotionals</div>
                 </a></div>
@@ -67,7 +67,7 @@
                     <div class="icon"><i class="fa fa-id-card-o" aria-hidden="true"></i></div>
                     <div class="name" data-text="Apply">Apply</div>
                 </a></div>
-            <div class="grid-item"><a href="{{ url_for('about') }}">
+            <div class="grid-item"><a href="{{ url_for('main.about') }}">
                     <div class="icon"><i class="fa fa-info-circle"></i></div>
                     <div class="name" data-text="About">About</div>
                 </a></div>
