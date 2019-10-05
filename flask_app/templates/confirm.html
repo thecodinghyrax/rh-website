@@ -39,7 +39,7 @@
     <br>
     <div class="btn-container">
             <a class="delete" href="/delete?all={{ search }}">Delete All</a>
-            <a class="cancel" href="{{ url_for('admin') }}">Keep</a>
+            <a class="cancel" href="{{ url_for('manage.admin') }}">Keep</a>
     </div>
     </div>
 {% else %}
@@ -49,10 +49,10 @@
         <div class="btn-container">
             {% if confirm_type == "Devotional" %}
                 <a class="delete" href="/delete?id={{ item_to_delete.id }}&confirm_type=Devotional">Delete</a>
-                <a class="cancel" href="{{ url_for('add_devotional') }}">Keep</a>
+                <a class="cancel" href="{{ url_for('manage.add_devotional') }}">Keep</a>
             {% elif confirm_type == "Event" %}
                 <a class="delete" href="/delete?id={{ item_to_delete.id }}&confirm_type=Event">Delete</a>
-                <a class="cancel" href="{{ url_for('add_event') }}">Keep</a>
+                <a class="cancel" href="{{ url_for('manage.add_event') }}">Keep</a>
             {% endif %}
         </div>
     </div>

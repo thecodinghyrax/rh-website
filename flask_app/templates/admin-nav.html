@@ -49,22 +49,22 @@
 
 <header>
     <div class="top-nav" role="navigation">
-        <div class="grid-item"><a href="{{ url_for('admin') }}">
+        <div class="grid-item"><a href="{{ url_for('manage.admin') }}">
                 <div class="name" data-text="Home">Admin Home</div>
             </a></div>
-        <div class="grid-item"><a href="{{ url_for('add_devotional') }}">
+        <div class="grid-item"><a href="{{ url_for('manage.add_devotional') }}">
                 <div class="name" data-text="Add Devotional">Add Devotional</div>
             </a></div>
-        <!-- <div class="grid-item"><a href="{{ url_for('devotionals') }}">
+        <!-- <div class="grid-item"><a href="{{ url_for('main.devotionals') }}">
             <div class="name" data-text="Devotionals">Devotional Page</div>
         </a></div> -->
-        <div class="grid-item"><a href="{{ url_for('add_event') }}">
+        <div class="grid-item"><a href="{{ url_for('manage.add_event') }}">
             <div class="name" data-text="Add Event">Add Event</div>
         </a></div>
-        <!-- <div class="grid-item"><a href="{{ url_for('guild_calendar') }}">
+        <!-- <div class="grid-item"><a href="{{ url_for('main.guild_calendar') }}">
                 <div class="name" data-text="guild_calendar">Events</div>
             </a></div> -->
-        <div class="grid-item"><a href="{{ url_for('logout') }}">
+        <div class="grid-item"><a href="{{ url_for('main.logout') }}">
             <div class="name" data-text="Logout">Logout</div>
         </a></div>
         <!-- <div class="grid-item"><a href="#">
@@ -73,7 +73,7 @@
         <div class="grid-item"><a href="#">
                 <div class="name" data-text="About">Edit About</div>
             </a></div>
-        <div class="grid-item"><a href="{{ url_for('about') }}">
+        <div class="grid-item"><a href="{{ url_for('main.about') }}">
             <div class="name" data-text="About">About</div>
         </a></div> -->
         </div>

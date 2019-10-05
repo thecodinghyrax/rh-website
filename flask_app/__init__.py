@@ -17,4 +17,9 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
-from flask_app import routes
+from flask_app.main.routes import main
+from flask_app.manage.routes import manage
+
+app.register_blueprint(main)
+app.register_blueprint(manage)
+
