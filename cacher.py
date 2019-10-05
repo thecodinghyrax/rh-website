@@ -16,11 +16,19 @@ for item in news:
     if "<a href" in item and count < 6:
         split_link = item.split('>', 1)
         new_link = split_link[0] + ' target="#">' + split_link[1]
-        current_data = db.session.query(News).filter_by(id = count).first()
-        current_data.anchor = new_link
         try:
-            db.session.commit()
+            current_data = db.session.query(News).filter_by(id = count).first()
+            current_data.anchor = new_link
+            try:
+                db.session.commit()
+            except:
+                print('There was an issue writting to the db :(')
         except:
-            print('There was an issue writting to the db :(')
+            newsentry = News(anchor=new_link)
+            try:
+                db.session.add(newsentry)
+                db.session.commit()
+            except:
+                print('There was an issue writting to the db :(')
         count = count + 1
 
