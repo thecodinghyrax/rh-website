@@ -19,7 +19,9 @@ login_manager = LoginManager(app)
 
 from flask_app.main.routes import main
 from flask_app.manage.routes import manage
+from flask_app.errors.handlers import errors
 
 app.register_blueprint(main)
 app.register_blueprint(manage)
+app.register_blueprint(errors)
 

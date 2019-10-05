@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block head %}
+<meta name="500" content="500 Error: Server Problem">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
+<title>500 Error: Server Problem</title>
+{% endblock %}
+
+{% block body %}
+    <div class="msg">
+        <h1>Something has gone wrong on our end (500)</h1>
+        
+        <img src="{{ url_for('static', filename='img/sad.gif') }}" alt="sad gif">
+        <p>We have failed you. Try checking back later when have gathered our strength.</p>
+    </div>
+{% endblock %}

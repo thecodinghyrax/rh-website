@@ -1,0 +1,13 @@
+body {
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.msg {
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+    width: 30vw;
+    text-align: center;
+}
