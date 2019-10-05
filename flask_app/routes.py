@@ -1,6 +1,6 @@
 from flask import render_template, url_for, request, redirect, flash, send_from_directory
 from flask_app import app, db, bcrypt
-from flask_app.models import Devotional, User, Calendar
+from flask_app.models import Devotional, User, Calendar, News
 from forms import RegistrationForm, LoginForm
 from datetime import date, datetime, timedelta
 from flask_login import login_user, current_user, logout_user
@@ -19,7 +19,8 @@ def static_from_root():
 @app.route('/')
 def index():
     devotional = Devotional.query.order_by(Devotional.date.desc()).first()
-    return render_template('index.html', devotional=devotional)
+    news = News.query.order_by(News.id.asc()).all()
+    return render_template('index.html', devotional=devotional, news=news)
 
 @app.route('/sitemap')
 def sitemap():

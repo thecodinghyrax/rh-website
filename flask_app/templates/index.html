@@ -4,7 +4,6 @@
 <meta name=”description” content="Welcome to the home of Renewed Hope - A Christian guild in World of Warcraft">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 <title>Renewed Hope Home Page</title>
-<script type="text/javascript" src="https://static.wowhead.com/widgets/newsfeed.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -72,9 +71,11 @@
                 </a>
             </div>
             <div class="widget-2">
-                <script type="text/javascript">
-                    $WowheadNewsFeed.fetch();
-                    </script>
+                    <div class="wowhead-title"><img id="wowhead-logo" src="{{ url_for('static', filename='img/wow-head-logo.png') }}">WowHead News</div>
+                    {% for anchor in news %}
+                        <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
+
+                    {% endfor %}
             </div>
         </div>
 
