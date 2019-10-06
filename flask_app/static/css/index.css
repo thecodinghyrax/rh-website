@@ -30,14 +30,6 @@ body {
     text-align: left;
 }
 
-.announcment-card-label {
-   
-    border-radius: 10px;
-    padding: 0 1rem 2rem 1rem;
-    margin: 1rem 0;
-    background-color: #222;
-}
-
 #devo {
     text-decoration: none;
     
@@ -135,8 +127,6 @@ div.widget-2 {
     .widget-2 {
         width: 250px;
         padding: 0;
-        /* margin: auto; */
-        /* margin-left: 7.5rem;  */
     }
 
     .wowhead-title {
@@ -186,7 +176,7 @@ div.widget-2 {
         display: inline;
         order: 0;
     }
-
+  
     .announcment-container {
         order: 1;
         margin-left: 7rem;
@@ -196,7 +186,6 @@ div.widget-2 {
         justify-items: center;
         justify-content: flex-start;
         flex-grow: 2;
-        
     }
     .announcment-card-label {
         padding: 1rem 4rem 3rem 4rem;

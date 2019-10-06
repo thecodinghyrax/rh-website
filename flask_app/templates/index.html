@@ -2,8 +2,8 @@
 
 {% block head %}
 <meta name=”description” content="Welcome to the home of Renewed Hope - A Christian guild in World of Warcraft">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/slider.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-<title>Renewed Hope Home Page</title>
 {% endblock %}
 
 {% block body %}
@@ -18,11 +18,40 @@
 
         <div class="announcment-container">
 
-            <div class="announcment-card-label">
-                <h2>Announcments</h2>
-                <div class="announcment-card-content">
-                    Welcome to the new home of Renewed Hope! If you are not yet a member of the guild and want to know more,
-                    check out our About page for more information. Check back often for the latest guild happenings.
+
+
+            <div class="news">
+                <div class="news__list-container">
+                    <ul class="news__list">
+                        <li class="news__item current-item">
+                            <h2>Extra-Life 2019</h2>
+                            <div>
+                                    We are kicking off our Extra-Life 2019 campaign and we are looking for more for to join our team. You will 
+                                    be raising funds to help support your locale Children's Miracle Network hospital. Sign up today! 
+                            </div><br>
+                            <a href="https://www.extra-life.org/team/46794">Team Renewed Hope Sign Up Page</a>
+                            <!-- <img src="{{ url_for('static', filename='img/RH_icon.png') }}" alt=""> -->
+                        </li>
+                        <li class="news__item">
+                            <h2>Looking for more to do?</h2>
+                            <div>
+                                Check out all the happenings on our calendar or see what’s going on in our Discord. You will find links to all the good stuff in the nav bar at the top of the page.  
+                            </div>
+                            <!-- <img src="{{ url_for('static', filename='img/RH_icon.png') }}" alt=""> -->
+                        </li>
+                        <li class="news__item">
+                            <h2>Announcments</h2>
+                            <div>
+                                Welcome to the new home of Renewed Hope! If you are not yet a member of the guild and want to know more,
+                                check out our About page for more information. Check back often for the latest guild happenings.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="news__nav">
+                    <button class="news__indicator current-item"></button>
+                    <button class="news__indicator"></button>
+                    <button class="news__indicator"></button>
                 </div>
             </div>
             
@@ -83,4 +112,5 @@
 </div>
 
 </div>
+<script src="{{ url_for('static', filename='js/slider.js') }}"></script>
 {% endblock %}
