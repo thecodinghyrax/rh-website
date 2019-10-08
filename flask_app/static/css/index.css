@@ -10,7 +10,8 @@ body {
 .banner-container {
     background-size: cover;
     background-image: url("../img/Renewed\ Hope\ Banner\ cut.jpg");
-    height: 25vh;
+    /* height: 25vh; */
+    min-height: 20rem;
     width: 100%;
     background-repeat: no-repeat;
     background-position: center top;
@@ -28,14 +29,7 @@ body {
 .announcment-container {
     order: 0;
     text-align: left;
-}
-
-.announcment-card-label {
-   
-    border-radius: 10px;
-    padding: 0 1rem 2rem 1rem;
-    margin: 1rem 0;
-    background-color: #222;
+    font-size: 0.7rem;
 }
 
 #devo {
@@ -46,8 +40,9 @@ body {
 .devotional-card-label {
     
     border-radius: 10px;
-    padding: 0 1rem 2rem 1rem;
+    padding: 0.3rem 1rem 2rem 1rem;
     background-color: #222;
+    min-height: 12rem;
 }
 
 .devotional-card-label:hover {
@@ -93,8 +88,13 @@ div.widget-2 {
 .article-wowhead {
     color: #ffd100;
     text-decoration: none;
-    background: #242424;
+    background: #191919;
     height: 3.5rem;
+}
+
+.wowhead-light {
+    
+    background: #242424;
 }
 
 .article-wowhead a {
@@ -108,6 +108,9 @@ div.widget-2 {
         display: flex;
         justify-content: space-around;
         padding: 2rem 0;
+    }
+    .announcment-container {
+        font-size: 1rem;
     }
 }
 @media (min-width: 900px) {
@@ -135,8 +138,6 @@ div.widget-2 {
     .widget-2 {
         width: 250px;
         padding: 0;
-        /* margin: auto; */
-        /* margin-left: 7.5rem;  */
     }
 
     .wowhead-title {
@@ -186,7 +187,7 @@ div.widget-2 {
         display: inline;
         order: 0;
     }
-
+  
     .announcment-container {
         order: 1;
         margin-left: 7rem;
@@ -196,15 +197,10 @@ div.widget-2 {
         justify-items: center;
         justify-content: flex-start;
         flex-grow: 2;
-        
     }
     .announcment-card-label {
         padding: 1rem 4rem 3rem 4rem;
         margin-bottom: 3rem;
-    }
-
-    .devotional-card-label {
-        padding: 1rem 4rem 3rem 4rem;
     }
 
     .info-blocks {
@@ -250,4 +246,5 @@ div.widget-2 {
     .article-wowhead a {
         font-size: 0.6rem;
     }
+
 }
