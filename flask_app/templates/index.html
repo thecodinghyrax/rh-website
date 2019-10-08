@@ -48,11 +48,12 @@
                         </li>
                     </ul>
                 </div>
-                <div class="news__nav">
-                    <button class="news__indicator current-item"></button>
-                    <button class="news__indicator"></button>
-                    <button class="news__indicator"></button>
-                </div>
+
+            </div>
+            <div class="news__nav">
+                <button class="news__indicator current-item"></button>
+                <button class="news__indicator"></button>
+                <button class="news__indicator"></button>
             </div>
             
 
@@ -102,7 +103,11 @@
             <div class="widget-2">
                     <div class="wowhead-title"><img id="wowhead-logo" src="{{ url_for('static', filename='img/wow-head-logo.png') }}">WowHead News</div>
                     {% for anchor in news %}
-                        <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
+                        {% if loop.index is divisibleby 2 %}
+                            <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
+                        {% else %}
+                            <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
+                        {% endif %}
 
                     {% endfor %}
             </div>
