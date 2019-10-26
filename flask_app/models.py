@@ -46,3 +46,12 @@ class News(db.Model):
 
     def __repr__(self):
         return f"News('{self.id}', '{self.anchor}')"
+
+class Announcement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.String(300), nullable=False)
+    link = db.Column(db.String(1000), nullable=True)
+
+    def __repr__(self):
+        return f"Calendar('{self.title}', '{self.description}', '{self.link}')"

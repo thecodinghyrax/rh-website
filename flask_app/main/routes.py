@@ -1,6 +1,6 @@
 from flask import Blueprint, request, send_from_directory, render_template, redirect, url_for, flash
 from flask_app import app, db, bcrypt
-from flask_app.models import Devotional, News, Calendar, User
+from flask_app.models import Devotional, News, Calendar, User, Announcement
 import os, calendar
 from datetime import date
 from sqlalchemy import extract
@@ -18,7 +18,8 @@ def static_from_root():
 def index():
     devotional = Devotional.query.order_by(Devotional.date.desc()).first()
     news = News.query.order_by(News.id.asc()).all()
-    return render_template('index.html', devotional=devotional, news=news)
+    announcements = Announcement.query.order_by(Announcement.id.asc()).all()
+    return render_template('index.html', devotional=devotional, news=news, announcements=announcements)
 
 @main.route('/sitemap')
 def sitemap():
@@ -45,13 +46,8 @@ def guild_calendar():
         elif month > 12:
             month = 1
             year = year + 1
-    # if month < 10:
-    #     year_plus_month = str(year) + "-0" + str(month)
-    # else:
-    #     year_plus_month = str(year) + "-" + str(month)
-    # events = Event.query.filter(Event.date.startswith(year_plus_month)).all()
-    events = Calendar.query.filter(extract('month', Calendar.date) == month, extract('year', Calendar.date) == year).all()#and_(Calendar.date.year == year, Calendar.date.month == month)).all()
-    # current_day = int(today.strftime('%d'))
+ 
+    events = Calendar.query.filter(extract('month', Calendar.date) == month, extract('year', Calendar.date) == year).all()
     current_day = today.day
     month_name = calendar.month_name[month]
     cal = calendar.Calendar()

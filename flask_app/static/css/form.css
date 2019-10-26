@@ -11,9 +11,19 @@ body {
 
 .form-container {
 
-    width: 18%;
-    left: 0;
+    width: 10%;
     text-align: right;
+    /* margin: 0 auto; */
+    left: 0;
+}
+
+.form-group {
+    margin: 0 auto;
+    width: fit-content;
+}
+
+legend {
+    text-align: left;
 }
 
 input {
@@ -21,7 +31,9 @@ input {
 }
 
 label {
+    display: inline-block;
     vertical-align: top;
+    min-width: 6rem;
 }
 
 table {
@@ -43,9 +55,6 @@ vertical-align: top;
 h1 {
     background-color: black;
     text-align: center; 
-}
-.devotional {
-    background-color: black;
 }
 
 .form-container {
@@ -74,3 +83,30 @@ a {
     text-decoration: none;
 }
 
+.pag {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin: 2rem auto;
+    margin-top: 0;
+    font-size: 1.9rem;
+    letter-spacing: 0.2rem;
+    text-align: center;
+}
+
+.btn {
+    color: white;
+    border: 1px solid #7289da;
+    padding: 0.5rem 2rem;
+    border-radius: 10px;
+
+}
+
+.btn-info {
+    background-color: #7289da;
+}
+
+.btn:hover, .btn-info:hover {
+    background-color: #7289da;
+    border: 1px solid #7289da;
+}

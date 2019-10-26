@@ -1,0 +1,56 @@
+{% extends 'admin-nav.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
+<title>Add Announcement</title>
+{% endblock %}
+
+{% block body %}
+<div>
+        <div class="title-bar">
+            <h1>Add Announcement</h1>
+        </div>
+        <br>
+        <div class="form-container">
+            <form action="/add_announcement", method="POST" id="announcement">
+                <label name="title">Title</label>
+                <input type="text" name="title", id="title", placeholder="Give your announcement a great title">
+                <br>
+                <label name="description">Description</label>
+                <textarea name="description" form="announcement", placeholder="Announcement text"></textarea>
+                <br>
+                <label name="link">Link</label>
+                <input type="text" name="link", id="link", placeholder="Optional: link">
+                <br>
+                <input type="submit" value="Add Announcment">
+
+            </form>
+        </div>
+        <br>
+        <br>
+        <table>
+            <tr>
+                <th class="title">Title</th>
+                <th>Discription</th>
+                <th>Link</th>
+                <th>Date Updated</th>
+                <th>Actions</th>
+            </tr>
+            {% for announcement in announcements %}
+            
+            <tr>
+                <td>{{ announcement.title }}</td>
+                <td>{{ announcement.description }}</td>
+                <td>{{ announcement.link }}</td>
+                <td>
+                    <a id="delete" href="/confirm?id={{ announcement.id }}&confirm_type=Announcement">Delete</a>
+                    <br>
+                    <a id="update" href="/announcement_update/{{ announcement.id }}">Update</a>
+                </td>
+            </tr>
+            
+            {% endfor %}
+        </table>
+
+    </div>
+{% endblock %}
