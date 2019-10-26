@@ -1,7 +1,7 @@
 {% extends 'admin-nav.html' %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/add_devotional.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
 <title>Add Devotional</title>
 {% endblock %}
 
@@ -13,9 +13,6 @@
         <br>
         <div class="form-container">
             <form action="/add_devotional", method="POST" id=devo>
-                <!-- <label name="title">Title</label>
-                <input type="text" name="title", id="title">
-                <br> -->
                 <label name="lead">Lead</label>
                 <input type="text" name="lead", id="lead">
                 <br>

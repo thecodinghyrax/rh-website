@@ -30,7 +30,7 @@
 
 {% block body %}
  
-{% if search%}
+{% if search %}
  <div class="confirm-container">
     <h1>Are you sure you want to delete the following events?</h1>
     {% for event in events_to_delete %}
@@ -44,7 +44,10 @@
     </div>
 {% else %}
     <div class="confirm-container">
-        <h1>Are you sure you want to delete the {{ item_to_delete.title }} {{ confirm_type }} for {{ item_to_delete.date }}?</h1>
+        <h1>Are you sure you want to delete the {{ item_to_delete.title }} {{ confirm_type }}
+            {% if item_to_delete.date %}
+             for {{ item_to_delete.date }}?
+            {% endif %}</h1>
         <br>
         <div class="btn-container">
             {% if confirm_type == "Devotional" %}
@@ -53,6 +56,9 @@
             {% elif confirm_type == "Event" %}
                 <a class="delete" href="/delete?id={{ item_to_delete.id }}&confirm_type=Event">Delete</a>
                 <a class="cancel" href="{{ url_for('manage.add_event') }}">Keep</a>
+            {% elif confirm_type == "Announcement" %}
+                <a class="delete" href="/delete?id={{ item_to_delete.id }}&confirm_type=Announcement">Delete</a>
+                <a class="cancel" href="{{ url_for('manage.admin') }}">Keep</a>
             {% endif %}
         </div>
     </div>

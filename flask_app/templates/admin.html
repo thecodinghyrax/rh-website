@@ -12,7 +12,78 @@
 
 
 {% block body %}
-       {{ devotionals }}
+<table class="e-table">
+        <div><h1>Announcements</h1></div>
+   
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Link</th>
+        </tr>
+        {% for announcement in announcements %}
+    
+        <tr>
+            <td>{{ announcement.title }}</td>
+            <td>{{ announcement.description }}</td>
+            <td>{{ announcement.link }}</td>
+            <td>
+                <a id="update" href="/announcement_update/{{ announcement.id }}">Update</a>
+                <br>
+                <a id="delete" href="/confirm?id={{ announcement.id }}&confirm_type=Announcement">Delete</a>
+               
+               
+            </td>
+        </tr>
+        
+        {% endfor %}
+    </thead>
+</table>    
+<hr>
+
+<table class="e-table">
+
+    <div class="search-box">
+            <div><h1>Upcoming Events</h1></div>
+            <div class="event-search">
+                <form action="/results/">
+                    <button class="search" type="submit" value="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                <input class="search" type="text" name="event" placeholder="Search Events">
+            </form>
+            </div>
+        </div>
+    
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Discription</th>
+            <th>Action</th>
+        </tr>
+        {% for event in events %}
+    
+        <tr>
+            <td>{{ event.title }}</td>
+            <td>{{ event.date.strftime('%m-%d-%Y') }}</td>
+            <td>{{ event.time }}</td>
+            <td>{{ event.description }}</td>
+            <td>
+                <a id="update" href="/event_update/{{ event.id }}">Update</a>
+                <br>
+                <a id="delete" href="/confirm?id={{ event.id }}&confirm_type=Event">Delete</a>
+               
+               
+            </td>
+        </tr>
+        
+        {% endfor %}
+    </thead>
+</table>      
+
+<hr>
         <table class="d-table">
 
             <div class="search-box">
@@ -74,45 +145,5 @@
             <br>
             <br>
             <hr>
-        <table class="e-table">
-
-                <div class="search-box">
-                        <div><h1>Upcoming Events</h1></div>
-                        <div class="event-search">
-                            <form action="/results/">
-                                <button class="search" type="submit" value="Search">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            <input class="search" type="text" name="event" placeholder="Search Events">
-                        </form>
-                        </div>
-                    </div>
-                
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Discription</th>
-                        <th>Action</th>
-                    </tr>
-                    {% for event in events %}
-                
-                    <tr>
-                        <td>{{ event.title }}</td>
-                        <td>{{ event.date.strftime('%m-%d-%Y') }}</td>
-                        <td>{{ event.time }}</td>
-                        <td>{{ event.description }}</td>
-                        <td>
-                            <a id="update" href="/event_update/{{ event.id }}">Update</a>
-                            <br>
-                            <a id="delete" href="/confirm?id={{ event.id }}&confirm_type=Event">Delete</a>
-                           
-                           
-                        </td>
-                    </tr>
-                    
-                    {% endfor %}
-                </thead>
-            </table>
+        
 {% endblock %}

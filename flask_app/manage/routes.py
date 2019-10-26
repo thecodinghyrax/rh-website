@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request, redirect, flash, send_from_directory, Blueprint
 from datetime import datetime, date, timedelta
 from flask_app import db
-from flask_app.models import Devotional, Calendar
+from flask_app.models import Devotional, Calendar, Announcement
 from flask_login import current_user
 from sqlalchemy import and_, or_
 
@@ -52,6 +52,14 @@ def delete():
                 return redirect('/add_event')
             except:
                 return "There was an issue deleting the devotional :("
+        elif confirm_type == "Announcement":
+            item_to_delete = Announcement.query.get_or_404(id)
+            try:
+                db.session.delete(item_to_delete)
+                db.session.commit()
+                return redirect('/admin')
+            except:
+                return "There was an issue deleting the announcement :("
         else:
             return '''There was a problem deleting this record. Please go back!'''
     elif request.args.get('all'):
@@ -78,6 +86,8 @@ def confirm():
             item_to_delete = Devotional.query.get(id)
         elif confirm_type == "Event":
             item_to_delete = Calendar.query.get(id)
+        elif confirm_type == "Announcement":
+            item_to_delete = Announcement.query.get(id)
         return render_template('confirm.html', id=id, item_to_delete=item_to_delete, confirm_type=confirm_type)
     elif request.args.get('delete'):
         search = request.args.get('delete')
@@ -123,6 +133,22 @@ def event_update(id):
             return "There was an issue updating this event :("
     else:
         return render_template('event_update.html', event=event_to_update)
+
+@manage.route('/announcement_update/<int:id>', methods=['GET', 'POST'])
+def announcement_update(id):
+    announcement_to_update = Announcement.query.get_or_404(id)
+    if request.method == 'POST':
+        announcement_to_update.title = request.form['title']
+        announcement_to_update.description = request.form['description']
+        announcement_to_update.link = request.form['link']
+
+        try:
+            db.session.commit()
+            return redirect('/admin')
+        except:
+            return "There was an issue updating this event :("
+    else:
+        return render_template('announcement_update.html', announcement=announcement_to_update)
 
 
 @manage.route('/add_event', methods=['POST', 'GET'])
@@ -172,7 +198,8 @@ def admin():
         today = date.today()
         devotionals = Devotional.query.order_by(Devotional.date.desc()).limit(5)
         events = Calendar.query.filter(Calendar.date >= today).order_by(Calendar.date.asc()).limit(7)
-        return render_template('admin.html', devotionals=devotionals, events=events)
+        announcements = Announcement.query.all()
+        return render_template('admin.html', devotionals=devotionals, events=events, announcements=announcements)
 
 @manage.route('/results/')
 def results():
@@ -189,3 +216,22 @@ def results():
         return render_template('results.html', events=events, search=search)
     else:
         return '''There was an issue...Please go back! '''
+
+@manage.route('/add_announcement', methods=['GET', 'POST'])
+def add_announcement():
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        link = request.form['link']
+        new_announcement = Announcement(title=title, description=description, link=link)
+        try:
+            db.session.add(new_announcement)
+            db.session.commit()
+            return redirect('/admin')
+        except:
+            return "There was a problem adding this to the database :("
+    else:
+        if not current_user.is_authenticated:
+            return redirect(url_for('main.login'))
+        announcements = Announcement.query.all()
+        return render_template('add_announcement.html', announcements=announcements)

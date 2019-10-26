@@ -19,8 +19,55 @@
         <div class="announcment-container">
 
 
+                <div class="news">
+                    <div class="news__list-container">
+                        <ul class="news__list">
+                            {% for announcement in announcements %}
 
-            <div class="news">
+                                {% if announcement.id == 1 %}
+                                    <li class="news__item current-item">
+                                {% else %}
+                                    <li class="news__item">
+                                {% endif %}
+
+                                    <h2>{{ announcement.title }}</h2>
+                                    <div>{{ announcement.description }}</div><br>
+                                   
+                                
+                                    {{ announcement.link|urlize(40, target="_blank") }}
+                                </li>
+                            {% endfor %}
+
+                            {% for announcement in announcements %}
+                                {% if announcement.id == 1 %}
+                                    <li class="news__item">
+                                    <h2>{{ announcement.title }}</h2>
+                                    <div>{{ announcement.description }}</div><br>
+                                    {{ announcement.link|urlize(10, true, target="_blank") }}
+                                
+                                {% endif %}
+                                </li>
+                            {% endfor %}
+
+
+                        </ul>
+                    </div>
+    
+                </div>
+               
+                <div class="news__nav">
+                    {% for announcement in announcements %}
+                        {% if loop.index is eq 1 %}
+                            <button class="news__indicator current-item"></button>
+                        {% else %}
+                            <button class="news__indicator"></button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+
+
+            <!-- <div class="news">
                 <div class="news__list-container">
                     <ul class="news__list">
                         <li class="news__item current-item">
@@ -30,14 +77,12 @@
                                     be raising funds to help support your locale Children's Miracle Network hospital. Sign up today! 
                             </div><br>
                             <a href="https://www.extra-life.org/team/46794">Team Renewed Hope Sign Up Page</a>
-                            <!-- <img src="{{ url_for('static', filename='img/RH_icon.png') }}" alt=""> -->
                         </li>
                         <li class="news__item">
                             <h2>Looking for more to do?</h2>
                             <div>
                                 Check out all the happenings on our calendar or see what’s going on in our Discord. You will find links to all the good stuff in the nav bar at the top of the page.  
                             </div>
-                            <!-- <img src="{{ url_for('static', filename='img/RH_icon.png') }}" alt=""> -->
                         </li>
                         <li class="news__item">
                             <h2>Announcments</h2>
@@ -54,7 +99,7 @@
                 <button class="news__indicator current-item"></button>
                 <button class="news__indicator"></button>
                 <button class="news__indicator"></button>
-            </div>
+            </div> -->
             
 
 
