@@ -128,7 +128,7 @@ def event_update(id):
 
         try:
             db.session.commit()
-            return redirect('/add_event')
+            return redirect('/admin')
         except:
             return "There was an issue updating this event :("
     else:
