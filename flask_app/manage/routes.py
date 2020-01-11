@@ -154,6 +154,7 @@ def announcement_update(id):
 @manage.route('/add_event', methods=['POST', 'GET'])
 def add_event():
     if request.method == 'POST':
+        print(request.get_data())
         title = request.form['title']
         time = request.form['time']
         form_date = request.form['date']
