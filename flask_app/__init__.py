@@ -9,9 +9,9 @@ from flask_login import LoginManager
 
 app = Flask(__name__)
 # Desktop 
-if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-web/rh.db'):
+if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website/rh.db'):
     print("!!!!!!!! I'm using the local desktop db path")
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-web/rh.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website/rh.db'
     
 # Laptop
 elif os.path.exists('/mnt/c/Users/drewc/GitHub/rh-website'):
