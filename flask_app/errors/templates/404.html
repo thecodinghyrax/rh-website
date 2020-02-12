@@ -2,7 +2,7 @@
 
 {% block head %}
 <meta name="404" content="404 Error: Not Found">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='error/css/error.css') }}">
 <title>404 Error: Not Found</title>
 {% endblock %}
 
@@ -10,7 +10,7 @@
     <div class="msg">
         <h1>That page can not be found (404)</h1>
         
-        <img src="{{ url_for('static', filename='img/lost.gif') }}" alt="sad gif">
+        <img src="{{ url_for('static', filename='error/img/lost.gif') }}" alt="sad gif">
         <p>I think we may be lost. Let's try a different path.</p>
     </div>
 {% endblock %}

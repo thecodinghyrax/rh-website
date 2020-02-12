@@ -7,7 +7,8 @@ from sqlalchemy import extract
 from flask_login import current_user, login_user, logout_user
 from flask_app.main.forms import LoginForm, RegistrationForm
 
-main = Blueprint('main', __name__)
+main = Blueprint('main', __name__,
+                template_folder='templates')
 
 @main.route('/robots.txt')
 @main.route('/sitemap.xml')
