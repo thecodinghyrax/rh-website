@@ -2,7 +2,7 @@
 
 {% block head %}
 <meta name="403" content="Error: Forbidden">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='error/css/error.css') }}">
 <title>403 Error: Forbidden</title>
 {% endblock %}
 
@@ -10,7 +10,7 @@
     <div class="msg">
         <h1>You do not have permission to do this (403)</h1>
         
-        <img src="{{ url_for('static', filename='img/403.gif') }}" alt="no permission gif">
+        <img src="{{ url_for('static', filename='error/img/403.gif') }}" alt="no permission gif">
         <p>Check your account and come back when you are more prepared!</p>
     </div>
 {% endblock %}

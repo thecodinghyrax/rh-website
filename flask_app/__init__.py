@@ -10,18 +10,18 @@ from flask_login import LoginManager
 app = Flask(__name__)
 # Desktop 
 if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website/rh.db'):
-    print("!!!!!!!! I'm using the local desktop db path")
+    print("!!!!!!!! I'm using the local desktop db path !!!!!!!!")
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website/rh.db'
     
 # Laptop
 elif os.path.exists('/mnt/c/Users/drewc/GitHub/rh-website'):
-    print("!!!!!!!! I'm using the local laptop db path")
+    print("!!!!!!!! I'm using the local laptop db path !!!!!!!!")
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/drewc/GitHub/rh-website/rh.db'
     
 # Server
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/drewxcom/rh.db'
-    print("!!!!!!!! I'm using the server db path!")
+    print("!!!!!!!! I'm using the server db path !!!!!!!!")
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)

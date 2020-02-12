@@ -2,8 +2,8 @@
 
 {% block head %}
 <meta name=”description” content="Welcome to the home of Renewed Hope - A Christian guild in World of Warcraft">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/slider.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/slider.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/index.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -152,7 +152,7 @@
                 </a>
             </div>
             <div class="widget-2">
-                    <div class="wowhead-title"><img id="wowhead-logo" src="{{ url_for('static', filename='img/wow-head-logo.png') }}">WowHead News</div>
+                    <div class="wowhead-title"><img id="wowhead-logo" src="{{ url_for('static', filename='main/img/wow-head-logo.png') }}">WowHead News</div>
                     {% for anchor in news %}
                         {% if loop.index is divisibleby 2 %}
                             <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
@@ -168,5 +168,5 @@
 </div>
 
 </div>
-<script src="{{ url_for('static', filename='js/slider.js') }}"></script>
+<script src="{{ url_for('static', filename='main/js/slider.js') }}"></script>
 {% endblock %}

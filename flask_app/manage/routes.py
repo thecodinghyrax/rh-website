@@ -5,7 +5,8 @@ from flask_app.models import Devotional, Calendar, Announcement
 from flask_login import current_user
 from sqlalchemy import and_, or_
 
-manage = Blueprint('manage', __name__)
+manage = Blueprint('manage', __name__,
+                    template_folder='templates') 
 
 
 @manage.route('/add_devotional', methods=['POST', 'GET'])
