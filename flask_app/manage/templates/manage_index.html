@@ -1,0 +1,43 @@
+{% extends "manage_base.html" %}
+
+
+{% block title %}
+Admin Home
+{% endblock title %}
+
+
+
+
+{% block body %}
+
+{% if applicants > 0 %}
+<h1>There Are Applicants To Approve!</h1>
+<div class="applicants">You have {{ applicants }} applicant waiting for review!</div>
+{% endif %}
+
+
+<h2>Current Announcements</h2>
+{% for announcement in announcements %}
+<div class="announc-item">{{announcement.title}}</div>
+{% endfor %}
+
+
+<h2>Upcoming Events</h2>
+{% for event in events %}
+<div class="event-item">{{ event.title}} : {{event.date}}</div>
+{% endfor %}
+
+
+<h2>Recently Posted Devotionals</h2>
+{% for devotional in devotionals %}
+<div class="devo-item">{{devotional.title}} - Lead: {{devotional.lead}}</div>
+{% endfor %}
+
+
+
+
+
+
+
+
+{% endblock body %}

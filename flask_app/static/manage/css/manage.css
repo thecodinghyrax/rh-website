@@ -1,0 +1,18 @@
+.grid-container {
+    background-color: black;
+    display: grid;
+    height: 100vh;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 100vh;
+}
+
+
+.side-nav {
+    /* height: 100vh; */
+grid-column: 0 / 2;
+}
+
+.side-body {
+    border: 2px solid white;
+ grid-column: 2 / -1;
+}
