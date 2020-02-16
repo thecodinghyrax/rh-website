@@ -24,6 +24,45 @@ def admin():
         return render_template('manage_index.html', devotionals=devotionals, events=events, announcements=announcements, applicants=numb_of_applicants)
 
 
+@manage.route('/announcements', methods=['GET', 'POST'])
+def manage_announcements():
+    if not current_user.is_authenticated:
+        return redirect(url_for('main.login'))
+  
+    if request.method == 'POST':
+        announcement_to_update = Announcement.query.get_or_404(request.form['id'])
+        announcement_to_update.title = request.form['title']
+        announcement_to_update.description = request.form['description']
+        announcement_to_update.link = request.form['link']
+        try:
+            db.session.commit()
+            return redirect('/announcements')
+        except:
+            return "There was an issue updating this event :("
+    else:
+        all_announcements = Announcement.query.all()
+        return render_template('manage_announcements.html', announcements=all_announcements)
+
+
+
+@manage.route('/events', methods=['GET', 'POST'])
+def manage_evnets():
+    if not current_user.is_authenticated:
+        return redirect(url_for('main.login'))
+    all_events = Calendar.query.all()
+    if request.method == 'POST':
+        pass
+        # announcement_to_update.title = request.form['title']
+        # announcement_to_update.description = request.form['description']
+        # announcement_to_update.link = request.form['link']
+        # try:
+        #     db.session.commit()
+        #     return redirect('/admin')
+        # except:
+        #     return "There was an issue updating this event :("
+    else:
+        return render_template('manage_events.html', events=all_events)
+
 # @manage.route('/add_devotional', methods=['POST', 'GET'])
 # def add_devotional():
 #     if request.method == 'POST':
@@ -150,21 +189,6 @@ def admin():
 #     else:
 #         return render_template('event_update.html', event=event_to_update)
 
-# @manage.route('/announcement_update/<int:id>', methods=['GET', 'POST'])
-# def announcement_update(id):
-#     announcement_to_update = Announcement.query.get_or_404(id)
-#     if request.method == 'POST':
-#         announcement_to_update.title = request.form['title']
-#         announcement_to_update.description = request.form['description']
-#         announcement_to_update.link = request.form['link']
-
-#         try:
-#             db.session.commit()
-#             return redirect('/admin')
-#         except:
-#             return "There was an issue updating this event :("
-#     else:
-#         return render_template('announcement_update.html', announcement=announcement_to_update)
 
 
 # @manage.route('/add_event', methods=['POST', 'GET'])

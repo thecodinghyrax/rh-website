@@ -4,15 +4,42 @@
     height: 100vh;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: 100vh;
-}
+    color: white;
 
+}
 
 .side-nav {
-    /* height: 100vh; */
-grid-column: 0 / 2;
-}
-
+    grid-column: 0 / 2;
+    border: 2px solid white;
+    }
+    
 .side-body {
     border: 2px solid white;
- grid-column: 2 / -1;
+     grid-column: 2 / -1;
+    }
+
+.jumbotron {
+    background-color: rgb(39, 39, 39);
+}
+
+#rh-icon {
+  width: 4%;
+  height: auto;
+  margin-top: -3.9em;
+  padding: 0;
+}
+
+
+tr {
+    color: white;
+}
+
+
+h2 {
+    color: royalblue;
+}
+
+.modal-content {
+    background-color: black;
+    border: 1px solid white;
 }
