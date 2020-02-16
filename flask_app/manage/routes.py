@@ -24,44 +24,93 @@ def admin():
         return render_template('manage_index.html', devotionals=devotionals, events=events, announcements=announcements, applicants=numb_of_applicants)
 
 
-@manage.route('/announcements', methods=['GET', 'POST'])
+@manage.route('/announcements')
 def manage_announcements():
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
-  
-    if request.method == 'POST':
+ 
+    all_announcements = Announcement.query.all()
+    return render_template('manage_announcements.html', announcements=all_announcements)
+
+
+@manage.route('/events')
+def manage_evnets():
+    if not current_user.is_authenticated:
+        return redirect(url_for('main.login'))
+
+    all_events = Calendar.query.all()
+    return render_template('manage_events.html', events=all_events)
+
+
+# @manage.route('/delete', methods=['POST'])
+# def delete():
+#     if not current_user.is_authenticated:
+#         return redirect(url_for('main.login'))
+#     if request.form['db'] == 'Announcemet':
+#         announcement_to_delete = Announcement.query.get_or_404(request.form['id'])
+#         try:
+#             db.session.delete(announcement_to_delete)
+#             db.session.commit()
+#         except:
+#             return "I was unable to delete this announcement. Please go back!"
+#     return redirect('/announcements')
+
+
+@manage.route('/update', methods=['POST'])
+def update():
+    if not current_user.is_authenticated:
+        return redirect(url_for('main.login'))
+
+    if request.form['db'] == 'Announcement':
         announcement_to_update = Announcement.query.get_or_404(request.form['id'])
         announcement_to_update.title = request.form['title']
         announcement_to_update.description = request.form['description']
         announcement_to_update.link = request.form['link']
         try:
             db.session.commit()
+            flash("The Announcement was successfully updated!")
+        except:
+            return "There was an issue updating this record. Please go back!"
+    return redirect('/announcements')
+
+
+@manage.route('/insert', methods=['POST'])
+def insert():
+    if not current_user.is_authenticated:
+        return redirect(url_for('main.login'))
+
+    if request.form['db'] == 'Announcement':
+        print("Im getting a Announcement POST request")
+        title = request.form['title']
+        description = request.form['description']
+        link = request.form['link']
+        new_announcement = Announcement(title=title, description=description, link=link)        
+        try:
+            db.session.add(new_announcement)
+            db.session.commit()
+            flash("The Announcement was successfully added!")
             return redirect('/announcements')
         except:
             return "There was an issue updating this event :("
-    else:
-        all_announcements = Announcement.query.all()
-        return render_template('manage_announcements.html', announcements=all_announcements)
+    
+    return redirect('/admin')
 
-
-
-@manage.route('/events', methods=['GET', 'POST'])
-def manage_evnets():
+@manage.route('/delete', methods=['POST'])
+def delete():
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
-    all_events = Calendar.query.all()
-    if request.method == 'POST':
-        pass
-        # announcement_to_update.title = request.form['title']
-        # announcement_to_update.description = request.form['description']
-        # announcement_to_update.link = request.form['link']
-        # try:
-        #     db.session.commit()
-        #     return redirect('/admin')
-        # except:
-        #     return "There was an issue updating this event :("
-    else:
-        return render_template('manage_events.html', events=all_events)
+
+    if request.form['db'] == 'Announcement':
+        announcement_to_delete = Announcement.query.get_or_404(request.form['id'])
+        try:
+            db.session.delete(announcement_to_delete)
+            db.session.commit()
+            flash("Announcement was deleted successfully!")
+        except:
+            return "There was a problem deleting this announcement. Please go back!"
+    return redirect('/announcements')
+
+
 
 # @manage.route('/add_devotional', methods=['POST', 'GET'])
 # def add_devotional():

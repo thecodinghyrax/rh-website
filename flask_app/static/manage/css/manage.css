@@ -1,5 +1,8 @@
-.grid-container {
+body {
     background-color: black;
+}
+
+.grid-container {
     display: grid;
     height: 100vh;
     grid-template-columns: repeat(12, 1fr);
@@ -10,12 +13,11 @@
 
 .side-nav {
     grid-column: 0 / 2;
-    border: 2px solid white;
+    position: fixed;
     }
     
 .side-body {
-    border: 2px solid white;
-     grid-column: 2 / -1;
+     grid-column: 3 / -1;
     }
 
 .jumbotron {
