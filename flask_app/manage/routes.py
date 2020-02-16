@@ -38,8 +38,15 @@ def manage_evnets():
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
     all_events = Calendar.query.order_by(Calendar.date.desc()).all()
-    # all_events = Calendar.query.all()
     return render_template('manage_events.html', events=all_events)
+
+
+@manage.route('/devotionals')
+def manage_devotionals():
+    if not current_user.is_authenticated:
+        return redirect(url_for('main.login'))
+    all_devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
+    return render_template('manage_devotionals.html', devotionals=all_devotionals)
 
 
 @manage.route('/update', methods=['POST'])
@@ -74,6 +81,23 @@ def update():
         except:
             return "There was an issue updating this record. Please go back!"
 
+    elif request.form['db'] == 'Devotional':
+        devotional_to_update = Devotional.query.get_or_404(request.form['id'])
+        devotional_to_update.title = request.form['title']
+        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+        devotional_to_update.date = date
+        devotional_to_update.content = request.form['content']
+        devotional_to_update.download_link = request.form['download_link']
+        devotional_to_update.date_updated = datetime.utcnow()
+        devotional_to_update.lead = request.form['lead']
+
+        try:
+            db.session.commit()
+            flash("The Devotional was successfully updated!")
+            return redirect('/devotionals')
+        except:
+            return "There was an issue updating this record. Please go back!"
+
     return redirect('/admin')
 
 
@@ -93,7 +117,7 @@ def insert():
             flash("The Announcement was successfully added!")
             return redirect('/announcements')
         except:
-            return "There was an issue updating this event :("
+            return "There was an issue updating this announcement :("
     elif request.form['db'] == 'Calendar':
         title = request.form['title']
         date = datetime.strptime(request.form['date'], '%Y-%m-%d')
@@ -106,7 +130,22 @@ def insert():
             flash("The Event was successfully added!")
             return redirect('/events')
         except:
-            return "There was an issue adding this record. Please go back!"
+            return "There was an issue adding this event. Please go back!"
+    elif request.form['db'] == 'Devotional':
+        date = request.form['date']
+        split_date = date.split('-')
+        title = 'Devotionals for ' + split_date[1] + "-" + split_date[2] + "-" + split_date[0]
+        content = request.form['content']
+        download_link = request.form['download_link']
+        lead = request.form['lead']
+        new_devotional = Devotional(title=title, date=date, content=content, download_link=download_link, lead=lead)
+        try:
+            db.session.add(new_devotional)
+            db.session.commit()
+            flash("The Devotional was successfully added!")
+            return redirect('/devotionals')
+        except:
+            return "There was an issue adding this devotional. Please go back!"
     return redirect('/admin')
 
 @manage.route('/delete', methods=['POST'])
@@ -132,6 +171,15 @@ def delete():
             return redirect('/events')
         except:
             return "There was a problem deleting this event. Please go back!"
+    elif request.form['db'] == 'Devotional':
+        devotional_to_delete = Devotional.query.get_or_404(request.form['id'])
+        try:
+            db.session.delete(devotional_to_delete)
+            db.session.commit()
+            flash("Devotional was deleted successfully!")
+            return redirect('/devotionals')
+        except:
+            return "There was a problem deleting this devotional. Please go back!"
     return redirect('/admin')
 
 

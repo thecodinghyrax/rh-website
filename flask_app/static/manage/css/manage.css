@@ -36,6 +36,10 @@ tr {
     color: white;
 }
 
+.devo_link {
+    word-break:break-word;
+    font-size: xx-small;
+}
 
 h2 {
     color: royalblue;
