@@ -37,23 +37,9 @@ def manage_announcements():
 def manage_evnets():
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
-
-    all_events = Calendar.query.all()
+    all_events = Calendar.query.order_by(Calendar.date.desc()).all()
+    # all_events = Calendar.query.all()
     return render_template('manage_events.html', events=all_events)
-
-
-# @manage.route('/delete', methods=['POST'])
-# def delete():
-#     if not current_user.is_authenticated:
-#         return redirect(url_for('main.login'))
-#     if request.form['db'] == 'Announcemet':
-#         announcement_to_delete = Announcement.query.get_or_404(request.form['id'])
-#         try:
-#             db.session.delete(announcement_to_delete)
-#             db.session.commit()
-#         except:
-#             return "I was unable to delete this announcement. Please go back!"
-#     return redirect('/announcements')
 
 
 @manage.route('/update', methods=['POST'])
@@ -69,9 +55,26 @@ def update():
         try:
             db.session.commit()
             flash("The Announcement was successfully updated!")
+            return redirect('/announcements')
         except:
             return "There was an issue updating this record. Please go back!"
-    return redirect('/announcements')
+
+    elif request.form['db'] == 'Calendar':
+        event_to_update = Calendar.query.get_or_404(request.form['id'])
+        event_to_update.title = request.form['title']
+        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+        event_to_update.date = date
+        event_to_update.time = request.form['time']
+        event_to_update.description = request.form['description']
+
+        try:
+            db.session.commit()
+            flash("The Event was successfully updated!")
+            return redirect('/events')
+        except:
+            return "There was an issue updating this record. Please go back!"
+
+    return redirect('/admin')
 
 
 @manage.route('/insert', methods=['POST'])
@@ -80,7 +83,6 @@ def insert():
         return redirect(url_for('main.login'))
 
     if request.form['db'] == 'Announcement':
-        print("Im getting a Announcement POST request")
         title = request.form['title']
         description = request.form['description']
         link = request.form['link']
@@ -92,7 +94,19 @@ def insert():
             return redirect('/announcements')
         except:
             return "There was an issue updating this event :("
-    
+    elif request.form['db'] == 'Calendar':
+        title = request.form['title']
+        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+        time = request.form['time']
+        description = request.form['description']
+        new_event = Calendar(title=title, date=date, time=time, description=description)
+        try:
+            db.session.add(new_event)
+            db.session.commit()
+            flash("The Event was successfully added!")
+            return redirect('/events')
+        except:
+            return "There was an issue adding this record. Please go back!"
     return redirect('/admin')
 
 @manage.route('/delete', methods=['POST'])
@@ -106,9 +120,19 @@ def delete():
             db.session.delete(announcement_to_delete)
             db.session.commit()
             flash("Announcement was deleted successfully!")
+            return redirect('/announcements')
         except:
             return "There was a problem deleting this announcement. Please go back!"
-    return redirect('/announcements')
+    elif request.form['db'] == 'Calendar':
+        event_to_delete = Calendar.query.get_or_404(request.form['id'])
+        try:
+            db.session.delete(event_to_delete)
+            db.session.commit()
+            flash("Event was deleted successfully!")
+            return redirect('/events')
+        except:
+            return "There was a problem deleting this event. Please go back!"
+    return redirect('/admin')
 
 
 

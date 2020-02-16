@@ -2,7 +2,7 @@
 
 
 {% block title %}
-Announcement
+Announcements
 {% endblock title %}
 
 
@@ -13,10 +13,11 @@ Announcement
     <div class="row">
         <div class="col md-12">
             <div class="jumbotron p-3">
-    
-                <h2>Announcements <button type='button' class="btn btn-success float-right" data-toggle='modal' data-target="#announce_modal">Add New Announcement</button></h2>
+
+                <h2>Announcements <button type='button' class="btn btn-success float-right" data-toggle='modal'
+                        data-target="#announce_modal">Add New Announcement</button></h2>
                 <!-- <img id="rh-icon" src="{{ url_for('static', filename='main/img/RH_icon.png') }}" alt="Renewed Hope Icon"> -->
-                
+
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
                 {% for message in messages %}
@@ -32,68 +33,73 @@ Announcement
                 {% endwith %}
 
 
-<table class="table table-hover table-dark">
+                <table class="table table-hover table-dark">
 
-    <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Link</th>
-    </tr>
-{% for announcement in announcements %}
-    <tr>
-        <td>{{ announcement.title }}</td>
-        <td>{{ announcement.description }}</td>
-        <td>{{ announcement.link }}</td>
-        <td>
-            <a href="" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#edit_modal{{ announcement.id }}">Edit</a>
-            <form action="{{ url_for('manage.delete') }}" method="POST">
-                <input type="hidden" name="db" value="Announcement">
-                <input type="hidden" name="id" value="{{ announcement.id }}">
-                <!-- <a href="" type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete?')">Delete</a> -->
-                <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Link</th>
+                    </tr>
+                    {% for announcement in announcements %}
+                    <tr>
+                        <td>{{ announcement.title }}</td>
+                        <td>{{ announcement.description }}</td>
+                        <td>{{ announcement.link }}</td>
+                        <td>
+                            <a href="" class="btn btn-warning btn-xs" data-toggle="modal"
+                                data-target="#edit_modal{{ announcement.id }}">Edit</a>
+                            <form action="{{ url_for('manage.delete') }}" method="POST">
+                                <input type="hidden" name="db" value="Announcement">
+                                <input type="hidden" name="id" value="{{ announcement.id }}">
+                                <!-- <a href="" type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete?')">Delete</a> -->
+                                <button type="submit" class="btn btn-danger btn-xs"
+                                    onclick="return confirm('Are you sure you want to delete?')">Delete</button>
 
-            </form>
+                            </form>
 
-        </td>
-    </tr>
+                        </td>
+                    </tr>
 
-    <div id="edit_modal{{ announcement.id }}" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Update Announcement</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ url_for('manage.update') }}" method="POST">
-    
-                        <div class="form-group">
-                            <label>Title:</label>
-                            <input type="text" class="form-control" name="title" required="1" value="{{ announcement.title }}">
+                    <div id="edit_modal{{ announcement.id }}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Update Announcement</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('manage.update') }}" method="POST">
+
+                                        <div class="form-group">
+                                            <label>Title:</label>
+                                            <input type="text" class="form-control" name="title" required="1"
+                                                value="{{ announcement.title }}">
+                                        </div>
+                                        <input type="hidden" name="id" value="{{ announcement.id }}">
+                                        <input type="hidden" name='db' value='Announcement'>
+                                        <div class="form-group">
+                                            <label>Description:</label>
+                                            <input type="text" class="form-control" name="description" required="1"
+                                                value="{{ announcement.description }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Link:</label>
+                                            <input type="text" class="form-control" name="link"
+                                                value="{{ announcement.link }}">
+                                        </div>
+
+                                        <button class="btn btn-primary" type="submit">Update Announcement</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <input type="hidden" name="id" value="{{ announcement.id }}">
-                        <input type="hidden" name='db' value='Announcement'>
-                        <div class="form-group">
-                            <label>Description:</label>
-                            <input type="text" class="form-control" name="description" required="1" value="{{ announcement.description }}">
-                        </div>
-    
-                        <div class="form-group">
-                            <label>Link:</label>
-                            <input type="text" class="form-control" name="link" value="{{ announcement.link }}">
-                        </div>
-    
-                        <button class="btn btn-primary" type="submit">Update Announcement</button>
-                    </form>
-                </div>
+                    </div>
+
+                    {% endfor %}
+                </table>
             </div>
         </div>
     </div>
-
-    {% endfor %}
-</table>
-</div>
-</div>
-</div>
 </div>
 
 <div id="announce_modal" class="modal fade" role="dialog">
@@ -127,6 +133,4 @@ Announcement
     </div>
 </div>
 
-
-<!-- https://youtu.be/XTpLbBJTOM4?t=1963 -->
 {% endblock body %}
