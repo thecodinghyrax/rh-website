@@ -9,43 +9,46 @@ Admin Home
 
 
 {% block body %}
-
-<div class="jumbotron p-3">
-    <div class="well text-container">
-        <h1>Guild Control Center</h1>
-        <img id="rh-icon" class="float-right" src="{{ url_for('static', filename='main/img/RH_icon.png') }}" alt="Renewed Hope Icon">
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+    <div class="jumbotron p-3">
+        <div class="well text-container">
+            <h1>Guild Control Center</h1>
+            <img id="rh-icon" class="float-right" src="{{ url_for('static', filename='main/img/RH_icon.png') }}" alt="Renewed Hope Icon">
+        </div>
     </div>
+    
+    {% if applicants > 0 %}
+    <h1>There Are Applicants To Approve!</h1>
+    <div class="applicants">You have {{ applicants }} applicant waiting for review!</div>
+    <br>
+    {% endif %}
+    
+    
+    <h2>Current Announcements</h2>
+    {% for announcement in announcements %}
+    <div id="announcment{{announcement.id}}" class="announc-item tab">{{announcement.title}}</div>
+    {% endfor %}
+    <br>
+    
+    <h2>Upcoming Events</h2>
+    {% for event in events %}
+    <div id="event{{event.id}}" class="event-item tab">{{ event.title}} : {{event.date.strftime("%m-%d")}}</div>
+    {% endfor %}
+    <br>
+    
+    <h2>Recently Posted Devotionals</h2>
+    {% for devotional in devotionals %}
+    <div id="devotional{{devotional.id}}" class="devo-item tab">{{devotional.title}} - Lead: {{devotional.lead}}</div>
+    {% endfor %}
+    
+    
+    
+    
+    
 </div>
-
-{% if applicants > 0 %}
-<h1>There Are Applicants To Approve!</h1>
-<div class="applicants">You have {{ applicants }} applicant waiting for review!</div>
-<br>
-{% endif %}
-
-
-<h2>Current Announcements</h2>
-{% for announcement in announcements %}
-<div id="announcment{{announcement.id}}" class="announc-item">{{announcement.title}}</div>
-{% endfor %}
-<br>
-
-<h2>Upcoming Events</h2>
-{% for event in events %}
-<div id="event{{event.id}}" class="event-item">{{ event.title}} : {{event.date.strftime("%m-%d")}}</div>
-{% endfor %}
-<br>
-
-<h2>Recently Posted Devotionals</h2>
-{% for devotional in devotionals %}
-<div id="devotional{{devotional.id}}" class="devo-item">{{devotional.title}} - Lead: {{devotional.lead}}</div>
-{% endfor %}
-
-
-
-
-
-
-
-
-{% endblock body %}
+    
+</div>
+</div>
+    {% endblock body %}

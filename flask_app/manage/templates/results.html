@@ -13,6 +13,11 @@ Search Results
     <div class="row">
         <div class="col md-12">
             <div class="jumbotron p-3">
+                
+                {% if data == 0 %}
+                <h3>We didn't find any results for the search. Please go back and try again with a different search criteria.</h3>
+                <a class="btn btn-primary" type="button" href="{{ url_for('manage.manage_events') }}">Back</a>
+                {% else %}
 
                 <h2>Search Results for: {{ search }} 
                     <form action="/delete" method="POST">
@@ -37,7 +42,6 @@ Search Results
                 {% endif %}
                 {% endwith %}
 
-
                 <table class="table table-hover table-dark">
 
                     <tr>
@@ -46,6 +50,8 @@ Search Results
                         <th>Time</th>
                         <th>Description</th>
                     </tr>
+                    <h1>There were {{ data }} results</h1>
+
                     {% for result in results %}
                     <tr>
                         <td>{{ result.title }}</td>
@@ -54,18 +60,19 @@ Search Results
                         <td>{{ result.description }}</td>
                         <td>
                             <a href="" class="btn btn-warning btn-xs cell-5-vw" data-toggle="modal"
-                                data-target="#edit_modal{{ result.id }}">Edit</a>
+                            data-target="#edit_modal{{ result.id }}">Edit</a>
                             <form action="{{ url_for('manage.delete') }}" method="POST">
                                 <input type="hidden" name="db" value="Calendar">
                                 <input type="hidden" name="id" value="{{ result.id }}">
+                                <input type="hidden" name="search" value="False">
                                 <button type="submit" class="btn btn-danger btn-xs cell-5-vw"
-                                    onclick="return confirm('Are you sure you want to delete?')">Delete</button>
-
+                                onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                                
                             </form>
-
+                            
                         </td>
                     </tr>
-
+                    
                     <div id="edit_modal{{ result.id }}" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -74,42 +81,42 @@ Search Results
                                 </div>
                                 <div class="modal-body">
                                     <form action="{{ url_for('manage.update') }}" method="POST">
-
+                                        
                                         <div class="form-group">
                                             <label>Title:</label>
                                             <input type="text" class="form-control" name="title" required="1"
-                                                value="{{ result.title }}">
+                                            value="{{ result.title }}">
                                         </div>
-
+                                        
                                         <div class="form-group">
                                             <label>Date:</label>
                                             <input type="date" class="form-control" name="date" required="1"
-                                                value="{{ result.date.strftime('%Y-%m-%d') }}">
+                                            value="{{ result.date.strftime('%Y-%m-%d') }}">
                                         </div>
-
+                                        
                                         <input type="hidden" name="id" value="{{ result.id }}">
-
+                                        
                                         <input type="hidden" name='db' value='Calendar'>
-
+                                        
                                         <div class="form-group">
                                             <label>Time:</label>
                                             <input type="text" class="form-control" name="time"
-                                                value="{{ result.time }}">
+                                            value="{{ result.time }}">
                                         </div>
 
                                         <div class="form-group">
                                             <label>Description:</label>
                                             <input type="text" class="form-control" name="description" required="1"
-                                                value="{{ result.description }}">
+                                            value="{{ result.description }}">
                                         </div>
-
+                                        
                                         <button class="btn btn-primary" type="submit">Update Result</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    
                     {% endfor %}
                 </table>
             </div>
@@ -117,42 +124,6 @@ Search Results
     </div>
 </div>
 
-<div id="result_modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">DONT USE!!!</h4>
-            </div>
-            <div class="modal-body">
-                <form action="{{ url_for('manage.insert') }}" method="POST">
-                    <input type="hidden" name='db' value='Calendar'>
-                    <div class="form-group">
-                        <label>Title:</label>
-                        <input type="text" class="form-control" name="title" required="1">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Date:</label>
-                        <input type="date" class="form-control" name="date" required="1">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Time:</label>
-                        <input type="text" class="form-control" name="time" required="1">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Description:</label>
-                        <input type="text" class="form-control" name="description" required="1">
-                    </div>
-
-
-
-                    <button class="btn btn-primary" type="submit">Add DONT USE!</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+{% endif %}
 
 {% endblock body %}

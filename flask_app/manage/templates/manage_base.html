@@ -12,28 +12,32 @@
 </head>
 
 <body>
-    <div class="grid-container">
+    <div class="grid-container container-fluid">
         <div class="side-nav">
             <ul class="nav nav-pills flex-column">
 
                 <li class="nav-item">
-                    <a href="/admin" class="nav-link active">Admin Home</a>
+                    <a href="/admin" class="nav-link btn btn-dark brn-sm">Admin Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="/announcements" class="nav-link">Announcments</a>
+                    <a href="/announcements" class="nav-link btn btn-dark brn-sm">Announcments</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="/events" class="nav-link">Events</a>
+                    <a href="/events" class="nav-link btn btn-dark brn-sm">Events</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="/devotionals" class="nav-link">Devotionals</a>
+                    <a href="/devotionals" class="nav-link btn btn-dark brn-sm">Devotionals</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Applications</a>
+                    <a href="#" class="nav-link btn btn-dark brn-sm disabled" aria-disabled="true">(Applications coming soon)</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ url_for('main.logout') }}" class="nav-link btn btn-sm btn-danger">Logout</a>
                 </li>
 
             </ul>

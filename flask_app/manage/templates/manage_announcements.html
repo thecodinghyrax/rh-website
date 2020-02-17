@@ -50,6 +50,7 @@ Announcements
                             <form action="{{ url_for('manage.delete') }}" method="POST">
                                 <input type="hidden" name="db" value="Announcement">
                                 <input type="hidden" name="id" value="{{ announcement.id }}">
+                                <input type="hidden" name="search" value="False">
                                 <button type="submit" class="btn btn-danger btn-xs cell-5-vw"
                                     onclick="return confirm('Are you sure you want to delete?')">Delete</button>
 

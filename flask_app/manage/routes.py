@@ -8,7 +8,7 @@ from sqlalchemy import and_, or_
 manage = Blueprint('manage', __name__,
                     template_folder='templates') 
 
-db = {'Calendar': Calendar, 'Devotional': Devotional, 'Announcment': Announcement}
+db_name_to_object = {'Calendar': Calendar, 'Devotional': Devotional, 'Announcment': Announcement}
 
 @manage.route('/admin', methods=['POST', 'GET'])
 def admin():
@@ -35,7 +35,7 @@ def manage_announcements():
 
 
 @manage.route('/events')
-def manage_evnets():
+def manage_events():
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
     all_events = Calendar.query.order_by(Calendar.date.desc()).all()
@@ -52,14 +52,14 @@ def manage_devotionals():
 
 @manage.route('/search', methods=['POST'])
 def search():
-    global db
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
 
     search = request.form['search']
-    database = db[request.form['db']]
-    results = database.query.filter(or_(database.title.like('%' + search + '%'), Calendar.description.like('%' + search + '%')))
-    return render_template('results.html', results=results, search=request.form['search'], db=request.form['db'])
+    database = db_name_to_object[request.form['db']]
+    results = database.query.filter(or_(database.title.like('%' + search + '%'), database.description.like('%' + search + '%')))
+    data = results.count()
+    return render_template('results.html', results=results, search=request.form['search'], db=request.form['db'], data=data )
  
 
 @manage.route('/update', methods=['POST'])
@@ -82,7 +82,7 @@ def update():
     elif request.form['db'] == 'Calendar':
         event_to_update = Calendar.query.get_or_404(request.form['id'])
         event_to_update.title = request.form['title']
-        date = datetime.strptime(request.form['date'], '%y-%m-%d')
+        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
         event_to_update.date = date
         event_to_update.time = request.form['time']
         event_to_update.description = request.form['description']
@@ -97,7 +97,7 @@ def update():
     elif request.form['db'] == 'Devotional':
         devotional_to_update = Devotional.query.get_or_404(request.form['id'])
         devotional_to_update.title = request.form['title']
-        date = datetime.strptime(request.form['date'], '%y-%m-%d')
+        date = request.form['date']
         devotional_to_update.date = date
         devotional_to_update.content = request.form['content']
         devotional_to_update.download_link = request.form['download_link']
@@ -131,19 +131,37 @@ def insert():
             return redirect('/announcements')
         except:
             return "There was an issue updating this announcement :("
+
     elif request.form['db'] == 'Calendar':
         title = request.form['title']
-        date = request.form['date']
+        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
         time = request.form['time']
         description = request.form['description']
-        new_event = Calendar(title=title, date=date, time=time, description=description)
-        try:
-            db.session.add(new_event)
-            db.session.commit()
-            flash("The Event was successfully added!")
+        if int(request.form['n-times']) == 0:
+            new_event = Calendar(title=title, date=date, time=time, description=description)
+            try:
+                db.session.add(new_event)
+                db.session.commit()
+                flash("The Event was successfully added!")
+                return redirect('/events')
+            except:
+                return "There was an issue adding this event. Please go back!"
+        else:
+            repeat_num_days = int(request.form['n-days'])
+            repeat_num_times = int(request.form['n-times'])
+            repeat_delta = timedelta(days=repeat_num_days)
+            for _ in range(repeat_num_times):
+                new_event = Calendar(title=title, date=date, time=time, description=description)
+                try:
+                    db.session.add(new_event)
+                    db.session.commit()
+                except:
+                    return "There was a problem adding this to the database :("
+                date += repeat_delta
+            flash("All events were successfully added!")
             return redirect('/events')
-        except:
-            return "There was an issue adding this event. Please go back!"
+
+
     elif request.form['db'] == 'Devotional':
         date = request.form['date']
         split_date = date.split('-')
@@ -166,17 +184,20 @@ def delete():
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
 
-    # if request.form['search']:
-    #     items_to_delete = request.form['search']
-    #     database = db[request.form['db']]
-    #     results = database.query.filter(or_(database.title.like('%' + items_to_delete + '%'), Calendar.description.like('%' + items_to_delete + '%')))
-    #     try:
-    #         db.session.delete(results)
-    #         db.session.commit()
-    #         flash("All items were deleted successfully!")
-    #         return redirect('/events')
-    #     except:
-    #         return "There was a problem deleting these items. Please go back!"
+    if request.form['search'] != "False":
+        items_to_delete = request.form['search']
+        database = db_name_to_object[request.form['db']]
+        results = database.query.filter(or_(database.title.like('%' + items_to_delete + '%'), database.description.like('%' + items_to_delete + '%')))
+        for result in results:
+            item_to_delete = database.query.get_or_404(result.id)
+            try:
+                db.session.delete(item_to_delete)
+                db.session.commit()
+            except:
+                return "There was an issue deleting this item :("
+        flash("All search results were successfully deleted!")
+        return redirect('/events')
+    
 
     # refactor this like the results page
     if request.form['db'] == 'Announcement':
@@ -341,7 +362,6 @@ def delete():
 # @manage.route('/add_event', methods=['POST', 'GET'])
 # def add_event():
 #     if request.method == 'POST':
-#         print(request.get_data())
 #         title = request.form['title']
 #         time = request.form['time']
 #         form_date = request.form['date']

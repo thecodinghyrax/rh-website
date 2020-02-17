@@ -15,14 +15,24 @@ body {
     grid-column: 0 / 2;
     position: fixed;
     }
-    
+
+.nav-item {
+    margin: 1.5em 0;
+}
 .side-body {
      grid-column: 2 / -1;
      font-size: small;
+    
     }
 
 .jumbotron {
     background-color: rgb(39, 39, 39);
+    margin: 0;
+
+}
+
+.tab {
+    margin-left: 2em;
 }
 
 #rh-icon {
@@ -58,3 +68,6 @@ h2 {
 .cell-10-vw {
     width: 10vw;
 }
+ .color-gray {
+     color: gray;
+ }
