@@ -1,0 +1,120 @@
+{% extends 'admin-nav.html' %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:image" content="{{ url_for('static', filename='manage/img/RH_icon.png') }}" /> 
+    <meta name=”description” content="This is the admin panel.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='manage/css/admin.css') }}">
+    <title>Results Page</title>
+{% endblock %}
+
+
+{% block body %}
+       {% if devotionals %}
+        <table class="d-table">
+
+            <div class="search-box">
+
+                <div>
+                    <h1>Devotional Search Results</h1>
+                </div>
+
+                <div class="devo-search">
+                    <form action="/results/">
+                        <button class="search" type="submit" value="Search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    <input class="search" type="text" name="devo" placeholder="Search Devotionals">
+                </form>
+                </div>
+
+            </div>
+
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Lead</th>
+                    <th>Date</th>
+                    <th>Discription</th>
+                    <th>Link</th>
+                    <th>Updated</th>
+                    <th>Action</th>
+                </tr>
+                {% for devotional in devotionals %}
+            
+                <tr>
+                    <td>{{ devotional.title }}</td>
+                    <td>{{ devotional.lead }}</td>
+                    <td>{{ devotional.date }}</td>
+                    <td>{{ devotional.content }}</td>
+                    <td>{{ devotional.download_link }}</td>
+                    <td>{{ devotional.date_updated }}</td>
+                    <td>
+                        <a id="update" href="/devotional_update/{{ devotional.id }}">Update</a>
+                        <br>
+                        <a id="delete" href="/confirm?id={{ devotional.id }}&confirm_type=Devotional">Delete</a>
+                       
+                        
+                    </td>
+                </tr>
+                
+                {% endfor %}
+            </thead>
+        </table>
+        
+        
+        <br>
+        <div>
+                <a class="all-link" href="{{ url_for('manage.add_devotional') }}">All Devotionals</a>
+            </div>
+            {% endif %}
+
+            <br>
+            <br>
+            
+            {% if events %}
+            <hr>
+        <table class="e-table">
+                <div class="search-box">
+                        <div><h1>Scheduled Event Search Results</h1></div>
+                        <div class="btn"><a id="delete-all" href="/confirm?delete={{ search }}">Delete All Results!</a></div>
+                        <div class="event-search">
+                            <form action="/results/">
+                                <button class="search" type="submit" value="Search">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            <input class="search" type="text" name="event" placeholder="Search Again">
+                        </form>
+                        </div>
+                    </div>
+                
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Discription</th>
+                    </tr>
+                    {% for event in events %}
+                
+                    <tr>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.date.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ event.time }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>
+                            <a id="update" href="/event_update/{{ event.id }}">Update</a>
+                            <br>
+                            <a id="delete" href="/confirm?id={{ event.id }}&confirm_type=Event">Delete</a>
+                           
+                           
+                        </td>
+                    </tr>
+                    
+                    {% endfor %}
+                </thead>
+            </table>
+            {% endif %}
+{% endblock %}

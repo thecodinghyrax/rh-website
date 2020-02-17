@@ -1,0 +1,73 @@
+body {
+    background-color: black;
+}
+
+.grid-container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 100vh;
+    color: white;
+
+}
+
+.side-nav {
+    grid-column: 0 / 2;
+    position: fixed;
+    }
+
+.nav-item {
+    margin: 1.5em 0;
+}
+.side-body {
+     grid-column: 2 / -1;
+     font-size: small;
+    
+    }
+
+.jumbotron {
+    background-color: rgb(39, 39, 39);
+    margin: 0;
+
+}
+
+.tab {
+    margin-left: 2em;
+}
+
+#rh-icon {
+  width: 4%;
+  height: auto;
+  margin-top: -3.9em;
+  padding: 0;
+}
+
+
+tr {
+    color: white;
+}
+
+.devo_link {
+    word-break:break-word;
+    font-size: xx-small;
+}
+
+h2 {
+    color: royalblue;
+}
+
+.modal-content {
+    background-color: black;
+    border: 1px solid white;
+}
+
+.cell-5-vw {
+    width: 5vw;
+}
+
+.cell-10-vw {
+    width: 10vw;
+}
+ .color-gray {
+     color: gray;
+ }
