@@ -19,7 +19,7 @@ def static_from_root():
 def index():
     devotional = Devotional.query.order_by(Devotional.date.desc()).first()
     news = News.query.order_by(News.id.asc()).all()
-    announcements = Announcement.query.order_by(Announcement.id.asc()).all()
+    announcements = Announcement.query.order_by(Announcement.id.desc()).all()
     return render_template('index.html', devotional=devotional, news=news, announcements=announcements)
 
 @main.route('/sitemap')
