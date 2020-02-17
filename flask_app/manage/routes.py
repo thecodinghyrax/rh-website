@@ -8,6 +8,7 @@ from sqlalchemy import and_, or_
 manage = Blueprint('manage', __name__,
                     template_folder='templates') 
 
+db = {'Calendar': Calendar, 'Devotional': Devotional, 'Announcment': Announcement}
 
 @manage.route('/admin', methods=['POST', 'GET'])
 def admin():
@@ -49,11 +50,23 @@ def manage_devotionals():
     return render_template('manage_devotionals.html', devotionals=all_devotionals)
 
 
+@manage.route('/search', methods=['POST'])
+def search():
+    global db
+    if not current_user.is_authenticated:
+        return redirect(url_for('main.login'))
+
+    search = request.form['search']
+    database = db[request.form['db']]
+    results = database.query.filter(or_(database.title.like('%' + search + '%'), Calendar.description.like('%' + search + '%')))
+    return render_template('results.html', results=results, search=request.form['search'], db=request.form['db'])
+ 
+
 @manage.route('/update', methods=['POST'])
 def update():
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
-
+    
     if request.form['db'] == 'Announcement':
         announcement_to_update = Announcement.query.get_or_404(request.form['id'])
         announcement_to_update.title = request.form['title']
@@ -69,7 +82,7 @@ def update():
     elif request.form['db'] == 'Calendar':
         event_to_update = Calendar.query.get_or_404(request.form['id'])
         event_to_update.title = request.form['title']
-        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+        date = datetime.strptime(request.form['date'], '%y-%m-%d')
         event_to_update.date = date
         event_to_update.time = request.form['time']
         event_to_update.description = request.form['description']
@@ -84,7 +97,7 @@ def update():
     elif request.form['db'] == 'Devotional':
         devotional_to_update = Devotional.query.get_or_404(request.form['id'])
         devotional_to_update.title = request.form['title']
-        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+        date = datetime.strptime(request.form['date'], '%y-%m-%d')
         devotional_to_update.date = date
         devotional_to_update.content = request.form['content']
         devotional_to_update.download_link = request.form['download_link']
@@ -105,7 +118,7 @@ def update():
 def insert():
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
-
+    # Refactor this to use the db
     if request.form['db'] == 'Announcement':
         title = request.form['title']
         description = request.form['description']
@@ -120,7 +133,7 @@ def insert():
             return "There was an issue updating this announcement :("
     elif request.form['db'] == 'Calendar':
         title = request.form['title']
-        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+        date = request.form['date']
         time = request.form['time']
         description = request.form['description']
         new_event = Calendar(title=title, date=date, time=time, description=description)
@@ -153,6 +166,19 @@ def delete():
     if not current_user.is_authenticated:
         return redirect(url_for('main.login'))
 
+    # if request.form['search']:
+    #     items_to_delete = request.form['search']
+    #     database = db[request.form['db']]
+    #     results = database.query.filter(or_(database.title.like('%' + items_to_delete + '%'), Calendar.description.like('%' + items_to_delete + '%')))
+    #     try:
+    #         db.session.delete(results)
+    #         db.session.commit()
+    #         flash("All items were deleted successfully!")
+    #         return redirect('/events')
+    #     except:
+    #         return "There was a problem deleting these items. Please go back!"
+
+    # refactor this like the results page
     if request.form['db'] == 'Announcement':
         announcement_to_delete = Announcement.query.get_or_404(request.form['id'])
         try:

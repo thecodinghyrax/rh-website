@@ -32,16 +32,15 @@ Devotionals
                 {% endif %}
                 {% endwith %}
 
-
                 <table class="table table-hover table-dark">
 
                     <tr>
-                        <th>Title</th>
-                        <th>Date</th>
-                        <th>Content</th>
-                        <th>Link</th>
-                        <th>Updated</th>
-                        <th>Lead</th>
+                        <th id="title-cell">Title</th>
+                        <th id="date-cell">Date</th>
+                        <th id="content-cell">Content</th>
+                        <th id="link-cell">Link</th>
+                        <th id="updated-cell">Updated</th>
+                        <th id="lead-cell">Lead</th>
                     </tr>
                     {% for devotional in devotionals %}
                     <tr>
@@ -57,12 +56,12 @@ Devotionals
                         {% endif %}
                         <td>{{ devotional.lead }}</td>
                         <td>
-                            <a href="" class="btn btn-warning btn-xs" data-toggle="modal"
+                            <a href="" class="btn btn-warning btn-xs cell-5-vw" data-toggle="modal"
                                 data-target="#edit_modal{{ devotional.id }}">Edit</a>
                             <form action="{{ url_for('manage.delete') }}" method="POST">
                                 <input type="hidden" name="db" value="Devotional">
                                 <input type="hidden" name="id" value="{{ devotional.id }}">
-                                <button type="submit" class="btn btn-danger btn-xs"
+                                <button type="submit" class="btn btn-danger btn-xs cell-5-vw"
                                     onclick="return confirm('Are you sure you want to delete?')">Delete</button>
 
                             </form>

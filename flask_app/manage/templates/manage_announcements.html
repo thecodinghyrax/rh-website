@@ -16,7 +16,6 @@ Announcements
 
                 <h2>Announcements <button type='button' class="btn btn-success float-right" data-toggle='modal'
                         data-target="#announce_modal">Add New Announcement</button></h2>
-                <!-- <img id="rh-icon" src="{{ url_for('static', filename='main/img/RH_icon.png') }}" alt="Renewed Hope Icon"> -->
 
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -46,13 +45,12 @@ Announcements
                         <td>{{ announcement.description }}</td>
                         <td>{{ announcement.link }}</td>
                         <td>
-                            <a href="" class="btn btn-warning btn-xs" data-toggle="modal"
+                            <a href="" class="btn btn-warning btn-xs cell-5-vw" data-toggle="modal"
                                 data-target="#edit_modal{{ announcement.id }}">Edit</a>
                             <form action="{{ url_for('manage.delete') }}" method="POST">
                                 <input type="hidden" name="db" value="Announcement">
                                 <input type="hidden" name="id" value="{{ announcement.id }}">
-                                <!-- <a href="" type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete?')">Delete</a> -->
-                                <button type="submit" class="btn btn-danger btn-xs"
+                                <button type="submit" class="btn btn-danger btn-xs cell-5-vw"
                                     onclick="return confirm('Are you sure you want to delete?')">Delete</button>
 
                             </form>

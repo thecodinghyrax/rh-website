@@ -17,7 +17,8 @@ body {
     }
     
 .side-body {
-     grid-column: 3 / -1;
+     grid-column: 2 / -1;
+     font-size: small;
     }
 
 .jumbotron {
@@ -48,4 +49,12 @@ h2 {
 .modal-content {
     background-color: black;
     border: 1px solid white;
+}
+
+.cell-5-vw {
+    width: 5vw;
+}
+
+.cell-10-vw {
+    width: 10vw;
 }
