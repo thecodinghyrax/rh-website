@@ -8,7 +8,19 @@ from sqlalchemy import and_, or_
 manage = Blueprint('manage', __name__,
                     template_folder='templates') 
 
-db_name_to_object = {'Calendar': Calendar, 'Devotional': Devotional, 'Announcment': Announcement}
+db_name_to_object = {
+    'Calendar': Calendar, 
+    'Devotional': Devotional, 
+    'Announcment': Announcement
+    }
+
+name_to_symbol ={
+    'Mythic+': '/static/main/img/m-plus-icon.png', 
+    'Devotionals':'/static/main/img/devo-icon.png',
+    'Progression Raid':'/static/main/img/p-raid-icon.png', 
+    'Casual Raid':'/static/main/img/c-raid-icon.png',
+    'Other': '/static/main/img/other-icon.png' 
+    }
 
 @manage.route('/admin', methods=['POST', 'GET'])
 def admin():
@@ -86,6 +98,7 @@ def update():
         event_to_update.date = date
         event_to_update.time = request.form['time']
         event_to_update.description = request.form['description']
+        event_to_update.symbol = name_to_symbol[request.form['symbol']]
 
         try:
             db.session.commit()
@@ -137,8 +150,9 @@ def insert():
         date = datetime.strptime(request.form['date'], '%Y-%m-%d')
         time = request.form['time']
         description = request.form['description']
+        symbol = name_to_symbol[request.form['symbol']]
         if int(request.form['n-times']) == 0:
-            new_event = Calendar(title=title, date=date, time=time, description=description)
+            new_event = Calendar(title=title, date=date, time=time, description=description, symbol=symbol)
             try:
                 db.session.add(new_event)
                 db.session.commit()
@@ -151,7 +165,7 @@ def insert():
             repeat_num_times = int(request.form['n-times'])
             repeat_delta = timedelta(days=repeat_num_days)
             for _ in range(repeat_num_times):
-                new_event = Calendar(title=title, date=date, time=time, description=description)
+                new_event = Calendar(title=title, date=date, time=time, description=description, symbol=symbol)
                 try:
                     db.session.add(new_event)
                     db.session.commit()
