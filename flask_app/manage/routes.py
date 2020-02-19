@@ -99,6 +99,7 @@ def update():
         event_to_update.time = request.form['time']
         event_to_update.description = request.form['description']
         event_to_update.symbol = name_to_symbol[request.form['symbol']]
+        event_to_update.lead = request.form['lead']
 
         try:
             db.session.commit()
@@ -151,8 +152,9 @@ def insert():
         time = request.form['time']
         description = request.form['description']
         symbol = name_to_symbol[request.form['symbol']]
+        lead = request.form['lead']
         if int(request.form['n-times']) == 0:
-            new_event = Calendar(title=title, date=date, time=time, description=description, symbol=symbol)
+            new_event = Calendar(title=title, date=date, time=time, description=description, symbol=symbol, lead=lead)
             try:
                 db.session.add(new_event)
                 db.session.commit()

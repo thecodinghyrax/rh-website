@@ -51,6 +51,7 @@ Scheduled Events
                         <th class="cell-5-vw">Date</th>
                         <th>Time</th>
                         <th>Description</th>
+                        <th>Lead</th>
                         <th>Symbol</th>
                     </tr>
                     {% for event in events %}
@@ -59,6 +60,7 @@ Scheduled Events
                         <td>{{ event.date.strftime('%m-%d-%y') }}</td>
                         <td>{{ event.time }}</td>
                         <td>{{ event.description }}</td>
+                        <td>{{ event.lead }}</td>
                         <td><img class="icon-small" src="{{ event.symbol }}" alt="icon"></td>
                         
                         <td>
@@ -67,6 +69,7 @@ Scheduled Events
                             <form action="{{ url_for('manage.delete') }}" method="POST">
                                 <input type="hidden" name="db" value="Calendar">
                                 <input type="hidden" name="id" value="{{ event.id }}">
+                                <input type="hidden" name="search" value="False">
                                 <!-- <a href="" type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete?')">Delete</a> -->
                                 <button type="submit" class="btn btn-danger btn-xs cell-5-vw"
                                     onclick="return confirm('Are you sure you want to delete?')">Delete</button>
@@ -111,6 +114,11 @@ Scheduled Events
                                             <label>Description:</label>
                                             <input type="text" class="form-control" name="description" required="1"
                                                 value="{{ event.description }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Event Lead:</label>
+                                            <input type="text" class="form-control" name="lead" value="{{ event.lead }}">
                                         </div>
 
                                         <div class="form-group">
@@ -167,6 +175,11 @@ Scheduled Events
                     <div class="form-group">
                         <label>Description:</label>
                         <input type="text" class="form-control" name="description" required="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Event Lead:</label>
+                        <input type="text" class="form-control" name="lead">
                     </div>
 
                     <div class="form-group">
