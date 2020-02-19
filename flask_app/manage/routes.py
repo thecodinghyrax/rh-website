@@ -29,7 +29,7 @@ def admin():
     else:
         if not current_user.is_authenticated:
             return redirect(url_for('main.login'))
-        today = date.today()
+        today = datetime.now() - timedelta(hours=6)
         devotionals = Devotional.query.order_by(Devotional.date.desc()).limit(3)
         events = Calendar.query.filter(Calendar.date >= today).order_by(Calendar.date.asc()).limit(7)
         announcements = Announcement.query.all()
