@@ -20,7 +20,7 @@ body {
     margin: 1.5em 0;
 }
 .side-body {
-     grid-column: 2 / -1;
+     grid-column: 3 / -1;
      font-size: small;
     
     }
@@ -71,3 +71,40 @@ h2 {
  .color-gray {
      color: gray;
  }
+
+ .font-red {
+    color: red;
+}
+
+.font-silver {
+    color: silver;
+}
+
+.font-blue {
+    color: blue;
+}
+
+.font-green {
+    color: green;
+}
+
+.font-purple {
+    color: purple;
+}
+
+.font-gold {
+    color: gold;
+}
+
+#symbols {
+    font-family: LifeCraft_Font;
+}
+
+.font-red, .font-blue, .font-gold, .font-green, .font-purple {
+    font-family: LifeCraft_Font
+}
+
+.icon-small {
+    width: 3em;
+    height: auto;
+}

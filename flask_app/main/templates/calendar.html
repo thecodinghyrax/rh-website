@@ -10,9 +10,9 @@
 
 <div class="calendar-container" style="background-color: black">
     <div class="month-bar">
-        <a href="./guild_calendar?month={{ month - 1 }}&year={{ year }}" class="back"><i class="fas fa-less-than"></i></a>
-        <h1>{{month_name}} - {{year}}</h1>
-        <a href="./guild_calendar?month={{ month + 1 }}&year={{ year }}" class="next"><i class="fas fa-greater-than"></i></a>
+        <a href="./guild_calendar?month={{ month - 1 }}&year={{ year }}" class="back">{</a>
+        <div class="title-heading">{{month_name}} <span class="font-gold">]</span>&Tab;{{year}}</div>
+        <a href="./guild_calendar?month={{ month + 1 }}&year={{ year }}" class="next">}</a>
     </div>
 
     <div class="calendar-grid">
@@ -27,52 +27,73 @@
             <div class="day-bar">Saturday</div>
         </div>
 
-        {% for week in cal %}
-            <div class="week">
+{% for week in cal %}
+    <div class="week">
 
-                {% for day in week %}
+            {% for day in week %}
 
-                    
+            <!-- creating the opening of the day squares for this week-->
+            {% if day == 0 %}
+                <div class="day empty-day">
+            {% else %}
+                <!-- Marking the current day -->
+                {%if month == current_month and day == current_day %}
+                    <div style="background-color:rgb(65, 64, 71)" class="day day-lg">{{day}}&#32;Today
+                {% else %}
+                    <div class="day day-lg">{{day}}
+                {% endif %}
+            {% endif %}
 
-                    {% if day == 0 %}
-
-                        <div class="day empty-day">
-        
-                    {% else %}
-
-                        {%if month == current_month and day == current_day %}
-                            <div style="background-color:rgb(65, 64, 71)" class="day day-{{day}} day-lg">{{day}}&#32;Today
-                        {% else %}
-                            <div class="day day-{{day}} day-lg">{{day}}
-                        {% endif %}
-                    
-                    {% endif %}
-
+                    <!-- For all events in the currently displaying month -->
                     {% for event in events %}
-                    
-                        
 
                         {% if day == event.date.day %}
-                            <div class="event">
-                                <div class="title">{{ event.title }}</div>
-                                <div class="time">{{ event.time }}</div>
-                                <br>
-                                <div class="description">{{ event.description }}</div>
+                        <a href="" class="day-modal modal-symbol" data-toggle="modal" data-target="#day_modal{{ event.id }}">
+                            <div><img class="icon-small" src="{{ event.symbol }}" alt="icon"></div>
+                        </a>
+                        
+                        <div id="day_modal{{ event.id }}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Today's Events</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="day-title">{{ event.title }}</div>
+                                        <div class="day-time">{{ event.time }}</div>
+                                        <div class="day-description">{{ event.description }}</div>
+                                        {% if event.lead %}
+                                        <div class="day-lead">Lead: {{ event.lead }}</div>
+                                        {% endif %}
+                                        <div class="day-symbol"><img src="{{ event.symbol }}" alt="icon"></div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
                         {% endif %}
+                        
+                    
+                    {% endfor %}
+                    <!-- For event in events -->
+
+                    </div><!-- This closed the day div -->
 
                     {% endfor %}
-
-                        </div>
-                    
-                {% endfor %}
-
-            </div>
-        {% endfor %}
+                    <!-- For day in week -->
 
     </div>
+{% endfor %}
+<!-- For week in cal  -->
 
-</div>
+
+        <div class="legend">
+            <div class="legend-list">Myhic+ <b class="font-blue symb-lg">M</b></div>
+            <div class="legend-list">Devotionals <b class="font-gold symb-lg">&#0096;</b></div>
+            <div class="legend-list">Progression Raid <b class="font-red symb-lg">&#0174;</b></div>
+            <div class="legend-list">Casual Raid <b class="font-green symb-lg">&#0169;</b></div>
+            <div class="legend-list">Other <b class="font-purple symb-lg">&#0063;</b></div>
+        </div>
 
 
-    {% endblock %}
+
+        {% endblock %}

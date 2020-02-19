@@ -19,7 +19,7 @@ def static_from_root():
 def index():
     devotional = Devotional.query.order_by(Devotional.date.desc()).first()
     news = News.query.order_by(News.id.asc()).all()
-    announcements = Announcement.query.order_by(Announcement.id.asc()).all()
+    announcements = Announcement.query.order_by(Announcement.id.desc()).all()
     return render_template('index.html', devotional=devotional, news=news, announcements=announcements)
 
 @main.route('/sitemap')
@@ -56,7 +56,7 @@ def guild_calendar():
     current_cal = cal.monthdayscalendar(year, month)
     if len(current_cal) < 6:
         extra_week = [[0,0,0,0,0,0,0]]
-        current_cal = current_cal + extra_week
+        current_cal += extra_week
 
     return render_template('calendar.html', cal=current_cal, month=month, month_name=month_name, current_month=current_month, year=year, events=events, current_day=current_day)
 

@@ -49,6 +49,8 @@ Search Results
                         <th class="cell-5-vw">Date</th>
                         <th>Time</th>
                         <th>Description</th>
+                        <th>Lead</th>
+                        <th>Symbol</th>
                     </tr>
                     <h1>There were {{ data }} results</h1>
 
@@ -58,6 +60,8 @@ Search Results
                         <td>{{ result.date.strftime('%m-%d-%y') }}</td>
                         <td>{{ result.time }}</td>
                         <td>{{ result.description }}</td>
+                        <td>{{ result.lead }}</td>
+                        <td><img class="icon-small" src="{{ result.symbol }}" alt="icon"></td>
                         <td>
                             <a href="" class="btn btn-warning btn-xs cell-5-vw" data-toggle="modal"
                             data-target="#edit_modal{{ result.id }}">Edit</a>
@@ -110,6 +114,25 @@ Search Results
                                             value="{{ result.description }}">
                                         </div>
                                         
+                                        
+                                        <div class="form-group">
+                                            <label>Event Lead:</label>
+                                            <input type="text" class="form-control" name="lead" value="{{ result.lead }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Symbol:</label>
+                                            <input list="symbols" class="form-control" name="symbol" required="1">
+                                        </div>
+
+                                        <datalist id="symbols">
+                                            <option>Mythic+</option>
+                                            <option>Devotionals</option>
+                                            <option>Progression Raid</option>
+                                            <option>Casual Raid</option>
+                                            <option>Other</option>
+                                        </datalist>
+
                                         <button class="btn btn-primary" type="submit">Update Result</button>
                                     </form>
                                 </div>

@@ -51,6 +51,8 @@ Scheduled Events
                         <th class="cell-5-vw">Date</th>
                         <th>Time</th>
                         <th>Description</th>
+                        <th>Lead</th>
+                        <th>Symbol</th>
                     </tr>
                     {% for event in events %}
                     <tr>
@@ -58,12 +60,16 @@ Scheduled Events
                         <td>{{ event.date.strftime('%m-%d-%y') }}</td>
                         <td>{{ event.time }}</td>
                         <td>{{ event.description }}</td>
+                        <td>{{ event.lead }}</td>
+                        <td><img class="icon-small" src="{{ event.symbol }}" alt="icon"></td>
+                        
                         <td>
                             <a href="" class="btn btn-warning btn-xs cell-5-vw" data-toggle="modal"
                                 data-target="#edit_modal{{ event.id }}">Edit</a>
                             <form action="{{ url_for('manage.delete') }}" method="POST">
                                 <input type="hidden" name="db" value="Calendar">
                                 <input type="hidden" name="id" value="{{ event.id }}">
+                                <input type="hidden" name="search" value="False">
                                 <!-- <a href="" type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete?')">Delete</a> -->
                                 <button type="submit" class="btn btn-danger btn-xs cell-5-vw"
                                     onclick="return confirm('Are you sure you want to delete?')">Delete</button>
@@ -110,6 +116,24 @@ Scheduled Events
                                                 value="{{ event.description }}">
                                         </div>
 
+                                        <div class="form-group">
+                                            <label>Event Lead:</label>
+                                            <input type="text" class="form-control" name="lead" value="{{ event.lead }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Symbol:</label>
+                                            <input list="symbols" class="form-control" name="symbol" required="1">
+                                        </div>
+
+                                        <datalist id="symbols">
+                                            <option>Mythic+</option>
+                                            <option>Devotionals</option>
+                                            <option>Progression Raid</option>
+                                            <option>Casual Raid</option>
+                                            <option>Other</option>
+                                        </datalist>
+
                                         <button class="btn btn-primary" type="submit">Update Event</button>
                                     </form>
                                 </div>
@@ -152,6 +176,24 @@ Scheduled Events
                         <label>Description:</label>
                         <input type="text" class="form-control" name="description" required="1">
                     </div>
+
+                    <div class="form-group">
+                        <label>Event Lead:</label>
+                        <input type="text" class="form-control" name="lead">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Symbol:</label>
+                        <input list="symbols" class="form-control" name="symbol" required="1">
+                    </div>
+
+                    <datalist id="symbols">
+                        <option>Mythic+ <span class="font-blue">M</span></option>
+                        <option>Devotionals <span class="font-gold">&#0096;</span></option>
+                        <option>Progression Raid <span class="font-red">&#0174;</span></option>
+                        <option>Casual Raid <span class="font-green">&#0169;</span></option>
+                        <option>Other <span class="font-purple">&#0063;</span></option>
+                    </datalist>
 
                     <button type="button" id="repeatButton" class="btn btn-info" onclick=showRepeatOptions()>Repeating event?</button>
 
