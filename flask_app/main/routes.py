@@ -1,11 +1,13 @@
 from flask import Blueprint, request, send_from_directory, render_template, redirect, url_for, flash
 from flask_app import app, db, bcrypt
 from flask_app.models import Devotional, News, Calendar, User, Announcement
-import os, calendar
-from datetime import date
+import os
+import calendar
+from datetime import date, datetime
 from sqlalchemy import extract
 from flask_login import current_user, login_user, logout_user
 from flask_app.main.forms import LoginForm, RegistrationForm
+import pytz
 
 main = Blueprint('main', __name__,
                 template_folder='templates')
@@ -33,7 +35,8 @@ def favicon():
 
 @main.route('/guild_calendar')
 def guild_calendar():
-    today = date.today()
+    # today = date.today()
+    today = datetime.now(pytz.timezone('US/Central'))
     year = today.year
     current_month = today.month
     month = today.month
