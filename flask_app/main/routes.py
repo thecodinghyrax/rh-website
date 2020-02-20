@@ -1,5 +1,5 @@
 from flask import Blueprint, request, send_from_directory, render_template, redirect, url_for, flash
-from flask_app import app, db, bcrypt
+from flask_app import app, db, bcrypt, ext
 from flask_app.models import Devotional, News, Calendar, User, Announcement
 import os
 import calendar
@@ -13,9 +13,9 @@ main = Blueprint('main', __name__,
                 template_folder='templates')
 
 @main.route('/robots.txt')
-@main.route('/sitemap.xml')
 def static_from_root():
     return send_from_directory(app.static_folder, request.path[1:])
+
 
 @main.route('/')
 def index():
@@ -24,9 +24,11 @@ def index():
     announcements = Announcement.query.order_by(Announcement.id.desc()).all()
     return render_template('index.html', devotional=devotional, news=news, announcements=announcements)
 
-@main.route('/sitemap')
-def sitemap():
-    return render_template('sitemap.xml')
+
+@ext.register_generator
+def index():
+    yield 'main.index', {}
+
 
 @main.route('/favicon.ico')
 def favicon():
@@ -62,9 +64,20 @@ def guild_calendar():
 
     return render_template('calendar.html', cal=current_cal, month=month, month_name=month_name, current_month=current_month, year=year, events=events, current_day=current_day)
 
+@ext.register_generator
+def guild_calendar():
+    yield 'main.guild_calendar', {}
+
+
 @main.route('/discord')
 def discord():
     return render_template('discord.html')
+
+
+@ext.register_generator
+def discord():
+    yield 'main.discord', {}
+
 
 @main.route('/devotional')
 def devotionals():
@@ -73,24 +86,21 @@ def devotionals():
 
     return render_template('devotional.html', devotionals=devotionals)
 
+
+@ext.register_generator
+def devotionals():
+    yield 'main.devotionals', {}
+
+
 @main.route('/about')
 def about():
     return render_template('about.html')
 
-# @main.route('/register', methods=['GET', 'POST'])
-# def register():
-#     if current_user.is_authenticated:
-#         return redirect(url_for('main.index'))
-#     form = RegistrationForm()
-#     if form.validate_on_submit():
-#         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-#         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-#         db.session.add(user)
-#         db.session.commit()
-#         flash(f'Your account has been created and you are now able to login', 'success')
-#         return redirect(url_for('main.login'))
 
-#     return render_template('register.html', form=form)
+@ext.register_generator
+def about():
+    yield 'main.about', {}
+
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
@@ -106,7 +116,23 @@ def login():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', form=form)
 
+
 @main.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+# @main.route('/register', methods=['GET', 'POST'])
+# def register():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('main.index'))
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+#         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+#         db.session.add(user)
+#         db.session.commit()
+#         flash(f'Your account has been created and you are now able to login', 'success')
+#         return redirect(url_for('main.login'))
+
+#     return render_template('register.html', form=form)
