@@ -1,38 +1,38 @@
 body {
-    color: #7289da;
-    text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    width: 100%;
+    color: white;
 }
 
-.container {
-    background-color: #7289da;
-    border-radius: 15px;
-    text-align: left;
-    padding: 1rem;
-    margin: 0 15rem;
-    color: black;
+.title {
+    text-align: center;
+    color: royalblue;
+    font-size: 5em;
+    text-shadow: 1px 1px 1px slategray;
 }
 
 .devo-title {
-    color: #2c2f33;
-    font-size: 1.2rem;
+    color: goldenrod;
 }
 
-.container:hover {
-    /* border: 3px solid gray; */
-    background-color:#99aab5;
+.page-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    background-image: url(../img/bible-img.jpg);
+    background-repeat: repeat-y;
+    background-position: top;
+
 }
 
-a {
-    text-decoration: none;
-    color: black;
-}
-
-a:hover {
-    /* font-size: 1.1rem; */
-    color: white;
-    text-decoration: none;
+.devo-container {
+    width: 40%;
+    height: auto;
+    background-color: #222;
+    margin: 3em auto;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px #333, -5px -5px 5px #222;
+    text-align: left;
+    padding: 1em;
+    
 }
 
 .pag {
@@ -40,7 +40,7 @@ a:hover {
     justify-content: center;
     width: 50%;
     margin: 2rem auto;
-    margin-top: 0;
+    margin-top: 1em;
     font-size: 1.9rem;
     letter-spacing: 0.2rem;
     text-align: center;
@@ -48,23 +48,36 @@ a:hover {
 
 .btn {
     color: white;
-    border: 1px solid #7289da;
+    border: 1px solid royalblue;
     padding: 0.5rem 2rem;
     border-radius: 10px;
 
 }
 
 .btn-info {
-    background-color: #7289da;
+    background-color: royalblue;
 }
 
 .btn:hover, .btn-info:hover {
-    background-color: #7289da;
-    border: 1px solid #7289da;
+    background-color: royalblue;
+    border: 1px solid royalblue;
 }
 
-@media screen and (max-width: 800px) {
-    .container {
-        margin: 0 5rem;
-    }
+
+@media screen and (max-width: 900px) {
+   .devo-container {
+       font-size: 0.9em;
+   }
+   audio {
+    width: 100%;
 }
+   
+}
+
+@media screen and (max-width: 600px) {
+    .devo-container {
+        width: 80%;
+    }
+ 
+    
+ }
