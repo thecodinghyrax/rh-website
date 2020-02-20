@@ -127,13 +127,21 @@ h1 {
     height: auto;
 }
 
+.legend {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 2em;
+    width: 80%;
+}
+
 .modal-title {
     font-size: 2em;
-    color: royalblue;
+    color: snow;
 }
 
 .day-title {
-    color: palegreen;
+    color: rgb(0, 153, 255);
 }
 
 .day-time {
@@ -144,17 +152,24 @@ h1 {
     color: skyblue;
 }
 
+.modal-title {
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
 .modal-content {
     background-color: black;
     color: white;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
-.legend {
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-evenly;
-    font-size: 2em;
-    width: 80%;
+.day-symbol>img {
+    width: 40%;
+    height: auto;
+}
+
+.bkg-raised {
+    padding: 5px;
+    margin: 10px 0;
 }
 
 @media screen and (max-width: 1500px){
