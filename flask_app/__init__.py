@@ -4,6 +4,7 @@ import os
 import os.path
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_sitemap import Sitemap
 
 
 
@@ -26,6 +27,8 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+ext = Sitemap(app=app)
+
 
 from flask_app.main.routes import main
 from flask_app.manage.routes import manage
