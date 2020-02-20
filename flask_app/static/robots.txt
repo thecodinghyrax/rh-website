@@ -10,4 +10,4 @@ Disallow: /update
 Disallow: /insert
 Disallow: /delete
 
-Sitemap: https://renewedhope.us/sitemap.xml
+Sitemap: https://www.renewedhope.us/sitemap.xml
