@@ -69,7 +69,7 @@ def discord():
 @main.route('/devotional')
 def devotionals():
     page = request.args.get('page', 1, type=int)
-    devotionals = Devotional.query.order_by(Devotional.date.desc()).paginate(page=page, per_page=20)
+    devotionals = Devotional.query.order_by(Devotional.date.desc()).paginate(page=page, per_page=5)
 
     return render_template('devotional.html', devotionals=devotionals)
 
