@@ -56,15 +56,23 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Today's Events</h4>
+                                        <h1 class="modal-title">Today's Events</h1>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="day-title">{{ event.title }}</div>
-                                        <div class="day-time">{{ event.time }}</div>
-                                        <div class="day-description">{{ event.description }}</div>
-                                        {% if event.lead %}
-                                        <div class="day-lead">Lead: {{ event.lead }}</div>
-                                        {% endif %}
+                                        <div class="bkg-raised">
+                                        <h2 class="day-title">{{ event.title }}</h2>
+                                        </div>
+                                        <div class="bkg-raised">
+                                            <h4 class="day-time">{{ event.time }}</h4>
+                                        </div>
+                                        <div class="bkg-raised">
+                                            <div class="day-description">{{ event.description }}</div>
+                                        </div>
+                                        <div class="bkg-raised">
+                                            {% if event.lead %}
+                                            <div class="day-lead">Lead: {{ event.lead }}</div>
+                                            {% endif %}
+                                        </div>
                                         <div class="day-symbol"><img src="{{ event.symbol }}" alt="icon"></div>
                                     </div>
                                 </div>
