@@ -19,6 +19,7 @@ cd rh-website
 
 echo "SECRET_KEY=Wwzan791cUhd#AXEjr9Fi^^kZ6I%vXf" >> .env
 
+!! Set the flask_app.py > app.run(debug=False) !!
 
 
 Check on the sitemap route....2 of them???
