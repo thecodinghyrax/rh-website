@@ -24,6 +24,7 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/drewxcom/rh.db'
     print("!!!!!!!! I'm using the server db path !!!!!!!!")
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SITEMAP_URL_SCHEME'] = 'https'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
