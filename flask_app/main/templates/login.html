@@ -2,7 +2,7 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='main/css/login.css') }}">
-<title>Login</title>
+<title>{{ title }}</title>
 {% endblock %}
 
 
@@ -13,7 +13,6 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb4">Log In</legend>
-                {% include "alerts.html" %}
                     <div class="form-group">
                         {{ form.email.label(class="form-control-label") }}
                         {% if form.email.errors %}
@@ -47,15 +46,16 @@
             </fieldset>
             <div class="form-group">
                  {{ form.submit(class="btn btn-outline-info") }}
+                 <small class="text-muted ml-2 form-group">
+                    <a href="{{ url_for('main.reset_request') }}">Forgot Password?</a>
+                </small>
             </div>
-            <small class="text-muted form-group">
-                <a href="#">Forgot Password?</a>
-            </small>
+
         </form>
     </div>
-    <div class="border-top form-group">
+    <div class="border-top pt-3">
         <small class="text-muted">
-            
+            Need An Account? <a class="ml-2" href="{{ url_for('main.register') }}">Sign Up</a>
         </small>
         
     </div>

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta property="og:image" content="{{ url_for('static', filename='main/img/RH_icon.png') }}" /> 
+    <meta property="og:image" content="{{ url_for('static', filename='main/img/RH_icon.png') }}" />
     <script src="https://kit.fontawesome.com/d7f10e001b.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-   
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     <style>
-         body {
+        body {
             margin: 0;
             padding: 0;
             background: black;
@@ -19,7 +20,7 @@
 
         .top-nav {
             display: grid;
-            grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
+            grid-template-columns: 14% 14% 14% 14% 14% 14% 14% ;
             grid-template-rows: 2rem 1rem;
             background: #23272a;
         }
@@ -34,61 +35,118 @@
             text-decoration: none;
         }
 
-        .icon, .name {
+        .icon,
+        .name {
             color: #fff;
         }
 
         .grid-item a:hover {
             font-size: 1.1rem;
         }
+
         .pop-up {
             z-index: 9999;
         }
 
+        .message_flash {
+            text-align: center;
+            width: 50vw;
+            margin: 0 auto;
+        }
+
         @media screen and (max-width: 580px) {
-            .icon, .name {
-            font-size: 0.8rem;
+
+            .icon,
+            .name {
+                font-size: 0.8rem;
             }
         }
     </style>
     {% block head %}{% endblock %}
 </head>
+
 <body>
     <div class="top-nav" role="navigation">
-            <div class="grid-item"><a href="{{ url_for('main.index') }}">
-                    <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
-                    <div class="name" data-text="Home">Home</div>
-                </a></div>
-            <div class="grid-item"><a href="{{ url_for('main.guild_calendar') }}">
-                    <div class="icon"><i class="far fa-calendar-alt"></i></div>
-                    <div class="name" data-text="guild_calendar">Events</div>
-                </a></div>
-            <div class="grid-item"><a href="{{ url_for('main.discord') }}">
-                    <div class="icon"><i class="fab fa-discord"></i></div>
-                    <div class="name" data-text="Discord">Discord</div>
-                </a></div>
-            <div class="grid-item"><a href="{{ url_for('main.devotionals') }}">
-                    <div class="icon"><i class="fa fa-book-reader"></i></div>
-                    <div class="name" data-text="Devotionals">Devotionals</div>
-                </a></div>
-            <div class="grid-item"><a href="https://docs.google.com/forms/d/e/1FAIpQLSdmm8LJ4lVInWACbNqikWDBdfJfxqdDhHXy9X3QIhlvPRY3xw/viewform" target="#">
-                    <div class="icon"><i class="fa fa-id-card-o" aria-hidden="true"></i></div>
-                    <div class="name" data-text="Apply">Apply</div>
-                </a></div>
-            <div class="grid-item"><a href="{{ url_for('main.about') }}">
-                    <div class="icon"><i class="fa fa-info-circle"></i></div>
-                    <div class="name" data-text="About">About</div>
-                </a></div>
-            </div>
+
+        <div class="grid-item"><a href="{{ url_for('main.index') }}">
+                <div class="icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                <div class="name" data-text="Home">Home</div>
+            </a></div>
+
+        <div class="grid-item"><a href="{{ url_for('main.guild_calendar') }}">
+                <div class="icon"><i class="far fa-calendar-alt"></i></div>
+                <div class="name" data-text="guild_calendar">Events</div>
+            </a></div>
+
+        <div class="grid-item"><a href="{{ url_for('main.discord') }}">
+                <div class="icon"><i class="fab fa-discord"></i></div>
+                <div class="name" data-text="Discord">Discord</div>
+            </a></div>
+
+        <div class="grid-item"><a href="{{ url_for('main.devotionals') }}">
+                <div class="icon"><i class="fa fa-book-reader"></i></div>
+                <div class="name" data-text="Devotionals">Devotionals</div>
+            </a></div>
+
+        <div class="grid-item"><a href="{{ url_for('main.about') }}">
+                <div class="icon"><i class="fa fa-info-circle"></i></div>
+                <div class="name" data-text="About">About</div>
+            </a></div>
+
+            {% if current_user.is_authenticated %}
+
+            <div class="grid-item"><a
+                href="{{ url_for('main.account') }}"
+                target="#">
+                <div class="icon"><i class="fa fa-id-card-o" aria-hidden="true"></i></div>
+                <div class="name" data-text="Account">Account</div>
+            </a></div>
+
+            <div class="grid-item"><a
+                href="{{ url_for('main.logout') }}"
+                target="#">
+                <div class="icon"><i class="fa fa-id-card-o" aria-hidden="true"></i></div>
+                <div class="name" data-text="Logout">Logout</div>
+            </a></div>
+
+            {% else %}
+        <div class="grid-item"><a
+                href="{{ url_for('main.login') }}"
+                target="#">
+                <div class="icon"><i class="fa fa-id-card-o" aria-hidden="true"></i></div>
+                <div class="name" data-text="Login">Login</div>
+            </a></div>
+
+        <div class="grid-item"><a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSdmm8LJ4lVInWACbNqikWDBdfJfxqdDhHXy9X3QIhlvPRY3xw/viewform"
+                target="#">
+                <div class="icon"><i class="fa fa-id-card-o" aria-hidden="true"></i></div>
+                <div class="name" data-text="Apply">Apply</div>
+            </a></div>
+            {% endif %}
+
+    </div>
+    <dev class="message_flash">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </dev>
     {% block body %}{% endblock %}
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

@@ -2,7 +2,7 @@ from flask import render_template, url_for, request, redirect, flash, send_from_
 from datetime import datetime, date, timedelta
 from flask_app import db
 from flask_app.models import Devotional, Calendar, Announcement
-from flask_login import current_user
+from flask_login import current_user, login_required
 from sqlalchemy import and_, or_
 
 manage = Blueprint('manage', __name__,
@@ -23,50 +23,55 @@ name_to_symbol ={
     }
 
 @manage.route('/admin', methods=['POST', 'GET'])
+@login_required
 def admin():
-    if request.method == 'POST':
-        pass
-    else:
-        if not current_user.is_authenticated:
-            return redirect(url_for('main.login'))
-        today = datetime.now() - timedelta(hours=6)
-        devotionals = Devotional.query.order_by(Devotional.date.desc()).limit(3)
-        events = Calendar.query.filter(Calendar.date >= today).order_by(Calendar.date.asc()).limit(7)
-        announcements = Announcement.query.all()
-        numb_of_applicants = 0
-        return render_template('manage_index.html', devotionals=devotionals, events=events, announcements=announcements, applicants=numb_of_applicants)
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
+    today = datetime.now() - timedelta(hours=6)
+    devotionals = Devotional.query.order_by(Devotional.date.desc()).limit(3)
+    events = Calendar.query.filter(Calendar.date >= today).order_by(Calendar.date.asc()).limit(7)
+    announcements = Announcement.query.all()
+    numb_of_applicants = 0
+    return render_template('manage_index.html', devotionals=devotionals, events=events, announcements=announcements, applicants=numb_of_applicants)
 
 
 @manage.route('/announcements')
+@login_required
 def manage_announcements():
-    if not current_user.is_authenticated:
-        return redirect(url_for('main.login'))
- 
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
     all_announcements = Announcement.query.all()
     return render_template('manage_announcements.html', announcements=all_announcements)
 
 
 @manage.route('/events')
+@login_required
 def manage_events():
-    if not current_user.is_authenticated:
-        return redirect(url_for('main.login'))
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
     all_events = Calendar.query.order_by(Calendar.date.desc()).all()
     return render_template('manage_events.html', events=all_events)
 
 
 @manage.route('/devotionals')
+@login_required
 def manage_devotionals():
-    if not current_user.is_authenticated:
-        return redirect(url_for('main.login'))
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
     all_devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
     return render_template('manage_devotionals.html', devotionals=all_devotionals)
 
 
 @manage.route('/search', methods=['POST'])
+@login_required
 def search():
-    if not current_user.is_authenticated:
-        return redirect(url_for('main.login'))
-
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
     search = request.form['search']
     database = db_name_to_object[request.form['db']]
     results = database.query.filter(or_(database.title.like('%' + search + '%'), database.description.like('%' + search + '%')))
@@ -75,10 +80,11 @@ def search():
  
 
 @manage.route('/update', methods=['POST'])
+@login_required
 def update():
-    if not current_user.is_authenticated:
-        return redirect(url_for('main.login'))
-    
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
     if request.form['db'] == 'Announcement':
         announcement_to_update = Announcement.query.get_or_404(request.form['id'])
         announcement_to_update.title = request.form['title']
@@ -129,9 +135,11 @@ def update():
 
 
 @manage.route('/insert', methods=['POST'])
+@login_required
 def insert():
-    if not current_user.is_authenticated:
-        return redirect(url_for('main.login'))
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
     # Refactor this to use the db
     if request.form['db'] == 'Announcement':
         title = request.form['title']
@@ -196,10 +204,11 @@ def insert():
     return redirect('/admin')
 
 @manage.route('/delete', methods=['POST'])
+@login_required
 def delete():
-    if not current_user.is_authenticated:
-        return redirect(url_for('main.login'))
-
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
     if request.form['search'] != "False":
         items_to_delete = request.form['search']
         database = db_name_to_object[request.form['db']]
