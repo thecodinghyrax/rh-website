@@ -12,7 +12,7 @@
 
 
     <div class="banner-container">
-    
+
     </div>
 
     <div class="content-container">
@@ -20,98 +20,63 @@
         <div class="announcment-container">
 
 
-                <div class="news">
-                    <div class="news__list-container">
-                        <ul class="news__list">
-                            {% for announcement in announcements %}
-
-                                {% if announcement.id == 1 %}
-                                    <li class="news__item current-item">
-                                {% else %}
-                                    <li class="news__item">
-                                {% endif %}
-
-                                    <h2>{{ announcement.title }}</h2>
-                                    <div>{{ announcement.description }}</div><br>
-                                   
-                                
-                                    {{ announcement.link|urlize(40, target="_blank") }}
-                                </li>
-                            {% endfor %}
-
-                            {% for announcement in announcements %}
-                                {% if announcement.id == 1 %}
-                                    <li class="news__item">
-                                    <h2>{{ announcement.title }}</h2>
-                                    <div>{{ announcement.description }}</div><br>
-                                    {{ announcement.link|urlize(10, true, target="_blank") }}
-                                
-                                {% endif %}
-                                </li>
-                            {% endfor %}
+            <div id="myCarousel" class="carousel slide news" data-ride="carousel">
+                <!-- Carousel indicators -->
 
 
-                        </ul>
-                    </div>
-    
-                </div>
-               
-                <div class="news__nav">
-                    {% for announcement in announcements %}
+
+                <!-- Wrapper for carousel items -->
+                <div class="carousel-inner news_list-container">
+                    <div class="news_list">
+
+                        {% for announcement in announcements %}
                         {% if loop.index is eq 1 %}
-                            <button class="news__indicator current-item"></button>
+                        <div class="carousel-item news_item active">
+                            <h2 class="new_list" alt="First Slide">{{ announcement.title }}</h2>
+                            <div class="new_list" alt="First Slide">{{ announcement.description }}</div>
+                            {% if announcement.link %}
+                            <div class="new_list" alt="First Slide">{{ announcement.link }}</div>
+                            {% endif %}
+
+                        </div>
                         {% else %}
-                            <button class="news__indicator"></button>
+                        <div class="carousel-item news_item">
+                            <h2 class="new_list" alt="Next Slide">{{ announcement.title }}</h2>
+                            <div class="new_list" alt="Next Slide">{{ announcement.description }}</div>
+                            {% if announcement.link %}
+                            <div class="new_list" alt="Next Slide">{{ announcement.link }}</div>
+                            {% endif %}
+                        </div>
                         {% endif %}
-                    {% endfor %}
-                </div>
-                
 
-
-            <!-- <div class="news">
-                <div class="news__list-container">
-                    <ul class="news__list">
-                        <li class="news__item current-item">
-                            <h2>Extra-Life 2019</h2>
-                            <div>
-                                    We are kicking off our Extra-Life 2019 campaign and we are looking for more for to join our team. You will 
-                                    be raising funds to help support your locale Children's Miracle Network hospital. Sign up today! 
-                            </div><br>
-                            <a href="https://www.extra-life.org/team/46794">Team Renewed Hope Sign Up Page</a>
-                        </li>
-                        <li class="news__item">
-                            <h2>Looking for more to do?</h2>
-                            <div>
-                                Check out all the happenings on our calendar or see what’s going on in our Discord. You will find links to all the good stuff in the nav bar at the top of the page.  
-                            </div>
-                        </li>
-                        <li class="news__item">
-                            <h2>Announcments</h2>
-                            <div>
-                                Welcome to the new home of Renewed Hope! If you are not yet a member of the guild and want to know more,
-                                check out our About page for more information. Check back often for the latest guild happenings.
-                            </div>
-                        </li>
-                    </ul>
+                        {% endfor %}
+                    </div>
                 </div>
 
             </div>
-            <div class="news__nav">
-                <button class="news__indicator current-item"></button>
-                <button class="news__indicator"></button>
-                <button class="news__indicator"></button>
-            </div> -->
-            
 
 
-            <a id="devo" href="{{ devotional.download_link }}" target="_blank">
-                <div class="devotional-card-label">
-                    <div class="devotional-card-content">
-                        <h2>{{ devotional.title }}</h2>
-                        {{ devotional.content }}
+            <div class="nav-arrows">
+                <a class="carousel-ctrl-prev" href="#myCarousel" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-ctrl-next" href="#myCarousel" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+            </div>
+
+
+            <div>
+
+                <a id="devo" href="{{ devotional.download_link }}" target="_blank">
+                    <div class="devotional-card-label">
+                        <div class="devotional-card-content">
+                            <h2>{{ devotional.title }}</h2>
+                            {{ devotional.content }}
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
 
 
         </div>
@@ -126,48 +91,54 @@
                     </iframe>
                 </div>
             </div> -->
-    <div class="extra-life-container-lg">
-        <h2>Twitter</h2>
+        <div class="extra-life-container-lg">
+            <h2>Twitter</h2>
 
-        <div class="extra-life-widget">
-            <a class="twitter-timeline" data-width="220" data-height="422" data-theme="dark" href="https://twitter.com/RHtheGuild?ref_src=twsrc%5Etfw">Tweets by RHtheGuild</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <div class="extra-life-widget">
+                <a class="twitter-timeline" data-width="220" data-height="422" data-theme="dark"
+                    href="https://twitter.com/RHtheGuild?ref_src=twsrc%5Etfw">Tweets by RHtheGuild</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
         </div>
-    </div>
 
-    <div class="info-blocks">
+        <div class="info-blocks">
 
-        <div class="extra-life-container">
+            <div class="extra-life-container">
                 <h2>Twitter</h2>
-    
+
                 <div class="extra-life-widget">
                     <div class="extra-life-widget">
-                        <a class="twitter-timeline" data-width="220" data-height="422" data-theme="dark" href="https://twitter.com/RHtheGuild?ref_src=twsrc%5Etfw">Tweets by RHtheGuild</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        <a class="twitter-timeline" data-width="220" data-height="422" data-theme="dark"
+                            href="https://twitter.com/RHtheGuild?ref_src=twsrc%5Etfw">Tweets by RHtheGuild</a>
+                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     </div>
                 </div>
             </div>
 
-        <div class="widgets">
-            <div class="widget-1">
-                <a id="wowprogress" href="https://wowprogress.com/">
-                    <img alt="WoW Guild Rankings" src="https://wowprogress.com/guild_img/755221/out/type.site" border="0"/>
-                </a>
-            </div>
-            <div class="widget-2">
-                    <div class="wowhead-title"><img id="wowhead-logo" src="{{ url_for('static', filename='main/img/wow-head-logo.png') }}">WowHead News</div>
+            <div class="widgets">
+                <div class="widget-1">
+                    <a id="wowprogress" href="https://wowprogress.com/">
+                        <img alt="WoW Guild Rankings" src="https://wowprogress.com/guild_img/755221/out/type.site"
+                            border="0" />
+                    </a>
+                </div>
+                <div class="widget-2">
+                    <div class="wowhead-title"><img id="wowhead-logo"
+                            src="{{ url_for('static', filename='main/img/wow-head-logo.png') }}">WowHead News</div>
                     {% for anchor in news %}
-                        {% if loop.index is divisibleby 2 %}
-                            <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
-                        {% else %}
-                            <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
-                        {% endif %}
+                    {% if loop.index is divisibleby 2 %}
+                    <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
+                    {% else %}
+                    <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
+                    {% endif %}
 
                     {% endfor %}
+                </div>
             </div>
+
         </div>
-
     </div>
-</div>
 
 </div>
-<script src="{{ url_for('static', filename='main/js/slider.js') }}"></script>
+
 {% endblock %}

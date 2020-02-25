@@ -25,7 +25,7 @@ def index():
     devotional = Devotional.query.order_by(Devotional.date.desc()).first()
     news = News.query.order_by(News.id.asc()).all()
     announcements = Announcement.query.order_by(Announcement.id.desc()).all()
-    return render_template('index.html', devotional=devotional, news=news, announcements=announcements, title="Renewed Hope Home Page")
+    return render_template('index.html', devotional=devotional, news=news, announcements=announcements, title="Renewed Hope Guild Home Page")
 
 
 @ext.register_generator
@@ -65,7 +65,7 @@ def guild_calendar():
         extra_week = [[0,0,0,0,0,0,0]]
         current_cal += extra_week
 
-    return render_template('calendar.html', cal=current_cal, month=month, month_name=month_name, current_month=current_month, year=year, events=events, current_day=current_day)
+    return render_template('calendar.html', cal=current_cal, month=month, month_name=month_name, current_month=current_month, year=year, events=events, current_day=current_day, title="Renewed Hope Guild Calendar")
 
 @ext.register_generator
 def guild_calendar():
@@ -74,7 +74,7 @@ def guild_calendar():
 
 @main.route('/discord')
 def discord():
-    return render_template('discord.html')
+    return render_template('discord.html', title="Renewed Hope Guild Discord")
 
 
 @ext.register_generator
@@ -87,7 +87,7 @@ def devotionals():
     page = request.args.get('page', 1, type=int)
     devotionals = Devotional.query.order_by(Devotional.date.desc()).paginate(page=page, per_page=5)
 
-    return render_template('devotional.html', devotionals=devotionals)
+    return render_template('devotional.html', devotionals=devotionals, title="Devotionals for the Renewed Hope Guild")
 
 
 @ext.register_generator
@@ -97,7 +97,7 @@ def devotionals():
 
 @main.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', title="All About the Renewed Hope World of Warcraft Guild")
 
 
 @ext.register_generator
@@ -130,8 +130,9 @@ def save_picture(form_picture, pic_to_delete):
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
-    picture_path_to_delete = os.path.join(app.root_path, 'static/main/img/profile_pics', pic_to_delete)
-    os.remove(picture_path_to_delete)
+    if pic_to_delete != None:
+        picture_path_to_delete = os.path.join(app.root_path, 'static/main/img/profile_pics', pic_to_delete)
+        os.remove(picture_path_to_delete)
     return picture_fn
 
 @main.route('/account', methods=['GET', 'POST'])
@@ -140,7 +141,11 @@ def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:
-            pic_to_delete = current_user.image_file
+            if current_user.image_file != 'default.jpg':
+                pic_to_delete = current_user.image_file
+            else:
+                pic_to_delete = None
+            
             picture_file = save_picture(form.picture.data, pic_to_delete)
             current_user.image_file = picture_file
         current_user.username = form.username.data
@@ -153,7 +158,7 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
     image_file = url_for('static', filename='main/img/profile_pics/' + current_user.image_file ) 
-    return render_template('account.html', title="Account page", image_file=image_file, form=form)
+    return render_template('account.html', title="Your Renewed Hope Guild Account Page", image_file=image_file, form=form)
 
 
 @main.route('/logout')
@@ -175,7 +180,7 @@ def register():
         flash(f'Your account has been created and you are now able to login', 'success')
         return redirect(url_for('main.login'))
 
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, title="Register for access to the Renewed Hope Guild Website")
 
 
 def send_reset_email(user):
@@ -201,7 +206,7 @@ def reset_request():
         send_reset_email(user)
         flash('An email has been sent with instructions to reset your password.', 'info')
         return redirect(url_for('main.login'))
-    return render_template('reset_request.html', title='Reset Password', form=form)
+    return render_template('reset_request.html', title='Reset your Renewed Hope Guild Password', form=form)
 
 
 @main.route('/reset_password/<token>', methods=['GET', 'POST'])
@@ -219,4 +224,4 @@ def reset_token(token):
         db.session.commit()
         flash(f'Your password has been updated! You are now able to login.', 'success')
         return redirect(url_for('main.login'))
-    return render_template('reset_token.html', title='Reset Password', form=form)
+    return render_template('reset_token.html', title='Reset your Renewed Hope Guild Password', form=form)

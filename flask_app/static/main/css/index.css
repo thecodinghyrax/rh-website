@@ -32,6 +32,22 @@ body {
     font-size: 0.7rem;
 }
 
+#myCarousel {
+    min-height: 10rem;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.nav-arrows {
+    display: flex;
+    justify-content: center;
+    margin: -1.5em 0 0 0;
+}
+
+.carousel-ctrl-prev, .carousel-ctrl-next {
+    margin: 0 3em;
+}
+
 #devo {
     text-decoration: none;
     
@@ -40,7 +56,7 @@ body {
 .devotional-card-label {
     
     border-radius: 10px;
-    padding: 0.3rem 1rem 2rem 1rem;
+    padding: 1rem;
     background-color: #222;
     min-height: 12rem;
 }
