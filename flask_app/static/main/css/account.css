@@ -1,0 +1,10 @@
+body {
+    color: white;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.content-section {
+    width: 60vw;
+    margin: 1em auto;
+    text-align: left;
+}
