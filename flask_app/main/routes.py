@@ -135,6 +135,8 @@ def save_picture(form_picture, pic_to_delete):
         os.remove(picture_path_to_delete)
     return picture_fn
 
+rank_dict = {1:"Web-Admin", 2:"GM", 3:"Assistant-GM", 4:"Recruitment-Officer", 5:"Officer", 6:"Member", 7:"Member", 8:"Member", 9:"Initiate", 10:"Applicant"}
+
 @main.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
@@ -157,8 +159,9 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+        rank = rank_dict[current_user.rank]
     image_file = url_for('static', filename='main/img/profile_pics/' + current_user.image_file ) 
-    return render_template('account.html', title="Your Renewed Hope Guild Account Page", image_file=image_file, form=form)
+    return render_template('account.html', title="Your Renewed Hope Guild Account Page", image_file=image_file, form=form, rank=rank)
 
 
 @main.route('/logout')
@@ -199,7 +202,7 @@ If you did not make this request, please ignore this email. No chnages will be m
 @main.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        logout_user()
     form = RequestResetForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()

@@ -14,7 +14,11 @@
         <div class="media-body">
 
             <h2 class="account-heading">{{ current_user.username }}</h2>
-            <p class="text-secoudary">{{ current_user.email }}</p>
+            <p class="text-secondary">{{ current_user.email }}</p>
+            <p class="text-secondary">{{ rank }}</p>
+            {% if current_user.rank  < 6 %}
+            <a href="/admin" class="btn btn-primary float-right">Admin Panel</a>
+            {% endif %}
         </div>
     </div>
     <div class="content-section">
@@ -63,6 +67,9 @@
                  {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>
+        <div class="reset-password-button float-right btn btn-warning">
+            <a href="{{ url_for('main.reset_request') }}">Reset Password</a>
+        </div>
     </div>
 </div>
         

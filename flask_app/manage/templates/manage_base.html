@@ -35,6 +35,11 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link btn btn-dark brn-sm disabled" aria-disabled="true">(Applications coming soon)</a>
                 </li>
+                {% if current_user.rank < 6 %}
+                <li class="nav-item">
+                    <a href="/rank" class="nav-link btn btn-dark brn-sm">User Ranks</a>
+                </li>
+                {% endif %}
 
                 <li class="nav-item">
                     <a href="{{ url_for('main.logout') }}" class="nav-link btn btn-sm btn-danger">Logout</a>
