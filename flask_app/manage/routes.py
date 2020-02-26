@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request, redirect, flash, send_from_directory, Blueprint
 from datetime import datetime, date, timedelta
 from flask_app import db
-from flask_app.models import Devotional, Calendar, Announcement
+from flask_app.models import Devotional, Calendar, Announcement, User
 from flask_login import current_user, login_required
 from sqlalchemy import and_, or_
 
@@ -11,7 +11,8 @@ manage = Blueprint('manage', __name__,
 db_name_to_object = {
     'Calendar': Calendar, 
     'Devotional': Devotional, 
-    'Announcment': Announcement
+    'Announcment': Announcement,
+    'User' : User
     }
 
 name_to_symbol ={
@@ -64,6 +65,32 @@ def manage_devotionals():
         return redirect(url_for('main.index'))
     all_devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
     return render_template('manage_devotionals.html', devotionals=all_devotionals)
+
+
+rank_list = ["Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Member", "Member", "Initiate", "Applicant"]
+
+
+@manage.route('/rank', methods=['GET', 'POST'])
+@login_required
+def rank():
+    if request.method == 'POST':
+        database = db_name_to_object[request.form['db']]
+        user_to_update = database.query.get_or_404(request.form['id'])
+        user_to_update.username = request.form['username']
+        user_to_update.rank = (rank_list.index(request.form['rank']) + 1)
+        try:
+            db.session.commit()
+            flash("The User was successfully updated!")
+            return redirect('/rank')
+        except:
+            flash("I was not able to update that user!", 'danger')
+            return redirect('/rank')
+        
+            
+
+    else:
+        users = User.query.filter(User.rank > current_user.rank)
+        return render_template('rank.html', users=users, rank_list=rank_list)
 
 
 @manage.route('/search', methods=['POST'])
@@ -250,6 +277,15 @@ def delete():
             db.session.commit()
             flash("Devotional was deleted successfully!")
             return redirect('/devotionals')
+        except:
+            return "There was a problem deleting this devotional. Please go back!"
+    elif request.form['db'] == 'User':
+        user_to_delete = User.query.get_or_404(request.form['id'])
+        try:
+            db.session.delete(user_to_delete)
+            db.session.commit()
+            flash("User was deleted successfully!", "sucess")
+            return redirect('/rank')
         except:
             return "There was a problem deleting this devotional. Please go back!"
     return redirect('/admin')

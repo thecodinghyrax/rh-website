@@ -116,7 +116,7 @@ div.widget-2 {
 .article-wowhead a {
     color: #ffd100;
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
 
 @media (min-width: 700px){
@@ -174,7 +174,7 @@ div.widget-2 {
     }
     
     .article-wowhead a {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         padding: 0.5rem;
     }
 }
