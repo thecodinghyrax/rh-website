@@ -67,7 +67,7 @@ def manage_devotionals():
     return render_template('manage_devotionals.html', devotionals=all_devotionals)
 
 
-rank_list = ["Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Member", "Member", "Initiate", "Applicant"]
+rank_list = ["Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Member", "Initiate", "Applicant", "Registered"]
 
 
 @manage.route('/rank', methods=['GET', 'POST'])

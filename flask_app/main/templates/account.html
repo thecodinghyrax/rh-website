@@ -19,6 +19,11 @@
             {% if current_user.rank  < 6 %}
             <a href="/admin" class="btn btn-primary float-right">Admin Panel</a>
             {% endif %}
+            {% if current_user.rank > 9 %}
+            
+                <a href="{{ url_for('main.apply') }}" class="apply-btn">Apply to Join Renewed Hope</a>
+            
+            {% endif %}
         </div>
     </div>
     <div class="content-section">
