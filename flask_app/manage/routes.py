@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request, redirect, flash, send_from_directory, Blueprint
 from datetime import datetime, date, timedelta
 from flask_app import db
-from flask_app.models import Devotional, Calendar, Announcement, User
+from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages
 from flask_login import current_user, login_required
 from sqlalchemy import and_, or_
 
@@ -70,9 +70,9 @@ def manage_devotionals():
 rank_list = ["Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Member", "Initiate", "Applicant", "Registered"]
 
 
-@manage.route('/rank', methods=['GET', 'POST'])
+@manage.route('/manage_users', methods=['GET', 'POST'])
 @login_required
-def rank():
+def manage_users():
     if request.method == 'POST':
         database = db_name_to_object[request.form['db']]
         user_to_update = database.query.get_or_404(request.form['id'])
@@ -81,16 +81,17 @@ def rank():
         try:
             db.session.commit()
             flash("The User was successfully updated!")
-            return redirect('/rank')
+            return redirect('/manage_users')
         except:
             flash("I was not able to update that user!", 'danger')
-            return redirect('/rank')
+            return redirect('/manage_users')
         
             
 
     else:
+        user_messages = UserMessages.query.all()
         users = User.query.filter(User.rank > current_user.rank)
-        return render_template('rank.html', users=users, rank_list=rank_list)
+        return render_template('manage_users.html', users=users, rank_list=rank_list, user_messages=user_messages)
 
 
 @manage.route('/search', methods=['POST'])
@@ -285,7 +286,7 @@ def delete():
             db.session.delete(user_to_delete)
             db.session.commit()
             flash("User was deleted successfully!", "sucess")
-            return redirect('/rank')
+            return redirect('/manage_users')
         except:
             return "There was a problem deleting this devotional. Please go back!"
     return redirect('/admin')

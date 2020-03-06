@@ -31,14 +31,23 @@ body {
 
 .message_body {
     border: 2px solid green;
-    padding: 1em;
     border-radius: 15px;
-    max-height: 30vh;
+    padding: 2em;
     margin: 1em;
-    overflow-y: scroll;
+    max-height: 35vh;
+    -ms-overflow-style: none;
+    overflow: auto;
+   
 }
 
-.message_body > h4 {
+.message-each {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+
+.message-each > h4 {
     color: yellow;
 }
 
@@ -57,6 +66,19 @@ textarea {
 
 .modal-content {
     margin: 5em auto;
-
-
 }
+
+hr {
+    background-color: green;
+}
+
+.archive-btn {
+    margin-bottom: 3em;
+}
+
+/* .with-border {
+    border: 2px solid green;
+    border-radius: 15px;
+    padding: 2em;
+    margin: 1em;
+} */

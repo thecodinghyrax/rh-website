@@ -235,17 +235,24 @@ def messages():
     message_date = datetime.utcnow()
     message_title = req.get('message_title')
     message_body = req.get('message_body')
-    user_id = current_user.id 
+    if req.get('id'):
+        user_id = req.get('id')
+    else:
+        user_id = current_user.id 
+    if req.get('return'):
+        return_path = req.get('return')
+    else:
+        retrun_path = "main.account"
     message = UserMessages(from_user=from_user, message_date=message_date, message_title=message_title, message_body=message_body)
     try:
         message.user_id = user_id 
         db.session.add(message)
         db.session.commit()
         flash("Your message was submitted", "success")
-        return redirect(url_for('main.account'))
+        return redirect(url_for(return_path))
     except:
         flash("There was an issue submitting your message. My bad :( Please try again later", "danger")
-        return redirect(url_for('main.account'))
+        return redirect(url_for(return_path))
 
 
 @main.route('/register', methods=['GET', 'POST'])

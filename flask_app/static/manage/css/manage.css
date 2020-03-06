@@ -56,6 +56,7 @@ h2 {
     color: royalblue;
 }
 
+
 .modal-content {
     background-color: black;
     border: 1px solid white;
@@ -107,4 +108,24 @@ h2 {
 .icon-small {
     width: 3em;
     height: auto;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+td.manage-btn {
+    width: 10px
+}
+
+.user-color {
+    color:  lightskyblue;
+}
+
+.other-color {
+    color: red;
+}
+
+.previous-messages-heading {
+    color: goldenrod
 }
