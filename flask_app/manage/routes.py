@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request, redirect, flash, send_from_directory, Blueprint
 from datetime import datetime, date, timedelta
 from flask_app import db
-from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages
+from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages, Applications
 from flask_login import current_user, login_required
 from sqlalchemy import and_, or_
 
@@ -67,6 +67,13 @@ def manage_devotionals():
     return render_template('manage_devotionals.html', devotionals=all_devotionals)
 
 
+@manage.route('/applications')
+@login_required
+def manage_applications():
+    applications = Applications.query.order_by(Applications.app_date.desc()).all()
+    return render_template('manage_applications.html', applications=applications)
+
+
 rank_list = ["Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Member", "Initiate", "Applicant", "Registered"]
 
 
@@ -89,7 +96,7 @@ def manage_users():
             
 
     else:
-        user_messages = UserMessages.query.all()
+        user_messages = UserMessages.query.order_by(UserMessages.message_date.desc()).all()
         users = User.query.filter(User.rank > current_user.rank)
         return render_template('manage_users.html', users=users, rank_list=rank_list, user_messages=user_messages)
 

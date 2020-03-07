@@ -155,6 +155,16 @@
         $(".slide_settings").click(function () {
             $("#content-slide").slideToggle();
         });
+        $(function() {
+            var foundin = $('span:contains("Invalid email address")').length > 0;
+            
+            if (foundin == true) {               
+                $("#content-slide").slideToggle();
+            
+            };
+            
+        });
+        
     }
 </script>
 {% endblock %}
