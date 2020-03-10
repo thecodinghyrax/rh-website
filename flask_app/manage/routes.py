@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request, redirect, flash, send_from_directory, Blueprint
 from datetime import datetime, date, timedelta
 from flask_app import db
-from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages, Applications
+from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages, Application
 from flask_login import current_user, login_required
 from sqlalchemy import and_, or_
 
@@ -67,19 +67,73 @@ def manage_devotionals():
     return render_template('manage_devotionals.html', devotionals=all_devotionals)
 
 
-@manage.route('/applications')
+@manage.route('/applications', methods=['GET', 'POST'])
 @login_required
 def manage_applications():
-    applications = Applications.query.order_by(Applications.app_date.desc()).all()
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
+    if request.method == 'POST':
+        if request.form['approve'] == "True":
+            user = User.query.get(request.form['user_id'])
+            user.rank = request.form['rank']
+            user.application.status = "Approved"
+            ##### message #####
+            from_user = request.form['from_user']
+            message_title = "Welcome aboard!"
+            message_body = "Welcome, we are glad to have you join us here. We have several ways to keep up with all the happenings in the guild. \
+            The calendar here on the website lists fun activities and event schedules. We have an active Facebook group (search for “Renewed Hope ¬ World of Warcraft Guild”, and apply). \
+           Discord is our main voice and messaging system (https://discord.gg/4b5Bxh). \nIf you ever need anything don’t hesitate to ask any of our fine officers or friendly guild mates. \n\nWarmest welcome " + user.application.name
+            user_id = request.form['user_id']
+            approve_message = UserMessages(from_user=from_user, message_title=message_title, message_body=message_body, user_id=user_id)
+            try:
+                db.session.commit()
+                db.session.add(approve_message)
+                db.session.commit()
+                flash("The application has been approved and a message was sent to the user!", "success")
+                return redirect(url_for('manage.manage_applications'))
+            except:
+                flash("There was a problem approving this application. Please try again later", "danger")
+                return redirect(url_for('manage.manage_applications'))
+        elif request.form['approve'] == "False":
+            user = User.query.get(request.form['user_id'])
+            user.rank = 11
+            user.application.status = "Rejected"
+            ##### message #####
+            from_user = request.form['from_user']
+            message_title = "Thanks for applying"
+            message_body = "We’re terribly sorry but we are passing on your application. Not everyone would be a good fit for Renewed Hope and we sincerely hope that you find a guild that is perfect for you and your needs.\n\nThank you for your interest."
+            user_id = request.form['user_id']
+            approve_message = UserMessages(from_user=from_user, message_title=message_title, message_body=message_body, user_id=user_id)
+            try:
+                db.session.commit()
+                db.session.add(approve_message)
+                db.session.commit()
+                flash("The application has been rejected and a message was sent to the user!", "success")
+                return redirect(url_for('manage.manage_applications'))
+            except:
+                flash("There was a problem rejecting this application. Please try again later", "danger")
+                return redirect(url_for('manage.manage_applications'))
+
+            flash("The request.get('approve') was not = to 'True'", "danger")
+            return redirect(url_for('manage.manage_applications'))
+
+    applications = User.query.filter(User.application).all()
     return render_template('manage_applications.html', applications=applications)
 
 
-rank_list = ["Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Member", "Initiate", "Applicant", "Registered"]
+
+
+
+rank_list = ["Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Member", "Initiate", "Applicant", "Registered", "Rejected"]
 
 
 @manage.route('/manage_users', methods=['GET', 'POST'])
 @login_required
 def manage_users():
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
     if request.method == 'POST':
         database = db_name_to_object[request.form['db']]
         user_to_update = database.query.get_or_404(request.form['id'])
@@ -241,7 +295,7 @@ def insert():
 @manage.route('/delete', methods=['POST'])
 @login_required
 def delete():
-    if current_user.rank > 5:
+    if current_user.rank > 5 and current_user.id == request.form['id']:
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
     if request.form['search'] != "False":
@@ -265,7 +319,7 @@ def delete():
         try:
             db.session.delete(announcement_to_delete)
             db.session.commit()
-            flash("Announcement was deleted successfully!")
+            flash("Announcement was deleted successfully!", "success")
             return redirect('/announcements')
         except:
             return "There was a problem deleting this announcement. Please go back!"
@@ -274,7 +328,7 @@ def delete():
         try:
             db.session.delete(event_to_delete)
             db.session.commit()
-            flash("Event was deleted successfully!")
+            flash("Event was deleted successfully!", "success")
             return redirect('/events')
         except:
             return "There was a problem deleting this event. Please go back!"
@@ -283,7 +337,7 @@ def delete():
         try:
             db.session.delete(devotional_to_delete)
             db.session.commit()
-            flash("Devotional was deleted successfully!")
+            flash("Devotional was deleted successfully!", "success")
             return redirect('/devotionals')
         except:
             return "There was a problem deleting this devotional. Please go back!"

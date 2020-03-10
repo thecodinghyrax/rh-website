@@ -232,6 +232,30 @@
   </a>
 
 
+
+  <div class="hide_init group-9" id="question_section_9">
+    <img src="{{url_for('static', filename='main/img/interview-9.jpg')}}" alt="Blizzard Authenticator">
+    <h4>Do you have a Blizzard Authenticator enabled on your account?</h4>
+  </div>
+    <div class="form-group hide_init group-9">
+      {{ form.have_auth.label(class="form-control-label hide_till_end") }}
+      {% if form.have_auth.errors %}
+          {{ form.have_auth(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+              {% for error in form.have_auth.errors %}
+                  <span>{{ error }}</span>
+              {% endfor %}
+          </div>
+      {% else %}
+          {{ form.have_auth(class="is-invalid") }}
+      {% endif %}
+  </div>
+  <a class="btn btn-primary hide_init group-9" href="#" id="hide_btn_9">
+    <span>Continue</span>
+    </a>
+
+
+
   <div class="form-group hide_init">
     {{ form.submit(class="btn btn-outline-info form-group hide_init") }}
 </div>

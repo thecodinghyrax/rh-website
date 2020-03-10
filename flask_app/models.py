@@ -28,8 +28,8 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     rank = db.Column(db.Integer, nullable=False, default=10 )
-    application = db.relationship('Applications', backref='user', lazy='select', uselist=False)
-    message = db.relationship('UserMessages', backref='user', lazy='select')
+    application = db.relationship('Application', backref='user_application', lazy='select', uselist=False)
+    messages = db.relationship('UserMessages', backref='user_message', lazy='select')
 
     def get_reset_token(self, expires_sec=18000):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
@@ -45,7 +45,7 @@ class User(db.Model, UserMixin):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.rank})"
+        return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.rank}', '{self.application}', '{self.messages}')"
 
 
 class UserMessages(db.Model):
@@ -62,7 +62,7 @@ class UserMessages(db.Model):
         return f"User('{self.from_user}', '{self.message_date}', '{self.message_title}', '{self.user_id}')"
 
 
-class Applications(db.Model):
+class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     app_date = db.Column(db.DateTime, default=datetime.utcnow)
     name = db.Column(db.String(75), nullable=False)
@@ -70,15 +70,16 @@ class Applications(db.Model):
     find_how = db.Column(db.String(200), nullable=False)
     self_description = db.Column(db.String(500), nullable=False)
     b_tag = db.Column(db.String(50))
+    have_auth = db.Column(db.String(10), nullable=False)
     play_when = db.Column(db.String(200), nullable=False)
     # status is for where in the application process this is?
-    status = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(50), nullable=False, default="Accepted")
     note = db.Column(db.String(2000))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
     def __repr__(self):
-        return f"Application('{self.name}', '{self.app_date}', '{self.join_how}', {self.find_how}, \
+        return f"Application('{self.name}', '{self.app_date}', '{self.user_id}', '{self.join_how}', {self.find_how}, \
                                 {self.self_description}, '{self.b_tag}', '{self.status}')"
 
 class Calendar(db.Model):

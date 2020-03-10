@@ -1,6 +1,6 @@
 from flask import Blueprint, request, send_from_directory, render_template, redirect, url_for, flash
 from flask_app import app, db, bcrypt, ext, mail
-from flask_app.models import Devotional, News, Calendar, User, Announcement, Applications, UserMessages
+from flask_app.models import Devotional, News, Calendar, User, Announcement, Application, UserMessages
 import os
 import calendar
 from datetime import date, datetime, timedelta
@@ -135,7 +135,7 @@ def save_picture(form_picture, pic_to_delete):
         os.remove(picture_path_to_delete)
     return picture_fn
 
-rank_dict = {1:"Web-Admin", 2:"GM", 3:"Assistant-GM", 4:"Recruitment-Officer", 5:"Officer", 6:"Member", 7:"Member", 8:"Initiate", 9:"Applicant", 10:"Registered"}
+rank_dict = {1:"Web-Admin", 2:"GM", 3:"Assistant-GM", 4:"Recruitment-Officer", 5:"Officer", 6:"Member", 7:"Member", 8:"Initiate", 9:"Applicant", 10:"Registered", 11:"Rejected"}
 
 @main.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -202,9 +202,10 @@ def apply():
             b_tag = form.b_tag.data
         else:
             b_tag = None
+        have_auth = form.have_auth.data
         play_when = form.play_when.data
         status = "Application recieved"
-        application = Applications(name=name, join_how=join_how, find_how=find_how, self_description=self_description, b_tag=b_tag, play_when=play_when, status=status)
+        application = Application(name=name, join_how=join_how, find_how=find_how, self_description=self_description, b_tag=b_tag, have_auth=have_auth, play_when=play_when, status=status)
         from_user = "Renewed Hope WebBot"
         title = "Congratulations, Your application has been received!"
         body = "We have lit the signal fires and our guild leadership should be notified very soon. Your application will be reviewed and one of our fine officers will reach out to you soon to set up a time to chat. We like to take a few minutes and talk to all applicants before sending out an invite. This will give us a chance to get to know you a bit better and also give you a chance to ask any questions you may still have about the guild. Thanks for showing your interest in joining Renewed Hope and we look forward to talking to you soon."
