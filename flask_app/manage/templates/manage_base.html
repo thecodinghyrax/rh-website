@@ -17,27 +17,27 @@
             <ul class="nav nav-pills flex-column">
 
                 <li class="nav-item">
-                    <a href="/admin" class="nav-link btn btn-dark brn-sm">Admin Home</a>
+                    <a href="{{ url_for('manage.admin') }}" class="nav-link btn btn-dark brn-sm">Admin Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="/announcements" class="nav-link btn btn-dark brn-sm">Announcments</a>
+                    <a href="{{ url_for('manage.manage_announcements') }}" class="nav-link btn btn-dark brn-sm">Announcments</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="/events" class="nav-link btn btn-dark brn-sm">Events</a>
+                    <a href="{{ url_for('manage.manage_events') }}" class="nav-link btn btn-dark brn-sm">Events</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="/devotionals" class="nav-link btn btn-dark brn-sm">Devotionals</a>
+                    <a href="{{ url_for('manage.manage_devotionals') }}" class="nav-link btn btn-dark brn-sm">Devotionals</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link btn btn-dark brn-sm disabled" aria-disabled="true">(Applications coming soon)</a>
+                    <a href="{{ url_for('manage.manage_applications') }}" class="nav-link btn btn-dark brn-sm" aria-disabled="true">Applications</a>
                 </li>
                 {% if current_user.rank < 6 %}
                 <li class="nav-item">
-                    <a href="/manage_users" class="nav-link btn btn-dark brn-sm">Manage Users</a>
+                    <a href="{{ url_for('manage.manage_users') }}" class="nav-link btn btn-dark brn-sm">Manage Users</a>
                 </li>
                 {% endif %}
 

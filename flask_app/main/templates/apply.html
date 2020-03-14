@@ -73,12 +73,13 @@
 
 
 
-<div class="hide_init group-2" id="question_section_2">
+<div class="hide_init group-2 question-group" id="question_section_2">
   <h2 class="new_list" alt="First Slide">Welcome from Renewed Hope</h2>
   <p class="new_list" alt="First Slide">Thanks for taking a minute to fill out the application to join Renewed Hope.
     We like to get to know all potential applicants so we can insure that Renewed Hope would be a great fit for you.</p>
-
-  <img src="{{url_for('static', filename='main/img/interview-1.jpg')}}" alt="">
+    <div class="app-img-1">
+      <img src="{{url_for('static', filename='main/img/interview-1.jpg')}}" alt="Friends together">
+    </div>
 </div>
 <div class="hide_init group-2">
   <a class="btn btn-primary" href="#" id="hide_btn_2">
@@ -90,7 +91,7 @@
 <form method="POST" action="">
 {{ form.hidden_tag() }}
 <div class="hide_init group-3" id="question_section_3">
-  <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+  <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="character waving hello">
   <h2 class="new_list" alt="Next Slide">What's your name?</h2>
 </div>
   <div class="form-group hide_init group-3">
@@ -112,26 +113,23 @@
 
 
 
-
-
 <div class="hide_init group-4" id="question_section_4">
-  <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+  <img src="{{url_for('static', filename='main/img/interview-3.jpg')}}" alt="Party of adventures">
   <h2 class="new_list" alt="Next Slide">How will you be joining us?</h2>
 </div>
   <div class="form-group hide_init group-4">
     {{ form.join_how.label(class="form-control-label hide_till_end") }}
     {% if form.join_how.errors %}
-        {{ form.join_how(class="form-control-lg is-invalid") }}
+        {{ form.join_how(class="is-invalid") }}
         <div class="invalid-feedback">
             {% for error in form.join_how.errors %}
                 <span>{{ error }}</span>
             {% endfor %}
         </div>
     {% else %}
-        {{ form.join_how(class="form-control-lg") }}
+        {{ form.join_how(class="is-invalid") }}
     {% endif %}
   </div>
-  <br>
 <a class="btn btn-primary hide_init group-4" href="#" id="hide_btn_4">
 <span>Continue</span>
 </a>
@@ -140,22 +138,21 @@
 
 
 <div class="hide_init group-5" id="question_section_5">
-  <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+  <img src="{{url_for('static', filename='main/img/interview-4.jpg')}}" alt="Quest giver">
   <h2 class="new_list" alt="Next Slide">How did you find us?</h2>
 </div>
   <div class="form-group hide_init group-5">
     {{ form.find_how.label(class="form-control-label hide_till_end") }}
     {% if form.find_how.errors %}
-        {{ form.find_how(class="form-control-lg is-invalid") }}
+        {{ form.find_how(class="is-invalid") }}
         <div class="invalid-feedback">
             {% for error in form.find_how.errors %}
                 <span>{{ error }}</span>
             {% endfor %}
         </div>
     {% else %}
-        {{ form.find_how(class="form-control-lg") }}
+        {{ form.find_how(class="is-invalid") }}
     {% endif %}
-<br>
 </div>
   <a class="btn btn-primary hide_init group-5" href="#" id="hide_btn_5">
   <span>Continue</span>
@@ -165,11 +162,11 @@
 
 
 <div class="hide_init group-6" id="question_section_6">
-  <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
-  <h2 class="new_list" alt="Next Slide">Tell us a bit about yourself and what your looking for in a guild.</h2>
+  <img src="{{url_for('static', filename='main/img/interview-5.jpg')}}" alt="Character talking">
+  <h4 class="new_list" alt="Next Slide">Tell us a bit about yourself and what your looking for in a guild.</h4>
 </div>
   <div class="form-group hide_init group-6">
-    {{ form.self_description.label(class="form-control-label hide_till_end") }}
+    {{ form.self_description.label(class="form-control-label hide_till_end long-text") }}
     {% if form.self_description.errors %}
         {{ form.self_description(class="form-control form-control-lg is-invalid") }}
         <div class="invalid-feedback">
@@ -178,7 +175,7 @@
             {% endfor %}
         </div>
     {% else %}
-        {{ form.self_description(class="form-control form-control-lg") }}
+        {{ form.self_description(rows='4', columns='1', class="form-control form-control-lg") }}
     {% endif %}
 </div>
   <a class="btn btn-primary hide_init group-6" href="#" id="hide_btn_6">
@@ -189,10 +186,10 @@
 
 
 
-<div class="hide_init group-7" id="question_section_7">
-  <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
-  <h2>Would you like to share your battle tag with us?</h2>
-  <p>We like to talk to all applicants personally before they join. Sending a friend request through battletag makes it a little easier for us to make that connection.  </p>
+<div class="hide_init group-7 question-group" id="question_section_7">
+  <img src="{{url_for('static', filename='main/img/interview-6.jpg')}}" alt="Battle net logo">
+  <h3>Would you like to share your battle tag with us?</h3>
+  <p class="long-text">We like to talk to all applicants personally before they join. Sending a friend request through battletag makes it a little easier for us to make that connection.  </p>
 </div>
   <div class="form-group hide_init group-7">
     {{ form.b_tag.label(class="form-control-label hide_till_end") }}
@@ -214,7 +211,7 @@
 
 
 <div class="hide_init group-8" id="question_section_8">
-  <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+  <img src="{{url_for('static', filename='main/img/interview-7.jpg')}}" alt="Stormwind clock">
   <h2>What day/times do you normally play?</h2>
 </div>
   <div class="form-group hide_init group-8">
@@ -236,18 +233,38 @@
 
 
 
-<div class="hide_init" id="question_section_9">
-  <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
-</div>
+  <div class="hide_init group-9" id="question_section_9">
+    <img src="{{url_for('static', filename='main/img/interview-9.jpg')}}" alt="Blizzard Authenticator">
+    <h4>Do you have a Blizzard Authenticator enabled on your account?</h4>
+  </div>
+    <div class="form-group hide_init group-9">
+      {{ form.have_auth.label(class="form-control-label hide_till_end") }}
+      {% if form.have_auth.errors %}
+          {{ form.have_auth(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+              {% for error in form.have_auth.errors %}
+                  <span>{{ error }}</span>
+              {% endfor %}
+          </div>
+      {% else %}
+          {{ form.have_auth(class="is-invalid") }}
+      {% endif %}
+  </div>
+  <a class="btn btn-primary hide_init group-9" href="#" id="hide_btn_9">
+    <span>Continue</span>
+    </a>
+
+
+
   <div class="form-group hide_init">
     {{ form.submit(class="btn btn-outline-info form-group hide_init") }}
 </div>
 </form>
 
 <div class="hide_init" id="question_section_10">
+  <img src="{{url_for('static', filename='main/img/interview-8.jpg')}}" alt="">
   <p>Thanks for applying. We will send this information off to our lovely officers and they will be in touch very soon.</p>
   <p>Please visit your account page for application status and messages from leadership.</p>
-  <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
 </div>
 
 

@@ -76,9 +76,7 @@ hr {
     margin-bottom: 3em;
 }
 
-/* .with-border {
-    border: 2px solid green;
-    border-radius: 15px;
-    padding: 2em;
-    margin: 1em;
-} */
+.msg-body {
+    white-space: pre-wrap;
+    white-space: pre-line;
+}

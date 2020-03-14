@@ -19,7 +19,7 @@
             {% if current_user.rank  < 6 %}
             <a href="/admin" class="btn btn-primary float-right">Admin Panel</a>
             {% endif %}
-            {% if current_user.rank > 9 %}
+            {% if current_user.rank != 11 and current_user.rank > 9 %}
 
             <a href="{{ url_for('main.apply') }}" class="apply-btn">Apply to Join Renewed Hope</a>
 
@@ -38,7 +38,7 @@
             <h4>{{ message.message_title }}</h4>
             <p>From: {{ message.from_user }}  {{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
             
-            <h5>{{ message.message_body }}</h5>
+            <h5 class="msg-body">{{ message.message_body }}</h5>
             <form action="{{ url_for('main.archived') }}" method="POST">
                 <input type="hidden" name="message_id" value="{{ message.id }}">
                 <button type="submit" class="btn btn-info archive-btn">Archive this post</button>
@@ -149,12 +149,34 @@
         </form>
 
     </div>
+    <div id="del-account-btn" style="display:none">
+        <form action="{{ url_for('manage.delete') }}" method="POST">
+            <input type="hidden" name="db" value="User">
+            <input type="hidden" name="id" value="{{ current_user.id }}">
+            <input type="hidden" name="search" value="False">
+            <button type="submit" class="btn btn-danger btn-xs"
+                onclick="return confirm('Are you sure you want to delete your account? This can not be undone!')">Delete Account</button>
+        </form>
+    </div>
+
+
 </div>
 <script>
     window.onload = function () {
         $(".slide_settings").click(function () {
             $("#content-slide").slideToggle();
+            $("#del-account-btn").slideToggle();
         });
+        $(function() {
+            var foundin = $('span:contains("Invalid email address")').length > 0;
+            
+            if (foundin == true) {               
+                $("#content-slide").slideToggle();
+            
+            };
+            
+        });
+        
     }
 </script>
 {% endblock %}

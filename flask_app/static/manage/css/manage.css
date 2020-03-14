@@ -18,6 +18,7 @@ body {
 
 .nav-item {
     margin: 1.5em 0;
+    width: 15em;
 }
 .side-body {
      grid-column: 3 / -1;
@@ -53,6 +54,10 @@ tr {
 }
 
 h2 {
+    color: royalblue;
+}
+
+h4 {
     color: royalblue;
 }
 
@@ -128,4 +133,8 @@ td.manage-btn {
 
 .previous-messages-heading {
     color: goldenrod
+}
+
+.border-bottom {
+    border-bottom: white;
 }
