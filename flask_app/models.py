@@ -54,7 +54,9 @@ class UserMessages(db.Model):
     message_date = db.Column(db.DateTime, default=datetime.utcnow)
     message_title = db.Column(db.String(200), nullable=False)
     message_body = db.Column(db.String(2000), nullable=False)
+    archived = db.Column(db.Boolean(), default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
 
     def __repr__(self):
         return f"User('{self.from_user}', '{self.message_date}', '{self.message_title}', '{self.user_id}')"

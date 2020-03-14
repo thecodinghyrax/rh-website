@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta name=”description” content="Check out our audio recordings from our weekly devotionals.">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/archived_messages.css') }}">
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block body %}
+<!--################## Main info Section ##########################-->
+<div class="content-section">
+    <div class="media">
+        <img src="{{ image_file }}" alt="user_image" class="rounded-circle account-img">
+        <div class="media-body">
+
+            <h2 class="account-heading">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
+            <p class="text-secondary">{{ rank }}</p>
+        </div>
+    </div>
+    <!--################################ Message Section ##########################-->
+    {% if messages %}
+    <div class="message_body">
+
+
+        {% for message in messages %}
+        <h4>{{ message.message_title }}</h4>
+        <p>From: {{ message.from_user }}  {{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p") }}</p>
+    
+        <h5>{{ message.message_body }}</h5>
+
+      
+        {% endfor %}
+
+
+    </div>
+    {% else %}
+    <div class="message_body">
+        <h2>There are no archived messages for you</h2>
+    </div>
+    {% endif %}
+<a href="{{ url_for('main.account') }}" class="btn btn-info">Back to Account Page</a>
+   
+
+{% endblock %}

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, send_from_directory, render_template, redirect, url_for, flash
 from flask_app import app, db, bcrypt, ext, mail
-from flask_app.models import Devotional, News, Calendar, User, Announcement, Applications
+from flask_app.models import Devotional, News, Calendar, User, Announcement, Applications, UserMessages
 import os
 import calendar
 from datetime import date, datetime, timedelta
@@ -157,11 +157,31 @@ def account():
         flash('Your account has been updated!', 'success')
         return redirect(url_for('main.account'))
     elif request.method == 'GET':
+        messages = UserMessages.query.filter_by(user_id = current_user.id, archived = False).order_by(UserMessages.message_date.desc()).all()
         form.username.data = current_user.username
         form.email.data = current_user.email
         rank = rank_dict[current_user.rank]
     image_file = url_for('static', filename='main/img/profile_pics/' + current_user.image_file ) 
-    return render_template('account.html', title="Your Renewed Hope Guild Account Page", image_file=image_file, form=form, rank=rank)
+    return render_template('account.html', title="Your Renewed Hope Guild Account Page", image_file=image_file, form=form, rank=rank, messages=messages)
+
+
+@main.route('/archived', methods=['POST'])
+@login_required
+def archived():
+    req = request.form
+    post_to_archive = UserMessages.query.get(req.get('message_id'))
+    post_to_archive.archived = True
+    db.session.commit()
+    return redirect(url_for('main.account'))
+
+
+@main.route('/archived/all', methods=['POST'])
+@login_required
+def archived_all():
+    messages =  UserMessages.query.filter_by(user_id = current_user.id, archived = True).order_by(UserMessages.message_date.desc()).all()
+    rank = rank_dict[current_user.rank]
+    image_file = url_for('static', filename='main/img/profile_pics/' + current_user.image_file ) 
+    return render_template('archived_messages.html', title="Your Archived Messages", image_file=image_file, rank=rank, messages=messages)
 
 
 @main.route('/logout')
@@ -185,13 +205,20 @@ def apply():
         play_when = form.play_when.data
         status = "Application recieved"
         application = Applications(name=name, join_how=join_how, find_how=find_how, self_description=self_description, b_tag=b_tag, play_when=play_when, status=status)
+        from_user = "Renewed Hope WebBot"
+        title = "Congratulations, Your application has been received!"
+        body = "We have lit the signal fires and our guild leadership should be notified very soon. Your application will be reviewed and one of our fine officers will reach out to you to set up a time to chat. We like to take a few minutes and talk to all applicants before sending out an invite. This will give us a chance to get to know you a bit better and also give you a chance to ask any questions you may still have about the guild. Thanks for showing your interest in joining Renewed Hope and we look forward to talking to you soon."
+        applied_message = UserMessages(from_user=from_user, message_title=title, message_body=body)
+
         try:
             user = User.query.get(current_user.id)
+            applied_message.user_id = current_user.id
             user.rank = 9
             application.user_id = current_user.id
+            db.session.add(applied_message)
             db.session.add(application)
             db.session.commit()
-            flash('Your application has been recieved! Please watch your account page for updates on the status of your request.', 'success')
+            flash('Your application has been recieved! Please check here offten for updates on the status of your request.', 'success')
             return redirect(url_for('main.account'))
         except:
             flash('There was a problem submitting your application. We\'re sorry about that. Feel free to mail drewxcom@gmail.com about what happened!', 'danger')
@@ -199,6 +226,33 @@ def apply():
     else:
         return render_template('apply.html', title="Apply to join the Renewed Hope Guild", form=form)
 
+@main.route('/messages', methods=['POST'])
+@login_required
+def messages():
+    req = request.form
+    user = User.query.get(current_user.id)
+    from_user = user.username
+    message_date = datetime.utcnow()
+    message_title = req.get('message_title')
+    message_body = req.get('message_body')
+    if req.get('id'):
+        user_id = req.get('id')
+    else:
+        user_id = current_user.id 
+    if req.get('return'):
+        return_path = req.get('return')
+    else:
+        retrun_path = "main.account"
+    message = UserMessages(from_user=from_user, message_date=message_date, message_title=message_title, message_body=message_body)
+    try:
+        message.user_id = user_id 
+        db.session.add(message)
+        db.session.commit()
+        flash("Your message was submitted", "success")
+        return redirect(url_for(return_path))
+    except:
+        flash("There was an issue submitting your message. My bad :( Please try again later", "danger")
+        return redirect(url_for(return_path))
 
 
 @main.route('/register', methods=['GET', 'POST'])

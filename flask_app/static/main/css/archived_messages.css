@@ -30,24 +30,14 @@ body {
 }
 
 .message_body {
-    border: 2px solid green;
-    border-radius: 15px;
-    padding: 2em;
+    padding: 1em;
+    
+    max-height: 60vh;
     margin: 1em;
-    max-height: 35vh;
-    -ms-overflow-style: none;
     overflow: auto;
-   
 }
 
-.message-each {
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-}
-
-
-.message-each > h4 {
+.message_body > h4 {
     color: yellow;
 }
 
@@ -68,17 +58,7 @@ textarea {
     margin: 5em auto;
 }
 
-hr {
-    background-color: green;
-}
-
-.archive-btn {
-    margin-bottom: 3em;
-}
-
-/* .with-border {
+.with-border {
     border: 2px solid green;
     border-radius: 15px;
-    padding: 2em;
-    margin: 1em;
-} */
+}
