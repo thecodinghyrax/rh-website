@@ -132,9 +132,13 @@ td.manage-btn {
 }
 
 .previous-messages-heading {
-    color: goldenrod
+    color:royalblue;
 }
 
 .border-bottom {
     border-bottom: white;
+}
+
+.modal-content {
+    padding: 1em;
 }

@@ -240,7 +240,7 @@
     <div class="form-group hide_init group-9">
       {{ form.have_auth.label(class="form-control-label hide_till_end") }}
       {% if form.have_auth.errors %}
-          {{ form.have_auth(class="form-control form-control-lg is-invalid") }}
+          {{ form.have_auth(class="is-invalid") }}
           <div class="invalid-feedback">
               {% for error in form.have_auth.errors %}
                   <span>{{ error }}</span>

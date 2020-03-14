@@ -343,12 +343,32 @@ def delete():
             return "There was a problem deleting this devotional. Please go back!"
     elif request.form['db'] == 'User':
         user_to_delete = User.query.get_or_404(request.form['id'])
-        try:
+        try:            
             db.session.delete(user_to_delete)
             db.session.commit()
-            flash("User was deleted successfully!", "sucess")
+            flash("User was deleted successfully!", "success")
             return redirect('/manage_users')
         except:
-            return "There was a problem deleting this devotional. Please go back!"
+            return "There was a problem deleting this User. Please go back!"
+    # elif request.form['db'] == 'User':
+    #     user_to_delete = User.query.get_or_404(request.form['id'])
+    #     try:
+    #         if user_to_delete.application == None:
+    #             pass
+    #         elif user_to_delete.application.note != "None":
+    #             note = user_to_delete.application.note
+    #             note += " Note: Accounted deleted on: " + str(datetime.utcnow()) + "first if"
+    #             user_to_delete.application.note = note
+    #         elif user_to_delete.application.note == "None":
+    #             user_to_delete.application.note = " Note: Accounted deleted on: " + str(date.today()) + " Second if"
+    #         else:
+    #             print("There was no application")
+            
+    #         db.session.delete(user_to_delete)
+    #         db.session.commit()
+    #         flash("User was deleted successfully!", "sucess")
+    #         return redirect('/manage_users')
+    #     except:
+            # return "There was a problem deleting this User. Please go back!"
     return redirect('/admin')
 

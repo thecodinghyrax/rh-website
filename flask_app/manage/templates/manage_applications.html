@@ -56,8 +56,8 @@ Manage Applications
                         <td>{{ application.application.self_description }}</td>
                         <td>{{ application.application.play_when }}</td>
                         <td>{{ application.application.status }}</td>
-                        <td class="manage-btn">
-                            <a href="" class="message_user_btn btn btn-info btn-xs" data-toggle="modal"
+                        <td class="manage-btn text-center">
+                            <a href="" class="message_user_btn btn btn-info btn-xs mb-1" data-toggle="modal"
                             data-target="#message_modal{{ application.id }}">Message User</a>
                             {% if application.application.status != "Approved" and application.application.status != "Rejected" %}
                             <form action="{{ url_for('manage.manage_applications') }}" method="POST">
@@ -69,7 +69,7 @@ Manage Applications
                                 <input type="hidden" name="approve" value="True">
                                 <input type="hidden" name="user_id" value="{{ application.id }}">
                                 <input type="hidden" name="from_user" value="{{ current_user.username }}">
-                                <button type="submit" onclick="return confirm('Are you sure you want to approve this application?')" class="btn btn-success hide-after-review">Approve</button>
+                                <button type="submit" onclick="return confirm('Are you sure you want to approve this application?')" class="btn btn-success hide-after-review mb-1">Approve</button>
                             </form>
                             <form action="{{ url_for('manage.manage_applications') }}" method="POST">
                                 <input type="hidden" name="approve" value="False">
