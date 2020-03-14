@@ -44,9 +44,11 @@ $('#hide_btn_8').click(function(){
 })
 
 $('#hide_btn_9').click(function(){
+    $('.hide_init').hide();
     $('.group-9').hide();
     $('.form-group').show();
     $('.hide_till_end').show();
+    $('.form-control').show();
     $('.question_body_container').css("align-items", "initial");
 })
 

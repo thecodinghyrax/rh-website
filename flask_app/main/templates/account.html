@@ -34,7 +34,9 @@
         {% for message in messages %}
         <div class="message-each">
 
-      
+            {% if loop.index == 1 %}
+            <p>* Newest Post</p>
+            {% endif %}
             <h4>{{ message.message_title }}</h4>
             <p>From: {{ message.from_user }}  {{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
             
@@ -43,12 +45,11 @@
                 <input type="hidden" name="message_id" value="{{ message.id }}">
                 <button type="submit" class="btn btn-info archive-btn">Archive this post</button>
             </form>
-            {% if loop.index == 1 %}
+            {% if loop.index == 1 %} 
             <div class="button_section">
                 <a href="" class="archive btn btn-warning btn-small" data-toggle="modal"
                 data-target="#reply_modal-{{ message.id }}">Post a Reply</a>
             </div>
-            <p>* Newest Post</p>
             <hr>
         </div>
             {% else %}

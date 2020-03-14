@@ -15,6 +15,49 @@ from PIL import Image
 main = Blueprint('main', __name__,
                 template_folder='templates')
 
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', 
+                    sender='noreply@renewedhope.us', 
+                    recipients=[user.email])
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('main.reset_token', token=token, _external=True)}
+Please note: This token will expire in 30 minutes from the time this email is sent. 
+
+If you did not make this request, please ignore this email. No chnages will be made.
+'''
+    mail.send(msg)
+
+def send_applied_email():
+    mail_to_user_list = User.query.filter(User.rank <= 5).all()
+    mail_to_email_list = []
+    for user in mail_to_user_list:
+        mail_to_email_list.append(user.email)
+    msg = Message('We have a new applicant', 
+                    sender='noreply@renewedhope.us', 
+                    recipients=mail_to_email_list)
+    msg.body = f'''Someone just applied to join. Please login to the admin panel of the website to approve, reject or just message the appliciant. 
+{url_for('manage.manage_applications', _external=True)}
+
+'''
+    mail.send(msg)
+
+# @main.route('/testpage')
+# def testpage():
+#     mail_to_user_list = User.query.filter(User.rank <= 5).all()
+#     mail_to_email_list = []
+#     for user in mail_to_user_list:
+#         mail_to_email_list.append(user.email)
+#     msg = Message('We have a new applicant', 
+#                 sender='noreply@renewedhope.us', 
+#                 recipients=mail_to_email_list)
+#     today = datetime.utcnow()
+#     user_to_delete = User.query.get_or_404(3)
+#     note_type = user_to_delete.application
+#     # send_applied_email()
+#     return render_template('testpage.html', mail_to_email_list=mail_to_email_list, msg=msg, today=today, user_to_delete=user_to_delete, note_type=note_type)
+
+
 @main.route('/robots.txt')
 def static_from_root():
     return send_from_directory(app.static_folder, request.path[1:])
@@ -141,13 +184,16 @@ rank_dict = {1:"Web-Admin", 2:"GM", 3:"Assistant-GM", 4:"Recruitment-Officer", 5
 @login_required
 def account():
     form = UpdateAccountForm()
+    selected_pic = "This is the default statment"
     if form.validate_on_submit():
+        
         if form.picture.data:
             if current_user.image_file != 'default.jpg':
                 pic_to_delete = current_user.image_file
             else:
                 pic_to_delete = None
-            
+
+            selected_pic = form.picture.data
             picture_file = save_picture(form.picture.data, pic_to_delete)
             current_user.image_file = picture_file
         current_user.username = form.username.data
@@ -162,7 +208,7 @@ def account():
     form.email.data = current_user.email
     rank = rank_dict[current_user.rank]
     image_file = url_for('static', filename='main/img/profile_pics/' + current_user.image_file ) 
-    return render_template('account.html', title="Your Renewed Hope Guild Account Page", image_file=image_file, form=form, rank=rank, messages=messages)
+    return render_template('account.html', title="Your Renewed Hope Guild Account Page", image_file=image_file, form=form, rank=rank, messages=messages, selected_pic=selected_pic)
 
 
 @main.route('/archived', methods=['POST'])
@@ -212,6 +258,7 @@ def apply():
         applied_message = UserMessages(from_user=from_user, message_title=title, message_body=body)
 
         try:
+            send_applied_email()
             user = User.query.get(current_user.id)
             applied_message.user_id = current_user.id
             user.rank = 9
@@ -264,39 +311,43 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        login_user(user)
-        flash(f'Your account has been created and you are now logged in', 'success')    
-        return redirect(url_for('main.account'))
-
+        try:
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            from_user = "Renewed Hope Bot"
+            message_date = datetime.utcnow()
+            message_title = 'You are now registered'
+            message_body = 'Welcome to the home of the Renewed Hope guild. From here you can apply to join the guild, message our leadership (via the reply button), update your information or delete your account.'
+            message = UserMessages(from_user=from_user, message_date=message_date, message_title=message_title, message_body=message_body)
+            message.user_id = current_user.id
+            db.session.add(message)
+            db.session.commit()
+            flash(f'Your account has been created and you are now logged in', 'success')    
+            return redirect(url_for('main.account'))
+        except:
+            flash(f'There was a problem regiestering your account. Please try back later.', 'danger')    
+            return redirect(url_for('main.index'))
     return render_template('register.html', form=form, title="Register for access to the Renewed Hope Guild Website")
 
-
-def send_reset_email(user):
-    token = user.get_reset_token()
-    msg = Message('Password Reset Request', 
-                    sender='noreply@renewedhope.us', 
-                    recipients=[user.email])
-    msg.body = f'''To reset your password, visit the following link:
-{url_for('main.reset_token', token=token, _external=True)}
-Please note: This token will expire in 30 minutes from the time this email is sent. 
-
-If you did not make this request, please ignore this email. No chnages will be made.
-'''
-    mail.send(msg)
 
 @main.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
         logout_user()
     form = RequestResetForm()
+    
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        send_reset_email(user)
-        flash('An email has been sent with instructions to reset your password. Please allow up to 10 minutes to recieve the mail.', 'info')
-        return redirect(url_for('main.login'))
+        try:
+            user = User.query.filter_by(email=form.email.data).first()
+            send_reset_email(user)
+            flash('An email has been sent with instructions to reset your password. Please allow up to 10 minutes to recieve the mail.', 'info')
+            return redirect(url_for('main.login'))
+        except:
+            flash('There was a problem resetting you password. Are you sure the email you entered was valid?', 'danger')
+            return redirect(url_for('main.login'))
     return render_template('reset_request.html', title='Reset your Renewed Hope Guild Password', form=form)
+    
 
 
 @main.route('/reset_password/<token>', methods=['GET', 'POST'])
@@ -316,8 +367,9 @@ def reset_token(token):
         return redirect(url_for('main.login'))
     return render_template('reset_token.html', title='Reset your Renewed Hope Guild Password', form=form)
 
-@main.route('/create_all')
-def create_all():
-    db.create_all()
-    db.session.commit()
-    return redirect(url_for('main.index'))
+# @main.route('/create_all')
+# @login_required
+# def create_all():
+#     db.create_all()
+#     db.session.commit()
+#     return redirect(url_for('main.index'))

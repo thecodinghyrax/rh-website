@@ -28,8 +28,8 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     rank = db.Column(db.Integer, nullable=False, default=10 )
-    application = db.relationship('Application', backref='user_application', lazy='select', uselist=False)
-    messages = db.relationship('UserMessages', backref='user_message', lazy='select')
+    application = db.relationship('Application', back_populates="user", uselist=False)
+    messages = db.relationship('UserMessages', back_populates='user')
 
     def get_reset_token(self, expires_sec=18000):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
@@ -56,6 +56,7 @@ class UserMessages(db.Model):
     message_body = db.Column(db.String(2000), nullable=False)
     archived = db.Column(db.Boolean(), default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='messages')
 
 
     def __repr__(self):
@@ -76,7 +77,7 @@ class Application(db.Model):
     status = db.Column(db.String(50), nullable=False, default="Accepted")
     note = db.Column(db.String(2000))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
+    user = db.relationship("User", back_populates="application")
 
     def __repr__(self):
         return f"Application('{self.name}', '{self.app_date}', '{self.user_id}', '{self.join_how}', {self.find_how}, \
