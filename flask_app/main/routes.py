@@ -1,12 +1,12 @@
 from flask import Blueprint, request, send_from_directory, render_template, redirect, url_for, flash
 from flask_app import app, db, bcrypt, ext, mail
-from flask_app.models import Devotional, News, Calendar, User, Announcement
+from flask_app.models import Devotional, News, Calendar, User, Announcement, Applications
 import os
 import calendar
 from datetime import date, datetime, timedelta
 from sqlalchemy import extract
 from flask_login import current_user, login_user, logout_user, login_required
-from flask_app.main.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm, UpdateAccountForm
+from flask_app.main.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm, UpdateAccountForm, ApplyToGuildForm
 from flask_mail import Message
 import secrets
 from PIL import Image
@@ -135,7 +135,7 @@ def save_picture(form_picture, pic_to_delete):
         os.remove(picture_path_to_delete)
     return picture_fn
 
-rank_dict = {1:"Web-Admin", 2:"GM", 3:"Assistant-GM", 4:"Recruitment-Officer", 5:"Officer", 6:"Member", 7:"Member", 8:"Member", 9:"Initiate", 10:"Applicant"}
+rank_dict = {1:"Web-Admin", 2:"GM", 3:"Assistant-GM", 4:"Recruitment-Officer", 5:"Officer", 6:"Member", 7:"Member", 8:"Initiate", 9:"Applicant", 10:"Registered"}
 
 @main.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -169,19 +169,51 @@ def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
+@main.route('/apply', methods=['GET', 'POST'])
+@login_required
+def apply():
+    form = ApplyToGuildForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        join_how = form.join_how.data
+        find_how = form.find_how.data
+        self_description = form.self_description.data
+        if form.b_tag:
+            b_tag = form.b_tag.data
+        else:
+            b_tag = None
+        play_when = form.play_when.data
+        status = "Application recieved"
+        application = Applications(name=name, join_how=join_how, find_how=find_how, self_description=self_description, b_tag=b_tag, play_when=play_when, status=status)
+        try:
+            user = User.query.get(current_user.id)
+            user.rank = 9
+            application.user_id = current_user.id
+            db.session.add(application)
+            db.session.commit()
+            flash('Your application has been recieved! Please watch your account page for updates on the status of your request.', 'success')
+            return redirect(url_for('main.account'))
+        except:
+            flash('There was a problem submitting your application. We\'re sorry about that. Feel free to mail drewxcom@gmail.com about what happened!', 'danger')
+            return redirect(url_for('main.index'))
+    else:
+        return render_template('apply.html', title="Apply to join the Renewed Hope Guild", form=form)
+
+
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.account'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash(f'Your account has been created and you are now able to login', 'success')
-        return redirect(url_for('main.login'))
+        login_user(user)
+        flash(f'Your account has been created and you are now logged in', 'success')    
+        return redirect(url_for('main.account'))
 
     return render_template('register.html', form=form, title="Register for access to the Renewed Hope Guild Website")
 
@@ -207,7 +239,7 @@ def reset_request():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         send_reset_email(user)
-        flash('An email has been sent with instructions to reset your password.', 'info')
+        flash('An email has been sent with instructions to reset your password. Please allow up to 10 minutes to recieve the mail.', 'info')
         return redirect(url_for('main.login'))
     return render_template('reset_request.html', title='Reset your Renewed Hope Guild Password', form=form)
 
@@ -228,3 +260,9 @@ def reset_token(token):
         flash(f'Your password has been updated! You are now able to login.', 'success')
         return redirect(url_for('main.login'))
     return render_template('reset_token.html', title='Reset your Renewed Hope Guild Password', form=form)
+
+@main.route('/create_all')
+def create_all():
+    db.create_all()
+    db.session.commit()
+    return redirect(url_for('main.index'))

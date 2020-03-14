@@ -11,6 +11,14 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb4">Join Today</legend>
+                <div class="register-info">
+                    <h3>Why do I need to create an account?</h3>
+                    <p>When you register on our website we will be able to send you valuable information via your account page.
+                        You will be able to check on the status of your guild application (if applicable) as well as have the ability of sending messages
+                        directly to Renewed Hopes leadership. We will never send spam to your email and you can delete your account at 
+                        anytime if you no longer want to be part of the guild.
+                    </p>
+                </div>
                     <div class="form-group">
                         {{ form.username.label(class="form-control-label") }}
 
@@ -65,7 +73,7 @@
                         {% endif %}
                     </div>
             </fieldset>
-            <div class="form-group">
+            <div class="form-group join">
                  {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>

@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta name=”description” content="Check out our audio recordings from our weekly devotionals.">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/apply.css') }}">
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block body %}
+
+
+<div id="myCarousel" class="carousel slide news" data-ride="carousel" data-interval="false">
+  <!-- Carousel indicators -->
+<form>
+
+
+
+
+  <!-- Wrapper for carousel items -->
+  <div class="carousel-inner news_list-container inter">
+    <div class="carousel-item guild-info active">
+      <div class="init-info-container">
+        <p class="init-info">Before we get started on the application, please take a quick minute and read through our guild info. This should answer most of the questions people have about the guild and also lets you know what we expect from our members. </p>
+      </div>
+      <br>
+      <div id="info-container">
+        <div id="info-content">
+            <br>
+            
+               
+                    <h3 id="faction">Retail WoW:Alliance - Alexstrasza/Terokkar&#8195;Classic WoW: Alliance - Atiesh</h3>
+                    <br>
+                 
+                    <h5>We are recruiting:</h5>
+                    <p>We are recruiting for our progression raid team as well as for anyone who just wants a fun, family friendly environment to play in. We are an established Christian guild full of believers and nonbelievers alike. Our main focus has been and always will be to provide a fun place for people to enjoy this game without dealing with all the harshness and vulgarity that you find in many other guilds. We don’t require that our members be Christians but you must respect the beliefs of others. At times (respectful) religious talk comes up in chat. If the thought of hearing some occasional “God talk” is bothersome to you than this guild probably would not be a good fit.</p>
+                    <br>
+                    <h5>We have just a few rules in our guild in order to keep this a place we feel comfortable playing in.</h5>             
+                    <ol>
+                        <li>
+                            Keep language and conversations clean. There are an infinite number of guilds where foul language and suggestive conversations are the norm. We are proud to be an alternative to that.
+                        </li>
+                        <br>
+                        <li>
+                            Respect each other. Well duh, right? We come from all walks of life and all backgrounds. We all carry our own views and opinions. We must be willing to respect each other even if we don’t always agree.    
+                        </li>
+                        <br>
+                        <li>
+                            Act honorably. When we are out in the game world we represent the guild as a whole. Being a jerk or mouthing off to people in game reflects poorly on all of us (and honestly accomplishes nothing).
+                        </li>
+                    </ol>
+                    <br>
+                    <h5>What we do:</h5>
+                    <br>
+                    <b>Raiding:</b>
+                    <br>
+                    <p>We have both casual raids and progression raids. Casual raid is mostly on normal difficulty. It is fun and relaxed but we do have some minimum ilevel requirements to join and ask that you can follow directions. Anyone who can do that can join us. Casual raid is Saturday's from 8 pm to 11 pm.</p>
+                    <p>Our progression team has stricter requirements and more commitment. We typically have gotten AOTC on most raid tiers for the last few expansions and have downed a few mythic bosses. Progression raid nights are Tuesday and Thursday, 8pm to 10 pm.</p>
+                    <b>PVP:</b>
+                    <br>
+                    <p>We do world PVP and BGs on Wednesday nights and Rated Battle Grounds on Saturday nights.</p>
+                    <br>
+                    <b>Other Activities:</b>
+                    <br>
+                    <p>We also like to get guildies together for island expeditions, warfronts, LFR, raiding old content, achievement runs, dungeons, leveling, etc.</p>
+                    <br>
+                    <b>Devotionals:</b>
+                    <br>
+                    <p>We hold a devotional every Monday night via our Discord server. We get together for a message and share some prayer requests or praise reports. Participation is not required.</p>
+                    <br>
+                    <b>Still interested?</b>
+                    <br>
+                    <p>That’s the guild in a nutshell. Not your cup of tea? Thanks for reading. Sounds like your kind of place? Press the "Sounds Good to Me" button below to continue the application process. </p>
+                    
+    </div>
+    </div>
+      
+
+
+      <a class="carousel-ctrl-next btn btn-default good" href="#myCarousel" data-slide="next">
+        <!-- <span class="carousel-control-next-icon"></span> --> <span>Sounds Good to Me</span>
+      </a>
+    </div>
+
+
+    <div class="carousel-item news_item-1">
+      <h2 class="new_list" alt="First Slide">Welcome from Renewed Hope</h2>
+      <p class="new_list" alt="First Slide">Thanks for taking a minute to fill out the application to join Renewed Hope.
+        We like to get to know all potential applicants so we can insure that Renewed Hope would be a great fit for you.</p>
+
+      <img src="{{url_for('static', filename='main/img/interview-1.jpg')}}" alt="">
+
+
+      <a class="carousel-ctrl-next btn btn-default good" href="#myCarousel" data-slide="next">
+        <!-- <span class="carousel-control-next-icon"></span> --> <span>Continue</span>
+      </a>
+    </div>
+
+    <div class="carousel-item news_item-2">
+      <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+      <p class="new_list" alt="Next Slide">What's your name?</p>
+      
+      <div class="form-group">
+        {{ form.name.label(class="form-control-label") }}
+        {% if form.name.errors %}
+            {{ form.name(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.name.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.name(class="form-control form-control-lg") }}
+        {% endif %}
+    </div>
+
+      <a class="carousel-ctrl-next btn btn-default good" href="#myCarousel" data-slide="next">
+        <!-- <span class="carousel-control-next-icon"></span> --> <span>Continue</span>
+      </a>
+
+    </div>
+
+
+
+    <div class="carousel-item news_item-3">
+      <h2 class="new_list" alt="Next Slide">How will you be joining us?</h2>
+      
+      <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+      <div class="form-group">
+        {{ form.join_how.label(class="form-control-label") }}
+        {% if form.join_how.errors %}
+            {{ form.join_how(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.join_how.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.join_how(class="form-control form-control-lg") }}
+        {% endif %}
+    </div>
+
+      <a class="carousel-ctrl-next btn btn-default good" href="#myCarousel" data-slide="next">
+        <!-- <span class="carousel-control-next-icon"></span> --> <span>Continue</span>
+      </a>
+
+    </div>
+
+
+    <div class="carousel-item news_item-4">
+      <h2 class="new_list" alt="Next Slide">How did you find us?</h2>
+      
+      <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+      <div class="form-group">
+        {{ form.find_how.label(class="form-control-label") }}
+        {% if form.find_how.errors %}
+            {{ form.find_how(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.find_how.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.find_how(class="form-control form-control-lg") }}
+        {% endif %}
+    </div>
+
+      <a class="carousel-ctrl-next btn btn-default good" href="#myCarousel" data-slide="next">
+        <!-- <span class="carousel-control-next-icon"></span> --> <span>Continue</span>
+      </a>
+
+    </div>
+
+
+
+    <div class="carousel-item news_item-5">
+      <h2 class="new_list" alt="Next Slide">Tell us a bit about yourself and what your looking for in a guild.</h2>
+      
+      <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+      <div class="form-group">
+        {{ form.self_description.label(class="form-control-label") }}
+        {% if form.self_description.errors %}
+            {{ form.self_description(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.self_description.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.self_description(class="form-control form-control-lg") }}
+        {% endif %}
+    </div>
+
+      <a class="carousel-ctrl-next btn btn-default good" href="#myCarousel" data-slide="next">
+        <!-- <span class="carousel-control-next-icon"></span> --> <span>Continue</span>
+      </a>
+
+    </div>
+
+
+    <div class="carousel-item news_item-6">
+      <p>We like to talk to applicants personally before they join. Would you like to share your battle tag to make it easier to reach out to you?</p>
+      <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+      <div class="form-group">
+        {{ form.b_tag.label(class="form-control-label") }}
+        {% if form.b_tag.errors %}
+            {{ form.b_tag(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.b_tag.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.b_tag(class="form-control form-control-lg") }}
+        {% endif %}
+    </div>
+
+      <a class="carousel-ctrl-next btn btn-default good" href="#myCarousel" data-slide="next">
+        <!-- <span class="carousel-control-next-icon"></span> --> <span>Continue</span>
+      </a>
+
+    </div>
+
+
+    <div class="carousel-item news_item-6">
+      <p>What day/times do you normally play?</p>
+      <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+      <div class="form-group">
+        {{ form.play_when.label(class="form-control-label") }}
+        {% if form.play_when.errors %}
+            {{ form.play_when(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.play_when.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.play_when(class="form-control form-control-lg") }}
+        {% endif %}
+    </div>
+
+      <a class="carousel-ctrl-next btn btn-default good" href="#myCarousel" data-slide="next">
+        <!-- <span class="carousel-control-next-icon"></span> --> <span>Continue</span>
+      </a>
+
+    </div>
+
+
+    <div class="carousel-item news_item-6">
+      <p>Thanks for applying. We will send this information off to our lovely officers and they will be in touch very soon.</p>
+      <p>Please visit your account page for application status and messages from leadership.</p>
+      <img src="{{url_for('static', filename='main/img/interview-2.jpg')}}" alt="">
+      <div class="form-group join">
+        {{ form.submit(class="btn btn-outline-info") }}
+   </div>
+
+    </div>
+
+
+
+
+
+
+  </div>
+</form>
+
+
+
+<script src="{{url_for('static', filename='main/js/form_validation.js')}}"></script>
+</div>
+
+
+<!-- <div class="nav-arrows">
+  <a class="carousel-ctrl-prev" href="#myCarousel" data-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-ctrl-next" href="#myCarousel" data-slide="next">
+      <span class="carousel-control-next-icon"></span>
+  </a>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+Trigger the modal with a button
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+-->
+<!-- Modal -->
+<!-- 
+
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    -->
+
+<!-- Modal content-->
+
+<!-- <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info btn-lg" data-dismiss="modal" data-toggle="modal" data-target="#myModal2">Open Next Modal</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog"> -->
+
+<!-- Modal content-->
+<!-- <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Second Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the second modal.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  
+    </div>
+  </div>  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
