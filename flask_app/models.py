@@ -51,16 +51,17 @@ class User(db.Model, UserMixin):
 class UserMessages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     from_user = db.Column(db.String(50), nullable=False)
+    from_user_image = db.Column(db.String(50))
     message_date = db.Column(db.DateTime, default=datetime.utcnow)
-    message_title = db.Column(db.String(200), nullable=False)
     message_body = db.Column(db.String(2000), nullable=False)
-    archived = db.Column(db.Boolean(), default=False)
+    acknowledged = db.Column(db.Boolean(), default=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='messages')
+    has_read = db.Column(db.Boolean(), default=False)
 
 
     def __repr__(self):
-        return f"User('{self.from_user}', '{self.message_date}', '{self.message_title}', '{self.user_id}')"
+        return f"User('{self.id}','{self.from_user}', '{self.from_user_image}', '{self.message_date}', '{self.user_id}', '{self.acknowledged}')"
 
 
 class Application(db.Model):
@@ -71,7 +72,7 @@ class Application(db.Model):
     find_how = db.Column(db.String(200), nullable=False)
     self_description = db.Column(db.String(500), nullable=False)
     b_tag = db.Column(db.String(50))
-    have_auth = db.Column(db.String(10), nullable=False)
+    have_auth = db.Column(db.String(20), nullable=False)
     play_when = db.Column(db.String(200), nullable=False)
     # status is for where in the application process this is?
     status = db.Column(db.String(50), nullable=False, default="Accepted")
@@ -87,9 +88,9 @@ class Calendar(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
-    time = db.Column(db.String(40), nullable=False)
+    time = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(300), nullable=False)
-    symbol = db.Column(db.String(20), nullable=False)
+    symbol = db.Column(db.String(50), nullable=False)
     lead = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):

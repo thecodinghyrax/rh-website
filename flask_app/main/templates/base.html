@@ -54,6 +54,28 @@
             margin: 0 auto;
         }
 
+        .new-msg-notify {
+            position: relative;
+            bottom: 0;
+            right: 0;
+            color: white;
+        }
+        .green {
+            background-color: green;
+        }
+
+        .green:hover:after {
+            content: " New Message";
+        }
+
+        .red {
+            background-color: red;
+        }
+       
+        .red:hover:after {
+            content: " User message waiting";
+        }
+
         @media screen and (max-width: 580px) {
 
             .icon,
@@ -100,6 +122,14 @@
                 target="#">
                 <div class="icon"><i class="fa fa-user-o" aria-hidden="true"></i></div>
                 <div class="name" data-text="Account">Account</div>
+                <div class="notify-container">
+                {% if has_read is defined and has_read > 0 %}
+                <div class="new-msg-notify green">{{ has_read }}</div>
+                {% endif %}
+                {% if no_ack is defined and no_ack > 0 %}
+                <div class="new-msg-notify red">{{ no_ack }}</div>
+                {% endif %}
+            </div>
             </a></div>
 
             <div class="grid-item"><a
@@ -126,7 +156,7 @@
             {% endif %}
 
     </div>
-    <dev class="message_flash">
+    <div class="message_flash">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
@@ -141,7 +171,8 @@
         {% endfor %}
         {% endif %}
         {% endwith %}
-    </dev>
+    </div>
+    
     {% block body %}{% endblock %}
     <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"

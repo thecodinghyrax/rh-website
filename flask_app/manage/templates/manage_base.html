@@ -35,11 +35,14 @@
                 <li class="nav-item">
                     <a href="{{ url_for('manage.manage_applications') }}" class="nav-link btn btn-dark brn-sm" aria-disabled="true">Applications</a>
                 </li>
-                {% if current_user.rank < 6 %}
+             
                 <li class="nav-item">
-                    <a href="{{ url_for('manage.manage_users') }}" class="nav-link btn btn-dark brn-sm">Manage Users</a>
+                    <a href="{{ url_for('manage.manage_users') }}" class="nav-link btn btn-dark brn-sm">Manage Users
+                    {% if no_ack is defined and no_ack > 0 %}
+                    <div class="new-msg-notify red">{{ no_ack }}</div>
+                    {% endif %}
+                </a>
                 </li>
-                {% endif %}
 
                 <li class="nav-item">
                     <a href="{{ url_for('main.logout') }}" class="nav-link btn btn-sm btn-danger">Logout</a>

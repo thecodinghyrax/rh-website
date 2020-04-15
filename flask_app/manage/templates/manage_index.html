@@ -34,7 +34,7 @@ Admin Home
     
     <h2>Upcoming Events</h2>
     {% for event in events %}
-    <div id="event{{event.id}}" class="event-item tab">{{ event.title}} : {{event.date.strftime("%m-%d")}}</div>
+    <div id="event{{event.id}}" class="event-item tab">{{ event.title}} : {{event.date}}</div>
     {% endfor %}
     <br>
     

@@ -34,7 +34,12 @@ def admin():
     events = Calendar.query.filter(Calendar.date >= today).order_by(Calendar.date.asc()).limit(7)
     announcements = Announcement.query.all()
     numb_of_applicants = 0
-    return render_template('manage_index.html', devotionals=devotionals, events=events, announcements=announcements, applicants=numb_of_applicants)
+    no_ack_query = db.session.query(UserMessages.acknowledged).filter(UserMessages.acknowledged == False).all()
+    if len(no_ack_query) > 0:
+        no_ack = len(no_ack_query)
+    else:
+        no_ack = 0
+    return render_template('manage_index.html', devotionals=devotionals, no_ack=no_ack, events=events, announcements=announcements, applicants=numb_of_applicants)
 
 
 @manage.route('/announcements')
@@ -80,12 +85,12 @@ def manage_applications():
             user.application.status = "Approved"
             ##### message #####
             from_user = request.form['from_user']
-            message_title = "Welcome aboard!"
-            message_body = "Welcome, we are glad to have you join us here. We have several ways to keep up with all the happenings in the guild. \
-            The calendar here on the website lists fun activities and event schedules. We have an active Facebook group (search for “Renewed Hope ¬ World of Warcraft Guild”, and apply). \
+            from_user_image = request.form['from_user_image']
+            message_body = "Welcome aboard!\n\nWe are glad to have you join us here. We have several ways to keep up with all the happenings in the guild. \
+            The calendar here on the website lists fun activities and event schedules. We have an active Facebook group (search for “Renewed Hope - World of Warcraft Guild”, and apply). \
            Discord is our main voice and messaging system (https://discord.gg/4b5Bxh). \nIf you ever need anything don’t hesitate to ask any of our fine officers or friendly guild mates. \n\nWarmest welcome " + user.application.name
             user_id = request.form['user_id']
-            approve_message = UserMessages(from_user=from_user, message_title=message_title, message_body=message_body, user_id=user_id)
+            approve_message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_body=message_body, user_id=user_id)
             try:
                 db.session.commit()
                 db.session.add(approve_message)
@@ -101,10 +106,10 @@ def manage_applications():
             user.application.status = "Rejected"
             ##### message #####
             from_user = request.form['from_user']
-            message_title = "Thanks for applying"
-            message_body = "We’re terribly sorry but we are passing on your application. Not everyone would be a good fit for Renewed Hope and we sincerely hope that you find a guild that is perfect for you and your needs.\n\nThank you for your interest."
+            from_user_image = request.form['from_user_image']
+            message_body = "Thanks for applying\nWe’re terribly sorry but we are passing on your application. Not everyone would be a good fit for Renewed Hope and we sincerely hope that you find a guild that is perfect for you and your needs.\n\nThank you for your interest."
             user_id = request.form['user_id']
-            approve_message = UserMessages(from_user=from_user, message_title=message_title, message_body=message_body, user_id=user_id)
+            approve_message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_body=message_body, user_id=user_id)
             try:
                 db.session.commit()
                 db.session.add(approve_message)
@@ -349,26 +354,7 @@ def delete():
             flash("User was deleted successfully!", "success")
             return redirect('/manage_users')
         except:
+            flash("There was a problem deleting this account. Please try again later or send an email to drewxcom@gmail.com for support.", "danger")
             return "There was a problem deleting this User. Please go back!"
-    # elif request.form['db'] == 'User':
-    #     user_to_delete = User.query.get_or_404(request.form['id'])
-    #     try:
-    #         if user_to_delete.application == None:
-    #             pass
-    #         elif user_to_delete.application.note != "None":
-    #             note = user_to_delete.application.note
-    #             note += " Note: Accounted deleted on: " + str(datetime.utcnow()) + "first if"
-    #             user_to_delete.application.note = note
-    #         elif user_to_delete.application.note == "None":
-    #             user_to_delete.application.note = " Note: Accounted deleted on: " + str(date.today()) + " Second if"
-    #         else:
-    #             print("There was no application")
-            
-    #         db.session.delete(user_to_delete)
-    #         db.session.commit()
-    #         flash("User was deleted successfully!", "sucess")
-    #         return redirect('/manage_users')
-    #     except:
-            # return "There was a problem deleting this User. Please go back!"
-    return redirect('/admin')
 
+    return redirect('/admin')
