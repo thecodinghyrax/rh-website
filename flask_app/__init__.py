@@ -11,9 +11,10 @@ from flask_mail import Mail
 
 app = Flask(__name__)
 # Desktop 
-if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website/rh.db'):
-    print("!!!!!!!! I'm using the local desktop db path !!!!!!!!")
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website/rh.db'
+if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website'):
+    print("!!!!!!!! I'm using the local desktop db path: ", os.getenv('DB_PATH'))
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website/rh.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_PATH')
     
 # Laptop
 elif os.path.exists('/mnt/c/Users/drewc/GitHub/rh-website'):

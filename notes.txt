@@ -42,3 +42,19 @@ Audio link help:
 
 force a link from iframe to open in partent window
 https://stackoverflow.com/questions/1037839/how-to-force-link-from-iframe-to-be-opened-in-the-parent-window
+
+
+
+Things to do:
+
+add profile pictures to messging system
+
+Add another table for saving data when accounts is deleted
+
+Add ability to set announcment order
+
+Add todays calendar event to the announcments (updated daily)
+
+Add a way to add notes to Users
+
+Mythic plus group

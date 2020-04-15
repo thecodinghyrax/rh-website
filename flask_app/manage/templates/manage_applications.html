@@ -69,12 +69,14 @@ Manage Applications
                                 <input type="hidden" name="approve" value="True">
                                 <input type="hidden" name="user_id" value="{{ application.id }}">
                                 <input type="hidden" name="from_user" value="{{ current_user.username }}">
+                                <input type="hidden" name="from_user_image" value="{{ current_user.image_file }}">
                                 <button type="submit" onclick="return confirm('Are you sure you want to approve this application?')" class="btn btn-success hide-after-review mb-1">Approve</button>
                             </form>
                             <form action="{{ url_for('manage.manage_applications') }}" method="POST">
                                 <input type="hidden" name="approve" value="False">
                                 <input type="hidden" name="user_id" value="{{ application.id }}">
                                 <input type="hidden" name="from_user" value="{{ current_user.username }}">
+                                <input type="hidden" name="from_user_image" value="{{ current_user.image_file }}">
                                 <button type="submit" onclick="return confirm('Are you sure you want to reject this application?')" class="btn btn-danger hide-after-review">Reject</button>
                             </form>
                             {% endif %}
@@ -91,18 +93,17 @@ Manage Applications
                                 <div class="modal-body">
                                     <form action="{{ url_for('main.messages') }}" method="POST">
 
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label>Message Title</label>
                                             <input type="text" class="form-control" name="message_title" required="1">
-                                        </div>
+                                        </div> -->
                                         <input type="hidden" name="from_user" value="{{ current_user.id }}">
                                         <input type="hidden" name="id" value="{{ application.id }}">
                                         <input type="hidden" name='db' value='User'>
                                         <input type="hidden" name='return' value='manage.manage_applications'>
                                         <div class="form-group">
                                             <label>Message Body</label>
-                                            <textarea type="text" class="form-control" name="message_body" required="1">
-                                            </textarea>
+                                            <textarea type="text" rows="5" cols="60" class="form-control" name="message_body" required="1" autofocus></textarea>
                                         </div>
 
                                         <button class="btn btn-primary" type="submit">Message {{ application.application.name }} </button>

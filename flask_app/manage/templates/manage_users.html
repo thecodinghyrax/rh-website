@@ -15,7 +15,7 @@ Manage Users
             <div class="jumbotron p-3">
 
                 <h2>Current Users</h2>
-
+                
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
                 {% for message in messages %}
@@ -46,26 +46,34 @@ Manage Users
                         <td>{{ user.application.name }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ rank_list[(user.rank - 1)] }}</td>
-                        
-                            
-                                <td class="manage-btn">
-                                    <a href="" class="message_user_btn btn btn-info btn-xs" data-toggle="modal"
-                                    data-target="#message_modal{{ user.id }}">Messages</a>
-                                </td>
-                                <td class="manage-btn">
-                                    <a href="" class="btn btn-warning btn-xs" data-toggle="modal"
-                                        data-target="#edit_modal{{ user.id }}">Edit</a>
-                                </td>
-                                <td class="manage-btn">
-                                    <form action="{{ url_for('manage.delete') }}" method="POST">
-                                        <input type="hidden" name="db" value="User">
-                                        <input type="hidden" name="id" value="{{ user.id }}">
-                                        <input type="hidden" name="search" value="False">
-                                        <button type="submit" class="btn btn-danger btn-xs"
-                                            onclick="return confirm('Are you sure you want to delete? This can not be undone!')">Delete</button>
-                                    </form>
-                                </td>
+
+
+                        <td class="manage-btn">
+                            <a href="" class="message_user_btn btn btn-info btn-xs" data-toggle="modal"
+                                data-target="#message_modal{{ user.id }}">Messages
+                                {% for msg in user.messages %}
+                           {% if msg.acknowledged == False %}
+                            <div class="red text-center">New</div>
+                            {% endif %}
+                            {% endfor %}
+                        </a>
+                        </td>
+                        <td class="manage-btn">
+                            <a href="" class="btn btn-warning btn-xs" data-toggle="modal"
+                                data-target="#edit_modal{{ user.id }}">Edit</a>
+                        </td>
+                        <td class="manage-btn">
+                            <form action="{{ url_for('manage.delete') }}" method="POST">
+                                <input type="hidden" name="db" value="User">
+                                <input type="hidden" name="id" value="{{ user.id }}">
+                                <input type="hidden" name="search" value="False">
+                                <button type="submit" class="btn btn-danger btn-xs"
+                                    onclick="return confirm('Are you sure you want to delete? This can not be undone!')">Delete</button>
+                            </form>
+                        </td>
                     </tr>
+
+
 
                     <div id="message_modal{{ user.id }}" class="modal fade" role="dialog">
                         <div class="modal-dialog modal-lg">
@@ -73,50 +81,84 @@ Manage Users
                                 <div class="modal-header">
                                     <h2 class="modal-title">Message User</h2>
                                 </div>
+
                                 <div class="modal-body">
                                     <form action="{{ url_for('main.messages') }}" method="POST">
-
-                                        <div class="form-group">
-                                            <label>Message Title</label>
-                                            <input type="text" class="form-control" name="message_title" required="1">
-                                        </div>
                                         <input type="hidden" name="from_user" value="{{ current_user.id }}">
                                         <input type="hidden" name="id" value="{{ user.id }}">
                                         <input type="hidden" name='db' value='User'>
                                         <input type="hidden" name='return' value='manage.manage_users'>
                                         <div class="form-group">
                                             <label>Message Body</label>
-                                            <textarea type="text" class="form-control" name="message_body" required="1">
-                                            </textarea>
+                                            <textarea type="text" rows="5" cols="60" class="form-control"
+                                                name="message_body" required="1" autofocus></textarea>
                                         </div>
 
-                                        <button class="btn btn-primary" type="submit">Message {{ user.application.name }} </button>
+                                        <button class="btn btn-primary" type="submit">Message
+                                            {{ user.application.name }} </button>
                                     </form>
                                 </div>
+
                                 <div class="previous-messages">
                                     <br>
-                                    <h3 class="previous-messages-heading">Previous messages for {{ user.username }}</h3>
+                                    <h3 class="previous-messages-heading">Message history for {{ user.username }}</h3>
                                     <br>
-                                    {% for message in user_messages %}
-                                    {% if message.user_id ==  user.id %}
-                                        {% if message.from_user == current_user.username %}
-                                            <p class="user-color">From: {{ message.from_user  }}  {{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p") }}</p>
-                                            <h6 class="user-color">Subject: {{ message.message_title }}</h6>
+
+                                    <div class="message-body" id='message-body'>
+                                        {% for message in user_messages %}
+                                        {% if message.user_id ==  user.id %}
+                                        {% if message.from_user != user.username %}
+                                        <div class="message-body-inner-go-right">
+                                        <div class="message-each-container sent">
+                                            <div class="message-each-sent">
+                                
+                                                <img src="{{ url_for('static', filename='main/img/profile_pics/' + message.from_user_image) }}" alt="profile picture">
+                                                <p>{{ message.from_user }} </p>
+                                            </div>
+                                            <div class="message-with-date">
+                                
+                                                <h5 class="msg-body">{{ message.message_body }}</h5>
+                                     
+                                                <p>{{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                         {% else %}
-                                            <p class="other-color">From: {{ message.from_user }}  {{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p") }}</p>
-                                            <h6 class="other-color">Subject: {{ message.message_title }}</h6>
-                                        {% endif %}
-
-                                        
-                                        <h5 class="border-bottom">{{ message.message_body }}</h5>
+                                        <div class="message-body-inner">
+                                        <div class="message-each-container received">
+                                            <div class="message-each-sent">
+                                
+                                                <img src="{{ url_for('static', filename='main/img/profile_pics/' + message.from_user_image) }}" alt="profile picture">
+                                                <p>{{ message.from_user }} </p>
+                                               
+                                            </div>
+                                            <div class="message-with-date">
+                                
+                                                <h5 class="msg-body">{{ message.message_body }}</h5>
+                                                
+                                                <p>{{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                     {% endif %}
+                                        {% endif %}
+                                
+                                        
+                                
+                                           
+                                            {% endfor %}
+                                            </div>
 
-                        
-                                    {% endfor %}
+
+
                                 </div>
+
+                                
                             </div>
                         </div>
                     </div>
+
+
 
 
                     <div id="edit_modal{{ user.id }}" class="modal fade" role="dialog">

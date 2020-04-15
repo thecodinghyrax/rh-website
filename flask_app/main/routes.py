@@ -4,7 +4,7 @@ from flask_app.models import Devotional, News, Calendar, User, Announcement, App
 import os
 import calendar
 from datetime import date, datetime, timedelta
-from sqlalchemy import extract
+from sqlalchemy import extract, and_, or_
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_app.main.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm, UpdateAccountForm, ApplyToGuildForm
 from flask_mail import Message
@@ -44,18 +44,11 @@ def send_applied_email():
 
 # @main.route('/testpage')
 # def testpage():
-#     mail_to_user_list = User.query.filter(User.rank <= 5).all()
-#     mail_to_email_list = []
-#     for user in mail_to_user_list:
-#         mail_to_email_list.append(user.email)
-#     msg = Message('We have a new applicant', 
-#                 sender='noreply@renewedhope.us', 
-#                 recipients=mail_to_email_list)
-#     today = datetime.utcnow()
-#     user_to_delete = User.query.get_or_404(3)
-#     note_type = user_to_delete.application
-#     # send_applied_email()
-#     return render_template('testpage.html', mail_to_email_list=mail_to_email_list, msg=msg, today=today, user_to_delete=user_to_delete, note_type=note_type)
+#     pic_route = url_for('static', filename='main/img/profile_pics/')
+#     applications = Application.query.filter(Application.status >= 'A').filter(Application.name >= "J").all()
+#     users = User.query.all()
+#     messages = UserMessages.query.all()
+#     return render_template('testpage.html', applications=applications, users=users, messages=messages, pic_route=pic_route)
 
 
 @main.route('/robots.txt')
@@ -68,7 +61,21 @@ def index():
     devotional = Devotional.query.order_by(Devotional.date.desc()).first()
     news = News.query.order_by(News.id.asc()).all()
     announcements = Announcement.query.order_by(Announcement.id.desc()).all()
-    return render_template('index.html', devotional=devotional, news=news, announcements=announcements, title="Renewed Hope Guild Home Page")
+    if current_user.is_authenticated:
+        user_msgs = User.query.filter(User.id == current_user.id).all()
+        has_read = 0
+        for msg in user_msgs[0].messages:
+            if msg.has_read != True:
+                has_read =+ 1
+    else:
+        has_read = 0
+    if current_user.is_authenticated and current_user.rank < 6:
+        no_ack_query = db.session.query(UserMessages.acknowledged).filter(UserMessages.acknowledged == False).all()
+        no_ack = len(no_ack_query)
+    else:
+        no_ack = 0
+
+    return render_template('index.html', current_user=current_user, devotional=devotional, news=news, announcements=announcements, no_ack=no_ack, has_read=has_read, title="Renewed Hope Guild Home Page")
 
 
 @ext.register_generator
@@ -186,8 +193,8 @@ def account():
     form = UpdateAccountForm()
     selected_pic = "This is the default statment"
     if form.validate_on_submit():
-        
-        if form.picture.data:
+
+        if form.picture.data != current_user.image_file and form.picture.data != None:
             if current_user.image_file != 'default.jpg':
                 pic_to_delete = current_user.image_file
             else:
@@ -195,39 +202,53 @@ def account():
 
             selected_pic = form.picture.data
             picture_file = save_picture(form.picture.data, pic_to_delete)
-            current_user.image_file = picture_file
-        current_user.username = form.username.data
-        current_user.email = form.email.data
-        db.session.commit()
+            msg_to_update = UserMessages.query.filter(UserMessages.user_id == current_user.id).filter(UserMessages.from_user == current_user.username).all()
+            try:
+                for msg in msg_to_update:
+                    msg.from_user_image = picture_file
+                    db.session.commit()
+                current_user.image_file = picture_file
+                db.session.commit()
+                flash('Your profile picture has been updated!', 'success')
+            except:
+                flash('There was a problem updating your old message profile pictures. Please try again later :(', 'danger')
+                return redirect(url_for('main.account'))
 
-        flash('Your account has been updated!', 'success')
-        return redirect(url_for('main.account'))
+        if form.username.data != current_user.username:
+            msg_to_update = UserMessages.query.filter(UserMessages.user_id == current_user.id).filter(UserMessages.from_user == current_user.username).all()
+            try:
+                for msg in msg_to_update:
+                    msg.from_user = form.username.data
+                    db.session.commit()
+                current_user.username = form.username.data
+                db.session.commit()
+                flash('Your username has been updated!', 'success')
+            except:
+                flash('There was a problem updating your old message user names. Please try again later :(', 'danger')
+                return redirect(url_for('main.account'))
+
+        if form.email.data != current_user.email:
+            try:
+                current_user.email = form.email.data
+                db.session.commit()
+                flash('Your email has been updated!', 'success')
+                return redirect(url_for('main.account'))
+            except:
+                flash('There was a problem updating your picture. Please try again later :(', 'danger')
+                return redirect(url_for('main.account'))
    
-    messages = UserMessages.query.filter_by(user_id = current_user.id, archived = False).order_by(UserMessages.message_date.desc()).all()
+    unread_messages = UserMessages.query.filter_by(user_id = current_user.id).all()
+    for message in unread_messages:
+        message.has_read = True
+        db.session.commit()
+    msg_query = db.session.query(UserMessages.from_user, UserMessages.from_user_image, UserMessages.message_date,
+                                UserMessages.message_body, UserMessages.user_id, User.username, User.id, User.image_file).join(UserMessages, UserMessages.user_id == User.id)
+    messages = msg_query.filter(User.id == current_user.id).order_by(UserMessages.message_date).all()
     form.username.data = current_user.username
     form.email.data = current_user.email
     rank = rank_dict[current_user.rank]
     image_file = url_for('static', filename='main/img/profile_pics/' + current_user.image_file ) 
     return render_template('account.html', title="Your Renewed Hope Guild Account Page", image_file=image_file, form=form, rank=rank, messages=messages, selected_pic=selected_pic)
-
-
-@main.route('/archived', methods=['POST'])
-@login_required
-def archived():
-    req = request.form
-    post_to_archive = UserMessages.query.get(req.get('message_id'))
-    post_to_archive.archived = True
-    db.session.commit()
-    return redirect(url_for('main.account'))
-
-
-@main.route('/archived/all', methods=['POST'])
-@login_required
-def archived_all():
-    messages =  UserMessages.query.filter_by(user_id = current_user.id, archived = True).order_by(UserMessages.message_date.desc()).all()
-    rank = rank_dict[current_user.rank]
-    image_file = url_for('static', filename='main/img/profile_pics/' + current_user.image_file ) 
-    return render_template('archived_messages.html', title="Your Archived Messages", image_file=image_file, rank=rank, messages=messages)
 
 
 @main.route('/logout')
@@ -253,9 +274,9 @@ def apply():
         status = "Application recieved"
         application = Application(name=name, join_how=join_how, find_how=find_how, self_description=self_description, b_tag=b_tag, have_auth=have_auth, play_when=play_when, status=status)
         from_user = "Renewed Hope WebBot"
-        title = "Congratulations, Your application has been received!"
-        body = "We have lit the signal fires and our guild leadership should be notified very soon. Your application will be reviewed and one of our fine officers will reach out to you soon to set up a time to chat. We like to take a few minutes and talk to all applicants before sending out an invite. This will give us a chance to get to know you a bit better and also give you a chance to ask any questions you may still have about the guild. Thanks for showing your interest in joining Renewed Hope and we look forward to talking to you soon."
-        applied_message = UserMessages(from_user=from_user, message_title=title, message_body=body)
+        from_user_image = '655c9f17511a4133.png'
+        body = "Congratulations, Your application has been received! \n\nWe have lit the signal fires and our guild leadership should be notified very soon. Your application will be reviewed and one of our fine officers will reach out to you soon to set up a time to chat. We like to take a few minutes and talk to all applicants before sending out an invite. This will give us a chance to get to know you a bit better and also give you a chance to ask any questions you may still have about the guild. Thanks for showing your interest in joining Renewed Hope and we look forward to talking to you soon."
+        applied_message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_body=body)
 
         try:
             send_applied_email()
@@ -280,8 +301,8 @@ def messages():
     req = request.form
     user = User.query.get(current_user.id)
     from_user = user.username
+    from_user_image = user.image_file
     message_date = datetime.utcnow()
-    message_title = req.get('message_title')
     message_body = req.get('message_body')
     if req.get('id'):
         user_id = req.get('id')
@@ -290,8 +311,20 @@ def messages():
     if req.get('return'):
         return_path = req.get('return')
     else:
-        retrun_path = "main.account"
-    message = UserMessages(from_user=from_user, message_date=message_date, message_title=message_title, message_body=message_body)
+        return_path = "main.account"
+    if req.get('acknowledged'):
+        acknowledged = False
+    else:
+        acknowledged = True
+    message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_date=message_date,  message_body=message_body, acknowledged=acknowledged)
+    try:
+        msg_to_update = UserMessages.query.filter(UserMessages.user_id == user_id).filter(UserMessages.acknowledged == False).all()
+        for msg in msg_to_update:
+            msg.acknowledged = True
+            db.session.commit()
+    except:
+        flash("There was an issue acknowlaging the message. My bad :( Please try again later", "danger")
+        return redirect(url_for(return_path))
     try:
         message.user_id = user_id 
         db.session.add(message)
@@ -315,11 +348,11 @@ def register():
             db.session.add(user)
             db.session.commit()
             login_user(user)
-            from_user = "Renewed Hope Bot"
+            from_user = "Renewed Hope WebBot"
+            from_user_image = '655c9f17511a4133.png'
             message_date = datetime.utcnow()
-            message_title = 'You are now registered'
-            message_body = 'Welcome to the home of the Renewed Hope guild. From here you can apply to join the guild, message our leadership (via the reply button), update your information or delete your account.'
-            message = UserMessages(from_user=from_user, message_date=message_date, message_title=message_title, message_body=message_body)
+            message_body = 'You are now registered!\nWelcome to the home of the Renewed Hope guild. From here you can apply to join the guild, message our leadership (via the reply button), update your information or delete your account.'
+            message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_date=message_date, message_body=message_body)
             message.user_id = current_user.id
             db.session.add(message)
             db.session.commit()
@@ -367,9 +400,3 @@ def reset_token(token):
         return redirect(url_for('main.login'))
     return render_template('reset_token.html', title='Reset your Renewed Hope Guild Password', form=form)
 
-# @main.route('/create_all')
-# @login_required
-# def create_all():
-#     db.create_all()
-#     db.session.commit()
-#     return redirect(url_for('main.index'))

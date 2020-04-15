@@ -29,26 +29,70 @@ body {
     color: black;
 }
 
-.message_body {
+.message-body {
     border: 2px solid green;
     border-radius: 15px;
     padding: 2em;
     margin: 1em;
-    max-height: 35vh;
+    max-height: 70vh;
     -ms-overflow-style: none;
     overflow: auto;
-   
 }
 
-.message-each {
+.message-each-container {
+    display: flex;
+    align-content: center;
+    max-width: 70%;
+    border-radius: 20px;
+    padding: 1rem 1rem 0 1rem;
+    color: black;
+}
+.sent {
+    background-color: lightskyblue;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+}
+
+.received {
+    background-color: lightseagreen;
+}
+
+.message-each-sent {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.message-each-sent img{
+    border-radius: 10%;
+}
+
+.message-with-date {
     display: flex;
     flex-direction: column;
-    align-items: baseline;
+    align-content: center;
+    padding: 1rem;
 }
 
+.message-with-date P {
+    font-size: 0.8rem;
 
-.message-each > h4 {
-    color: yellow;
+}
+
+.message-each-received {
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    background-color: lightseagreen;
+    width: 70%;
+    border-radius: 20px;
+    padding: 1rem;
+    color: black;
+}
+
+.message-body-inner-go-right {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 .modal-content {
@@ -79,4 +123,9 @@ hr {
 .msg-body {
     white-space: pre-wrap;
     white-space: pre-line;
+}
+
+.form-group-btn {
+    display: flex;
+    justify-content: space-between;
 }

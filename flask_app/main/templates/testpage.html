@@ -1,12 +1,16 @@
-{% for email in mail_to_email_list %}
-<div>{{ email }}</div>
+{% for user in users %}
+
+<img src="{{ pic_route }}{{ user.image_file }}"><br><br>
+<div>{{ user.username }} {{ user.application.name }} - {{ user.image_file }}</div>
 {% endfor %}
 
-<div>{{ msg }}</div>
 
-<div>{{ today }}</div>
+{% for application in applications %}
 
-<div>{{ user_to_delete.application.note }}</div>
-<div>{{ user_to_delete.application.name }}</div>
+{% endfor %}
 
-<div>{{ note_type }}</div>
+
+{% for message in messages %}
+
+{% endfor %}
+

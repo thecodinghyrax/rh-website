@@ -142,3 +142,110 @@ td.manage-btn {
 .modal-content {
     padding: 1em;
 }
+
+
+.message-each-container {
+    display: flex;
+    align-content: center;
+    max-width: 70%;
+    border-radius: 20px;
+    padding: 1rem 1rem 0 1rem;
+    color: black;
+    margin: 1rem;
+}
+.sent {
+    background-color: lightskyblue;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+}
+
+.received {
+    background-color: lightseagreen;
+}
+
+.message-each-sent {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.message-each-sent img{
+    border-radius: 10%;
+}
+
+.message-with-date {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding: 1rem;
+}
+
+.message-with-date P {
+    font-size: 0.8rem;
+
+}
+
+.message-each-received {
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    background-color: lightseagreen;
+    width: 70%;
+    border-radius: 20px;
+    padding: 1rem;
+    color: black;
+}
+
+.message-body-inner-go-right {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.modal-content {
+    background-color: black;
+}
+
+.modal-title {
+    color: yellow;
+}
+
+textarea {
+    width: 100%;
+    height: 30vh;
+}
+
+.modal-content {
+    margin: 5em auto;
+}
+
+hr {
+    background-color: green;
+}
+
+.archive-btn {
+    margin-bottom: 3em;
+}
+
+.msg-body {
+    white-space: pre-wrap;
+    white-space: pre-line;
+}
+
+.form-group-btn {
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-msg-notify {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    color: white;
+}
+.red {
+    background-color: red;
+}
+
+.red:hover:after {
+    content: " User message waiting";
+}

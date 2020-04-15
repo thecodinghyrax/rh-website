@@ -12,7 +12,6 @@
     <div class="media">
         <img src="{{ image_file }}" alt="user_image" class="rounded-circle account-img">
         <div class="media-body">
-
             <h2 class="account-heading">{{ current_user.username }}</h2>
             <p class="text-secondary">{{ current_user.email }}</p>
             <p class="text-secondary">{{ rank }}</p>
@@ -28,45 +27,68 @@
     </div>
     <!--################################ Message Section ##########################-->
     {% if messages %}
-    <div class="message_body">
-
-
+    
+    <div class="message-body" id='message-body'>
         {% for message in messages %}
-        <div class="message-each">
+        {% if message.from_user == current_user.username %}
+        <div class="message-body-inner-go-right">
+        <div class="message-each-container sent">
+            <div class="message-each-sent">
 
-            {% if loop.index == 1 %}
-            <p>* Newest Post</p>
-            {% endif %}
-            <h4>{{ message.message_title }}</h4>
-            <p>From: {{ message.from_user }}  {{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
+                <img src="{{ url_for('static', filename='main/img/profile_pics/' + message.from_user_image) }}" alt="profile picture">
+                <p>{{ message.from_user }} </p>
+            </div>
+            <div class="message-with-date">
+
+                <h5 class="msg-body">{{ message.message_body }}</h5>
+                
+                <p>{{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
+            </div>
+        </div>
+    </div>
+        {% else %}
+        <div class="message-body-inner">
+        <div class="message-each-container received">
+            <div class="message-each-sent">
+
+                <img src="{{ url_for('static', filename='main/img/profile_pics/' + message.from_user_image) }}" alt="profile picture">
+                <p>{{ message.from_user }} </p>
+            </div>
+            <div class="message-with-date">
+
+                <h5 class="msg-body">{{ message.message_body }}</h5>
+                
+                <p>{{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
+            </div>
+        </div>
+    </div>
+        {% endif %}
+
+        <br>
+
+           
+            {% endfor %}
             
-            <h5 class="msg-body">{{ message.message_body }}</h5>
-            <form action="{{ url_for('main.archived') }}" method="POST">
-                <input type="hidden" name="message_id" value="{{ message.id }}">
-                <button type="submit" class="btn btn-info archive-btn">Archive this post</button>
-            </form>
-            {% if loop.index == 1 %} 
             <div class="button_section">
                 <a href="" class="archive btn btn-warning btn-small" data-toggle="modal"
-                data-target="#reply_modal-{{ message.id }}">Post a Reply</a>
+                data-target="#reply_modal">Post a Reply</a>
             </div>
-            <hr>
+            
         </div>
-            {% else %}
-            <hr>
-        </div>
-            {% endif %}
+       
 
-        <div id="reply_modal-{{ message.id }}" class="modal fade" role="dialog">
+
+
+        <div id="reply_modal" class="modal fade" role="dialog">
             <form action="{{ url_for('main.messages') }}" method="POST" id="reply_form">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">RE: {{ message.message_title }}</h4>
+                            <h4 class="modal-title">My reply</h4>
                         </div>
-                        <input type="hidden" name="from_user" value="{{ message.user_id }}">
-                        <input type="hidden" name="message_title" value="RE: {{ message.message_title }}">
+                        <input type="hidden" name="from_user" value="{{ current_user.id }}">
                         <input type="hidden" name="return" value="main.account">
+                        <input type="hidden" name="acknowledged" value="False">
 
 
                         <div class="modal-body">
@@ -79,10 +101,18 @@
                 </div>
             </form>
         </div>
-        {% endfor %}
 
+        <script>
+            function scrollDown() {
+                var objDiv = document.getElementById('message-body');
+                objDiv.scrollTop = objDiv.scrollHeight;
+            };
+            scrollDown();
+        </script>
 
     </div>
+
+
     {% else %}
     <div class="message_body with-border">
         <h2>There are no messages for you at this time</h2>
@@ -92,21 +122,20 @@
    
 
     <!--###########################     Setting Section   ########################-->
-    <dev class="button_section">
-        <form action="{{ url_for('main.archived_all') }}" method="POST">
+    <div class="button_section">
+      
             <button type="button" class="slide_settings"><i class="fa fa-cog" aria-hidden="true"></i></button>
-        <button type="submit" class="btn btn-info float-right">Show archived messages</button>
-        </form>
-    </dev>
+ 
+    </div>
         
     <div id="content-slide" class="content-section" style="display:none">
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb4">Account Settings</legend>
+                <!-- username update section -->
                 <div class="form-group">
                     {{ form.username.label(class="form-control-label") }}
-
                     {% if form.username.errors %}
                     {{ form.username(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
@@ -118,6 +147,7 @@
                     {{ form.username(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <!-- email update section -->
                 <div class="form-group">
                     {{ form.email.label(class="form-control-label") }}
                     {% if form.email.errors %}
@@ -131,6 +161,7 @@
                     {{ form.email(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <!-- profile picture update section -->
                 <div class="form-group">
                     {{ form.picture.label() }}
                     {{ form.picture(class="form-control-file") }}
@@ -141,24 +172,31 @@
                     {% endif %}
                 </div>
             </fieldset>
-            <div class="form-group">
+
+            <div class="form-group form-group-btn">
+
                 {{ form.submit(class="btn btn-outline-info") }}
+
                 <div class="reset-password-button float-right btn btn-warning">
                     <a href="{{ url_for('main.reset_request') }}">Reset Password</a>
                 </div>
+            </form>
+                <div id="del-account-btn" style="display:none">
+                    <form action="{{ url_for('manage.delete') }}" method="POST">
+                        <input type="hidden" name="db" value="User">
+                        <input type="hidden" name="id" value="{{ current_user.id }}">
+                        <input type="hidden" name="search" value="False">
+                        <button type="submit" class="btn btn-danger btn-xs"
+                            onclick="return confirm('Are you sure you want to delete your account? This can not be undone!')">Delete Account</button>
+                    </form>
+                </div>
+
             </div>
-        </form>
+        
 
     </div>
-    <div id="del-account-btn" style="display:none">
-        <form action="{{ url_for('manage.delete') }}" method="POST">
-            <input type="hidden" name="db" value="User">
-            <input type="hidden" name="id" value="{{ current_user.id }}">
-            <input type="hidden" name="search" value="False">
-            <button type="submit" class="btn btn-danger btn-xs"
-                onclick="return confirm('Are you sure you want to delete your account? This can not be undone!')">Delete Account</button>
-        </form>
-    </div>
+
+
 
 
 </div>
@@ -167,6 +205,7 @@
         $(".slide_settings").click(function () {
             $("#content-slide").slideToggle();
             $("#del-account-btn").slideToggle();
+            $("html, body").animate({ scrollTop: $(document).height() }, 1500);
         });
         $(function() {
             var foundin = $('span:contains("Invalid email address")').length > 0;
