@@ -22,10 +22,6 @@ Install packages from the txt file:
     pip3 install -r requirments.txt
     
 
-
-If I ever use the register pages, I might want to put this back at the bottom of the login page:
-<!-- Need An Account? <a class="ml-2" href="{{ url_for('main.register') }}">Sign Up</a> -->
-
 Inorder to get the Secret_key environment variable to be found on Pythonanywhere:
 https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
 
@@ -46,8 +42,6 @@ https://stackoverflow.com/questions/1037839/how-to-force-link-from-iframe-to-be-
 
 
 Things to do:
-
-add profile pictures to messging system
 
 Add another table for saving data when accounts is deleted
 

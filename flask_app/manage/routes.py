@@ -269,11 +269,14 @@ def insert():
             repeat_num_times = int(request.form['n-times'])
             repeat_delta = timedelta(days=repeat_num_days)
             for _ in range(repeat_num_times):
-                new_event = Calendar(title=title, date=date, time=time, description=description, symbol=symbol)
+                new_event = Calendar(title=title, date=date, time=time, description=description, symbol=symbol, lead=lead)
                 try:
                     db.session.add(new_event)
                     db.session.commit()
                 except:
+                    print(int(request.form['n-days']))
+                    print(int(request.form['n-times']))
+                    print(new_event)
                     return "There was a problem adding this to the database :("
                 date += repeat_delta
             flash("All events were successfully added!")
