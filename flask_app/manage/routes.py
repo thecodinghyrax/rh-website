@@ -274,9 +274,6 @@ def insert():
                     db.session.add(new_event)
                     db.session.commit()
                 except:
-                    print(int(request.form['n-days']))
-                    print(int(request.form['n-times']))
-                    print(new_event)
                     return "There was a problem adding this to the database :("
                 date += repeat_delta
             flash("All events were successfully added!")
