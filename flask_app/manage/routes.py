@@ -269,7 +269,7 @@ def insert():
             repeat_num_times = int(request.form['n-times'])
             repeat_delta = timedelta(days=repeat_num_days)
             for _ in range(repeat_num_times):
-                new_event = Calendar(title=title, date=date, time=time, description=description, symbol=symbol)
+                new_event = Calendar(title=title, date=date, time=time, description=description, symbol=symbol, lead=lead)
                 try:
                     db.session.add(new_event)
                     db.session.commit()
