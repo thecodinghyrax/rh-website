@@ -243,7 +243,7 @@ def account():
         db.session.commit()
     msg_query = db.session.query(UserMessages.from_user, UserMessages.from_user_image, UserMessages.message_date,
                                 UserMessages.message_body, UserMessages.user_id, User.username, User.id, User.image_file).join(UserMessages, UserMessages.user_id == User.id)
-    messages = msg_query.filter(User.id == current_user.id).order_by(UserMessages.message_date).all()
+    messages = msg_query.filter(User.id == current_user.id).order_by(UserMessages.message_date.desc()).all()
     form.username.data = current_user.username
     form.email.data = current_user.email
     rank = rank_dict[current_user.rank]

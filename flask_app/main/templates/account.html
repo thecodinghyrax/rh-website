@@ -29,6 +29,10 @@
     {% if messages %}
     
     <div class="message-body" id='message-body'>
+        <div class="button_section">
+            <a href="" class="archive btn btn-warning btn-small" data-toggle="modal"
+            data-target="#reply_modal" data-toggle2="tooltip" data-placement="left" title="This will send a message to the Renewed Hope leadership team.">Post a Reply</a>
+        </div>
         {% for message in messages %}
         {% if message.from_user == current_user.username %}
         <div class="message-body-inner-go-right">
@@ -69,10 +73,7 @@
            
             {% endfor %}
             
-            <div class="button_section">
-                <a href="" class="archive btn btn-warning btn-small" data-toggle="modal"
-                data-target="#reply_modal">Post a Reply</a>
-            </div>
+
             
         </div>
        
@@ -102,13 +103,13 @@
             </form>
         </div>
 
-        <script>
+        <!-- <script>
             function scrollDown() {
                 var objDiv = document.getElementById('message-body');
                 objDiv.scrollTop = objDiv.scrollHeight;
             };
             scrollDown();
-        </script>
+        </script> -->
 
     </div>
 
@@ -216,7 +217,7 @@
             };
             
         });
-        
+        $('[data-toggle2="tooltip"]').tooltip(); 
     }
 </script>
 {% endblock %}
