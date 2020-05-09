@@ -123,7 +123,7 @@ def manage_applications():
             flash("The request.get('approve') was not = to 'True'", "danger")
             return redirect(url_for('manage.manage_applications'))
 
-    applications = User.query.filter(User.application).all()
+    applications = Application.query.order_by(Application.app_date.desc()).all()
     return render_template('manage_applications.html', applications=applications)
 
 
@@ -358,3 +358,7 @@ def delete():
             return "There was a problem deleting this User. Please go back!"
 
     return redirect('/admin')
+
+@manage.route('/changelog')
+def change_log():
+    return render_template('change_log.html')
