@@ -58,7 +58,11 @@ def manage_events():
     if current_user.rank > 5:
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
-    all_events = Calendar.query.order_by(Calendar.date.desc()).all()
+    pag_number = 15
+    current_date = datetime.utcnow()
+    future_events = round(Calendar.query.filter(Calendar.date > current_date).count() / pag_number)
+    page = request.args.get('page', (future_events + 1), type=int)
+    all_events = Calendar.query.order_by(Calendar.date.desc()).paginate(page=page, per_page=pag_number)
     return render_template('manage_events.html', events=all_events)
 
 
@@ -123,7 +127,7 @@ def manage_applications():
             flash("The request.get('approve') was not = to 'True'", "danger")
             return redirect(url_for('manage.manage_applications'))
 
-    applications = Application.query.order_by(Application.app_date.desc()).all()
+    applications = Application.query.order_by(Application.status).order_by(Application.app_date.desc()).all()
     return render_template('manage_applications.html', applications=applications)
 
 

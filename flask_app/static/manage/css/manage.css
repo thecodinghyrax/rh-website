@@ -249,3 +249,14 @@ hr {
 .red:hover:after {
     content: " User message waiting";
 }
+
+.pag {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin: 2rem auto;
+    margin-top: 1em;
+    font-size: 1.9rem;
+    letter-spacing: 0.2rem;
+    text-align: center;
+}
