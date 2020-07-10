@@ -33,30 +33,21 @@ Manage Applications
 
                 <table class="table table-hover table-dark">
 
-                    <tr>
-                        <th>Name</th>
-                        <th>Application Date</th>
-                        <th>Battle Tag</th>
-                        <th>Authenticator?</th>
-                        <th>Joining how?</th>
-                        <th>Found us how?</th>
-                        <th>Describe self</th>
-                        <th>Play times?</th>                        
-                        <th>Application status</th>
-                    </tr>
-
                     {% for application in applications %}
+                    <tr class="no-b-border">
+                        <td class="v-align"><h6>Name</h6>{{ application.name }}</td>
+                        
+                        <td class="v-align"><h6>Authenticator?</h6>{{ application.have_auth }}</td>
+                        <td class="v-align"><h6>Joining how?</h6>{{ application.join_how }}</td>
+                        <td class="v-align"><h6>Discription</h6> {{ application.self_description }}</td>
+                        <td class="v-align"><h6>Application Date</h6>{{ application.app_date.strftime("%-m-%-d-%Y %-I:%M") }} UTC</td>
+                    </tr>
                     <tr>
-                        <td>{{ application.name }}</td>
-                        <td>{{ application.app_date.strftime("%-m-%-d-%Y %-I:%M") }} UTC</td>
-                        <td>{{ application.b_tag }}</td>
-                        <td>{{ application.have_auth }}</td>
-                        <td>{{ application.join_how }}</td>
-                        <td>{{ application.find_how }}</td>
-                        <td>{{ application.self_description }}</td>
-                        <td>{{ application.play_when }}</td>
-                        <td>{{ application.status }}</td>
-                        <td class="manage-btn text-center">
+                        <td class="v-align"><h6>Battle Tag</h6>{{ application.b_tag }}</td>
+                        <td class="v-align"><h6>Found us how?</h6>{{ application.find_how }}</td>
+                        <td class="v-align"><h6>Application Status</h6> {{ application.status }}</td>
+                        <td class="v-align"><h6>When do you play?</h6>{{ application.play_when }}</td>
+                        <td class="manage-btn text-center v-align">
                             {% if application.user_id == None %}
                             <div class="btn btn-danger disabled">User is Deleted</div>
                             {% else %}
@@ -85,7 +76,7 @@ Manage Applications
                             </form>
                             {% endif %}
                         </td>
-
+                   
                     </tr>
 
                     <div id="message_modal{{  application.user_id }}" class="modal fade" role="dialog">

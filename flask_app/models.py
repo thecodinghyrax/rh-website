@@ -70,10 +70,10 @@ class Application(db.Model):
     name = db.Column(db.String(75), nullable=False)
     join_how = db.Column(db.String(50), nullable=False)
     find_how = db.Column(db.String(200), nullable=False)
-    self_description = db.Column(db.String(500), nullable=False)
+    self_description = db.Column(db.String(2000), nullable=False)
     b_tag = db.Column(db.String(50))
     have_auth = db.Column(db.String(20), nullable=False)
-    play_when = db.Column(db.String(200), nullable=False)
+    play_when = db.Column(db.String(1000), nullable=False)
     # status is for where in the application process this is?
     status = db.Column(db.String(50), nullable=False, default="Accepted")
     note = db.Column(db.String(2000))

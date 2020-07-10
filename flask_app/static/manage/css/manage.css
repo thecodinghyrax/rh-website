@@ -249,3 +249,30 @@ hr {
 .red:hover:after {
     content: " User message waiting";
 }
+
+.pag {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin: 2rem auto;
+    margin-top: 1em;
+    font-size: 1.9rem;
+    letter-spacing: 0.2rem;
+    text-align: center;
+}
+
+tr.no-b-border td {
+    border-bottom-style: hidden;
+}
+
+.table td, .table th {
+    border-top: 3px solid rgb(141, 143, 143);
+}
+
+.v-align {
+    vertical-align: top !important;
+}
+
+.v-align h6 {
+    color: rgb(141, 143, 143);
+}

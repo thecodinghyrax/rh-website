@@ -53,8 +53,9 @@ Scheduled Events
                         <th>Description</th>
                         <th>Lead</th>
                         <th>Symbol</th>
+                        <th></th>
                     </tr>
-                    {% for event in events %}
+                    {% for event in events.items %}
                     <tr>
                         <td>{{ event.title }}</td>
                         <td>{{ event.date.strftime('%m-%d-%y') }}</td>
@@ -218,5 +219,20 @@ Scheduled Events
         </div>
     </div>
 </div>
+
+<div class="pag">
+    {% for page_num in events.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+    {% if events.page == page_num %}
+    <a class="btn btn-info mb-4" href="{{ url_for('manage.manage_events', page=page_num) }}">{{ page_num }}</a>
+    {% else %}
+    <a class="btn btn-outline-info mb-4" href="{{ url_for('manage.manage_events', page=page_num) }}">{{ page_num }}</a>
+    {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
+</div>
+
 <script src="{{ url_for('static', filename='manage/js/manage.js') }}"></script>
 {% endblock body %}
