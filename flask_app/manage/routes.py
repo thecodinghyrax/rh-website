@@ -172,7 +172,7 @@ def search():
         return redirect(url_for('main.index'))
     search = request.form['search']
     database = db_name_to_object[request.form['db']]
-    results = database.query.filter(or_(database.title.like('%' + search + '%'), database.description.like('%' + search + '%')))
+    results = database.query.filter(or_(database.title.like('%' + search + '%'), database.description.like('%' + search + '%'))).order_by(database.date.desc())
     data = results.count()
     return render_template('results.html', results=results, search=request.form['search'], db=request.form['db'], data=data )
  
