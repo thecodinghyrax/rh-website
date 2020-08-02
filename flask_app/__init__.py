@@ -11,7 +11,8 @@ from flask_mail import Mail
 
 app = Flask(__name__)
 # Desktop 
-if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website'):
+if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website') or \
+    os.path.exists('/mnt/c/Users/drewc/Code-Local/rh-website'):
     print("!!!!!!!! I'm using the local desktop db path: ", os.getenv('DB_PATH_LOCAL'))
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_PATH_LOCAL')
         

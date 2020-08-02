@@ -36,7 +36,6 @@ msrestazure==0.6.1
 mysqlclient==1.4.6
 oauthlib==3.1.0
 Pillow==7.0.0
-pkg-resources==0.0.0
 pycparser==2.19
 PyJWT==1.7.1
 pylint==2.3.1
