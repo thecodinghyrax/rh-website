@@ -260,3 +260,19 @@ hr {
     letter-spacing: 0.2rem;
     text-align: center;
 }
+
+tr.no-b-border td {
+    border-bottom-style: hidden;
+}
+
+.table td, .table th {
+    border-top: 3px solid rgb(141, 143, 143);
+}
+
+.v-align {
+    vertical-align: top !important;
+}
+
+.v-align h6 {
+    color: rgb(141, 143, 143);
+}

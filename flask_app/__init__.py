@@ -21,7 +21,7 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_PATH')
     app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    print("!!!!!!!! I'm using the server db path: ", os.getenv('DB_PATH'))
+    print("!!!!!!!! I'm using the server db path !!!!!", os.getenv('DB_PATH'))
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SITEMAP_URL_SCHEME'] = 'https'
 app.config['MAIL_SERVER'] = 'smtp.pepipost.com'
