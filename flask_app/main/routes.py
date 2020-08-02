@@ -298,42 +298,58 @@ def apply():
 @main.route('/messages', methods=['POST'])
 @login_required
 def messages():
-    req = request.form
-    user = User.query.get(current_user.id)
-    from_user = user.username
-    from_user_image = user.image_file
-    message_date = datetime.utcnow()
-    message_body = req.get('message_body')
-    if req.get('id'):
+    if request.form.get('clear'):
+        req = request.form
         user_id = req.get('id')
+        try:
+            msg_to_update = UserMessages.query.filter(UserMessages.user_id == user_id).filter(UserMessages.acknowledged == False).all()
+            for msg in msg_to_update:
+                msg.acknowledged = True
+                db.session.commit()
+        except:
+            flash("There was an issue acknowlaging the message. My bad :( Please try again later", "danger")
+            print("There was an exception")
+            return redirect(url_for(return_path))
+        return redirect(url_for("manage.manage_users"))
     else:
-        user_id = current_user.id 
-    if req.get('return'):
-        return_path = req.get('return')
-    else:
-        return_path = "main.account"
-    if req.get('acknowledged'):
-        acknowledged = False
-    else:
-        acknowledged = True
-    message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_date=message_date,  message_body=message_body, acknowledged=acknowledged)
-    try:
-        msg_to_update = UserMessages.query.filter(UserMessages.user_id == user_id).filter(UserMessages.acknowledged == False).all()
-        for msg in msg_to_update:
-            msg.acknowledged = True
+        req = request.form
+        user = User.query.get(current_user.id)
+        from_user = user.username
+        from_user_image = user.image_file
+        message_date = datetime.utcnow()
+        message_body = req.get('message_body')
+        if req.get('id'):
+            user_id = req.get('id')
+        else:
+            user_id = current_user.id 
+        if req.get('return'):
+            return_path = req.get('return')
+        else:
+            return_path = "main.account"
+        if req.get('acknowledged'):
+            acknowledged = False
+        else:
+            acknowledged = True
+        message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_date=message_date,  message_body=message_body, acknowledged=acknowledged)
+        try:
+            msg_to_update = UserMessages.query.filter(UserMessages.user_id == user_id).filter(UserMessages.acknowledged == False).all()
+            for msg in msg_to_update:
+                msg.acknowledged = True
+                db.session.commit()
+        except:
+            flash("There was an issue acknowlaging the message. My bad :( Please try again later", "danger")
+            return redirect(url_for(return_path))
+        try:
+            message.user_id = user_id 
+            db.session.add(message)
             db.session.commit()
-    except:
-        flash("There was an issue acknowlaging the message. My bad :( Please try again later", "danger")
-        return redirect(url_for(return_path))
-    try:
-        message.user_id = user_id 
-        db.session.add(message)
-        db.session.commit()
-        flash("Your message was submitted", "success")
-        return redirect(url_for(return_path))
-    except:
-        flash("There was an issue submitting your message. My bad :( Please try again later", "danger")
-        return redirect(url_for(return_path))
+            flash("Your message was submitted", "success")
+            return redirect(url_for(return_path))
+        except:
+            flash("There was an issue submitting your message. My bad :( Please try again later", "danger")
+            return redirect(url_for(return_path))
+ 
+
 
 
 @main.route('/register', methods=['GET', 'POST'])
