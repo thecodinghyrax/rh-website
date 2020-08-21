@@ -1,0 +1,271 @@
+* {
+    box-sizing: border-box;
+    color: white;
+}
+
+body {
+    max-width: 1920px;
+    margin: auto;
+}
+
+.banner-img {
+    background-size: cover;
+    height: auto;
+    width: 75%;
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    margin: 0 2rem;
+}
+
+.announcment-container {
+    order: 0;
+    text-align: left;
+    font-size: 0.7rem;
+}
+
+#myCarousel {
+    min-height: 10rem;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.nav-arrows {
+    display: flex;
+    justify-content: center;
+    margin: -1.5em 0 0 0;
+}
+
+.carousel-ctrl-prev, .carousel-ctrl-next {
+    margin: 0 3em;
+}
+
+#devo {
+    text-decoration: none;
+    
+}
+
+.devotional-card-label {
+    
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: #222;
+    min-height: 12rem;
+}
+
+.devotional-card-label:hover {
+    background-color: #333;
+}
+
+/* .extra-life-container {
+    order: 2;
+    margin-bottom: 2rem;
+} */
+
+.twitter-container {
+    order: 2;
+    margin-bottom: 2rem;
+}
+
+.extra-life-container-lg {
+    display: none;
+}
+
+.widgets {
+    order: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-1 {
+    margin-bottom: 2rem;
+}
+
+div.widget-2 {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    width: 190px;
+    margin: auto;
+}
+
+.wowhead-title {
+    background: #181818;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.wowhead-title img {
+    height: 1rem;
+    margin-right: 0.5rem;
+}
+
+.article-wowhead {
+    color: #ffd100;
+    text-decoration: none;
+    background: #191919;
+    height: 3.5rem;
+}
+
+.wowhead-light {
+    
+    background: #242424;
+}
+
+.article-wowhead a {
+    color: #ffd100;
+    text-decoration: none;
+    font-size: 0.7rem;
+}
+
+@media (min-width: 700px){
+    .info-blocks {
+        display: flex;
+        justify-content: space-around;
+        padding: 2rem 0;
+    }
+    .announcment-container {
+        font-size: 1rem;
+    }
+}
+@media (min-width: 900px) {
+    .announcment-container {
+        margin: 2rem 5rem;
+    }
+}
+
+@media (min-width: 1000px) {
+    .banner-container {
+        background-size: 75%;
+    }
+
+    .extra-life-container{
+        padding-left: 3rem;
+    }
+
+    .widgets {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin: auto;
+    }
+
+    .widget-2 {
+        width: 250px;
+        padding: 0;
+    }
+
+    .wowhead-title {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    
+    .wowhead-title img {
+        height: 1rem;
+        margin-right: 0.5rem;
+    }
+    
+    .article-wowhead {
+        height: 3.5rem;
+        display: flex;
+        justify-content: center;
+        justify-items: center;
+    }
+    
+    .article-wowhead a {
+        font-size: 0.7rem;
+        padding: 0.5rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    body {
+        overflow: hidden;
+    }
+
+    .banner-container {
+        height:40vh;
+    }
+
+    .content-container {
+        display: flex;
+        flex-direction: row;
+        height: 55vh;
+
+    }
+
+    .extra-life-container {
+        display: none;
+    }
+
+    .extra-life-container-lg {
+        display: inline;
+        order: 0;
+    }
+  
+    .announcment-container {
+        order: 1;
+        margin-left: 7rem;
+        margin-right: 0;
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        justify-content: flex-start;
+        flex-grow: 2;
+    }
+    .announcment-card-label {
+        padding: 1rem 4rem 3rem 4rem;
+        margin-bottom: 3rem;
+    }
+
+    .info-blocks {
+        order: 3;
+        margin: 0;
+    }
+
+    .widgets {
+        order: 0;
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        margin: 0;
+        padding-left: 5rem;
+    }
+
+    .widget-1 {
+        margin: auto;
+    }
+
+    .widget-2 {
+        width: 190px;
+        padding: 0;
+        margin: auto;
+        margin-left: 7.5rem; 
+        padding-top: 3rem;
+    }
+
+    .wowhead-title {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+    
+    .wowhead-title img {
+        height: 0.8rem;
+        margin-right: 0.5rem;
+    }
+    
+    .article-wowhead {
+        height: 2.5rem;
+    }
+    
+    .article-wowhead a {
+        font-size: 0.6rem;
+    }
+
+}

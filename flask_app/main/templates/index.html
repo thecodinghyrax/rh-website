@@ -12,7 +12,7 @@
     <div class="main-container">
 
 
-    <div class="banner-container banner-img"></div>
+    <div class="text-center"><img class="banner-img"src="{{url_for('static', filename='main/img/RenewedHope_Banner_cut.jpg')}}" alt="Renewed Hope Banner"></div>
 
     <div class="content-container">
 
@@ -72,7 +72,7 @@
 
         </div>
 
-         <div class="extra-life-container-lg">
+         <div class="extra-life-container">
                 <h2>Extra-Life</h2>
     
                 <div class="extra-life-widget">
@@ -82,52 +82,43 @@
                     </iframe>
                 </div>
             </div>
-        <!--<div class="twitter-container-lg">
+
+        <div class="twitter-container">
             <h2>Twitter</h2>
 
             <div class="extra-life-widget">
-                <a class="twitter-timeline" data-width="220" data-height="422" data-theme="dark"
-                    href="https://twitter.com/RHtheGuild?ref_src=twsrc%5Etfw">Tweets by RHtheGuild</a>
-                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            </div>
-        </div> -->
-
-        <div class="info-blocks">
-
-            <div class="twitter-container">
-                <h2>Twitter</h2>
-
                 <div class="extra-life-widget">
-                    <div class="extra-life-widget">
-                        <a class="twitter-timeline" data-width="220" data-height="422" data-theme="dark"
-                            href="https://twitter.com/RHtheGuild?ref_src=twsrc%5Etfw">Tweets by RHtheGuild</a>
-                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                    </div>
+                    <a class="twitter-timeline" data-width="220" data-height="422" data-theme="dark"
+                        href="https://twitter.com/RHtheGuild?ref_src=twsrc%5Etfw">Tweets by RHtheGuild</a>
+                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </div>
             </div>
-
-            <div class="widgets">
-                <div class="widget-1">
-                    <a id="wowprogress" href="https://wowprogress.com/">
-                        <img alt="WoW Guild Rankings" src="https://wowprogress.com/guild_img/755221/out/type.site"
-                            border="0" />
-                    </a>
-                </div>
-                <div class="widget-2">
-                    <div class="wowhead-title"><img id="wowhead-logo"
-                            src="{{ url_for('static', filename='main/img/wow-head-logo.png') }}">WowHead News</div>
-                    {% for anchor in news %}
-                    {% if loop.index is divisibleby 2 %}
-                    <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
-                    {% else %}
-                    <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
-                    {% endif %}
-
-                    {% endfor %}
-                </div>
-            </div>
-
         </div>
+
+      
+        <div class="widgets text-center">
+ 
+            <div class="widget-2">
+                <div class="wowhead-title"><img id="wowhead-logo"
+                        src="{{ url_for('static', filename='main/img/wow-head-logo.png') }}">WowHead News</div>
+                {% for anchor in news %}
+                {% if loop.index is divisibleby 2 %}
+                <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
+                {% else %}
+                <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
+                {% endif %}
+
+                {% endfor %}
+            </div>
+            <div class="widget-1">
+                <a id="wowprogress" href="https://wowprogress.com/">
+                    <img alt="WoW Guild Rankings" src="https://wowprogress.com/guild_img/755221/out/type.site"
+                        border="0" />
+                </a>
+            </div>
+        </div>
+
+      
     </div>
 
 </div>
