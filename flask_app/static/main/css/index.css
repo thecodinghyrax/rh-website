@@ -41,6 +41,10 @@ body {
     grid-row-end: 2;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 .extra-life-container{
  grid-column-start: 1;
  grid-column-end: 2;

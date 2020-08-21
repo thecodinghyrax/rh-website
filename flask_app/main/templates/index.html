@@ -25,11 +25,12 @@
                     <div class="news_list">
                         {% for announcement in announcements %}
                             {% if loop.index is eq 1 %}
+                            {% if announcement.link %}
+                            <a href="http://{{ announcement.link|safe }}" target="_blank">
                                 <div class="carousel-item news_item active">
                                 <h2 class="new_list" alt="First Slide">{{ announcement.title }}</h2>
                                 <div class="new_list" alt="First Slide">{{ announcement.description }}</div>
-                                {% if announcement.link %}
-                                    <div class="new_list" alt="First Slide">{{ announcement.link }}</div>
+                                <div class="new_list" alt="First Slide">{{ announcement.link }}</div></a>
                                 {% endif %}
                                 </div>
                             {% else %}
@@ -76,10 +77,9 @@
                 <h2>Extra-Life</h2>
     
                 <div class="extra-life-widget">
-                    <iframe src="https://www.extra-life.org/index.cfm?fuseaction=widgets.200x420thermo&teamID=51849" width="202"
-                        height="422" frameborder="0" scrolling="no">
-                        <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=51849"></a>
-                    </iframe>
+                    <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=51849" target="#">
+                    <img src="{{url_for('static', filename='main/img/extralife_stand-in_widget.JPG')}}" alt="Extra Life donation tracker">
+                    </a>
                 </div>
             </div>
 
