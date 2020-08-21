@@ -9,13 +9,18 @@ body {
 }
 .banner-container {
     background-size: cover;
-    background-image: url("../img/Renewed\ Hope\ Banner\ cut.jpg");
+    
     /* height: 25vh; */
     min-height: 20rem;
     width: 100%;
     background-repeat: no-repeat;
     background-position: center top;
 }
+
+.banner-img {
+    background-image: url("../img/Renewed\ Hope\ Banner\ cut.jpg");
+}
+
 
 .content-container {
     display: flex;
@@ -65,7 +70,12 @@ body {
     background-color: #333;
 }
 
-.extra-life-container {
+/* .extra-life-container {
+    order: 2;
+    margin-bottom: 2rem;
+} */
+
+.twitter-container {
     order: 2;
     margin-bottom: 2rem;
 }

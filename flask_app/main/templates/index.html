@@ -12,9 +12,7 @@
     <div class="main-container">
 
 
-    <div class="banner-container">
-
-    </div>
+    <div class="banner-container banner-img"></div>
 
     <div class="content-container">
 
@@ -22,38 +20,30 @@
 
 
             <div id="myCarousel" class="carousel slide news" data-ride="carousel">
-                <!-- Carousel indicators -->
-
-
-
                 <!-- Wrapper for carousel items -->
                 <div class="carousel-inner news_list-container">
                     <div class="news_list">
-
                         {% for announcement in announcements %}
-                        {% if loop.index is eq 1 %}
-                        <div class="carousel-item news_item active">
-                            <h2 class="new_list" alt="First Slide">{{ announcement.title }}</h2>
-                            <div class="new_list" alt="First Slide">{{ announcement.description }}</div>
-                            {% if announcement.link %}
-                            <div class="new_list" alt="First Slide">{{ announcement.link }}</div>
+                            {% if loop.index is eq 1 %}
+                                <div class="carousel-item news_item active">
+                                <h2 class="new_list" alt="First Slide">{{ announcement.title }}</h2>
+                                <div class="new_list" alt="First Slide">{{ announcement.description }}</div>
+                                {% if announcement.link %}
+                                    <div class="new_list" alt="First Slide">{{ announcement.link }}</div>
+                                {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="carousel-item news_item">
+                                    <h2 class="new_list" alt="Next Slide">{{ announcement.title }}</h2>
+                                    <div class="new_list" alt="Next Slide">{{ announcement.description }}</div>
+                                    {% if announcement.link %}
+                                        <div class="new_list" alt="Next Slide">{{ announcement.link }}</div>
+                                    {% endif %}
+                                </div>
                             {% endif %}
-
-                        </div>
-                        {% else %}
-                        <div class="carousel-item news_item">
-                            <h2 class="new_list" alt="Next Slide">{{ announcement.title }}</h2>
-                            <div class="new_list" alt="Next Slide">{{ announcement.description }}</div>
-                            {% if announcement.link %}
-                            <div class="new_list" alt="Next Slide">{{ announcement.link }}</div>
-                            {% endif %}
-                        </div>
-                        {% endif %}
-
                         {% endfor %}
                     </div>
                 </div>
-
             </div>
 
 
@@ -82,17 +72,17 @@
 
         </div>
 
-        <!-- <div class="extra-life-container-lg">
+         <div class="extra-life-container-lg">
                 <h2>Extra-Life</h2>
     
                 <div class="extra-life-widget">
-                    <iframe src="https://www.extra-life.org/index.cfm?fuseaction=widgets.200x420thermo&teamID=46794" width="202"
+                    <iframe src="https://www.extra-life.org/index.cfm?fuseaction=widgets.200x420thermo&teamID=51849" width="202"
                         height="422" frameborder="0" scrolling="no">
-                        <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=46794"></a>
+                        <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=51849"></a>
                     </iframe>
                 </div>
-            </div> -->
-        <div class="extra-life-container-lg">
+            </div>
+        <!--<div class="twitter-container-lg">
             <h2>Twitter</h2>
 
             <div class="extra-life-widget">
@@ -100,11 +90,11 @@
                     href="https://twitter.com/RHtheGuild?ref_src=twsrc%5Etfw">Tweets by RHtheGuild</a>
                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
-        </div>
+        </div> -->
 
         <div class="info-blocks">
 
-            <div class="extra-life-container">
+            <div class="twitter-container">
                 <h2>Twitter</h2>
 
                 <div class="extra-life-widget">
