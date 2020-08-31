@@ -155,6 +155,16 @@ def about():
     yield 'main.about', {}
 
 
+@main.route('/shadowlands')
+def shadowlands():
+    return render_template('shadowlands.html', title="Exciting news about the Shadowlands expansion.")
+
+
+@ext.register_generator
+def shadowlands():
+    yield 'main.shadowlands', {}
+
+
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -309,7 +319,7 @@ def messages():
         except:
             flash("There was an issue acknowlaging the message. My bad :( Please try again later", "danger")
             print("There was an exception")
-            return redirect(url_for(return_path))
+            
         return redirect(url_for("manage.manage_users"))
     else:
         req = request.form

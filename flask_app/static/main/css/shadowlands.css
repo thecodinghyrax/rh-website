@@ -1,0 +1,85 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 1920px;
+    margin: auto;
+    color: rgb(143, 143, 143) !important;
+}
+
+h1, h2, h3 {
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+.sl-banner {
+    background-size: cover;
+    height: 40%;
+    width: 70%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    margin-bottom: 2em;
+}
+.my-card {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 2em;
+    padding: 2em;
+    width:23em;
+    height: auto;
+    border: 2px solid gray;
+    color: white;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.profile-img {
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-top: 1em;
+}
+
+.videos-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: auto;
+}
+
+.wowhead-img {
+    width: 80%;
+    margin: auto;
+}
+
+.wowhead-img img {
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.wowhead-card {
+    width: 80%;
+    margin: auto;
+    color: white;
+    margin-top: 3em;
+    margin-bottom: 5em;
+}
+
+@media (max-width: 800px){
+h1, h2, h3 {
+    font-size: 1.2em;
+}
+
+.wowhead-img {
+    width: 100%;
+    margin: auto;
+}
+
+iframe {
+    width: 95%;
+}
+}
