@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta name=”description” content="Exciting news about Renewed Hope">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/news.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block body %}
+
+
+
+  <!-- <div class="col-md-8 offset-md-4"> -->
+    <div class="center">
+
+    <iframe id="mainIframe" width="1600" height="900" src="https://www.youtube.com/embed/EwhbduyOVbI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+  </div>
+
+
+
+{% endblock %}
