@@ -155,9 +155,18 @@ def about():
     yield 'main.about', {}
 
 
+@main.route('/shadowlands')
+def shadowlands():
+    return render_template('shadowlands.html', title="Exciting news about the Shadowlands expansion.")
+
+
+@ext.register_generator
+def shadowlands():
+    yield 'main.shadowlands', {}
+
 @main.route('/news')
 def news():
-    return render_template('news.html', title="Exciting news about the Shadowlands expansion.")
+    return render_template('news.html', title="Catch up on the latest new from Renewed Hope")
 
 
 @ext.register_generator
