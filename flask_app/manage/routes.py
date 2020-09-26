@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request, redirect, flash, send_from_directory, Blueprint
 from datetime import datetime, date, timedelta
 from flask_app import db
-from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages, Application
+from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages, Application, News_cast
 from flask_login import current_user, login_required
 from sqlalchemy import and_, or_
 
@@ -50,6 +50,18 @@ def manage_announcements():
         return redirect(url_for('main.index'))
     all_announcements = Announcement.query.all()
     return render_template('manage_announcements.html', announcements=all_announcements)
+
+@manage.route('/news-casts')
+@login_required
+def manage_news_casts():
+    if current_user.rank > 5:
+        flash("You do not have a high enough rank to access this page!", 'danger')
+        return redirect(url_for('main.index'))
+    all_news_casts = News_cast.query.order_by(News_cast.date.desc()).all()
+    # all_announcements = News.query.all()
+    # return render_template('manage_announcements.html', announcements=all_announcements)
+    return render_template('manage_news_casts.html', all_news_casts=all_news_casts)
+
 
 
 @manage.route('/events')
@@ -229,6 +241,24 @@ def update():
         except:
             return "There was an issue updating this record. Please go back!"
 
+    elif request.form['db'] == 'News_cast':
+        news_cast_to_update = News_cast.query.get_or_404(request.form['id'])
+        # news_cast_to_update.title = request.form['title']
+        date = request.form['date']
+        split_date = date.split('-')
+        news_cast_to_update.title = 'News Cast for ' + split_date[1] + "-" + split_date[2] + "-" + split_date[0]
+        news_cast_to_update.date = date
+        news_cast_to_update.embed = request.form['embed']
+        news_cast_to_update.description = request.form['description']
+     
+
+        try:
+            db.session.commit()
+            flash("The News Cast was successfully updated!")
+            return redirect('/news-casts')
+        except:
+            return "There was an issue updating this record. Please go back!"
+
     return redirect('/admin')
 
 
@@ -283,7 +313,6 @@ def insert():
             flash("All events were successfully added!")
             return redirect('/events')
 
-
     elif request.form['db'] == 'Devotional':
         date = request.form['date']
         split_date = date.split('-')
@@ -299,6 +328,22 @@ def insert():
             return redirect('/devotionals')
         except:
             return "There was an issue adding this devotional. Please go back!"
+
+    elif request.form['db'] == 'News_cast':
+        date = request.form['date']
+        split_date = date.split('-')
+        title = 'News Cast for ' + split_date[1] + "-" + split_date[2] + "-" + split_date[0]
+        embed = request.form['embed']
+        description = request.form['description']
+        new_news_cast = News_cast(title=title, date=date, embed=embed, description=description)
+        try:
+            db.session.add(new_news_cast)
+            db.session.commit()
+            flash("The News Cast was successfully added!")
+            return redirect('/news-casts')
+        except:
+            return "There was an issue adding this news cast. Please go back!"
+
     return redirect('/admin')
 
 @manage.route('/delete', methods=['POST'])
@@ -350,6 +395,15 @@ def delete():
             return redirect('/devotionals')
         except:
             return "There was a problem deleting this devotional. Please go back!"
+    elif request.form['db'] == 'News_cast':
+        news_cast_to_delete = News_cast.query.get_or_404(request.form['id'])
+        try:
+            db.session.delete(news_cast_to_delete)
+            db.session.commit()
+            flash("News Cast was deleted successfully!", "success")
+            return redirect('/news-casts')
+        except:
+            return "There was a problem deleting this news cast. Please go back!"
     elif request.form['db'] == 'User':
         user_to_delete = User.query.get_or_404(request.form['id'])
         try:            

@@ -9,21 +9,29 @@
 
 {% block body %}
 <style>
-.myFrame {
+.mainIFrame {
     height: calc(80vh - 120px) !important;
     width: 80% !important;
     margin-top: 5vh;
+    outline: 1px solid bisque;
 }
 </style>
+
 <div align="center">
-    <iframe class="myFrame" src="https://player.twitch.tv/?video=745423268&parent=www.renewedhope.us" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+    <!-- <iframe class="myFrame" src="https://www.youtube.com/embed/2Z45PsQG50o" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+    <!-- <iframe class="mainIFrame" src="https://player.twitch.tv/?video=752257937&parent=www.renewedhope.us" frameborder="0" allowfullscreen="true" scrolling="no"></iframe> -->
+    {{ embed|safe }}
+
 </div>
 <div class="info-panel">
 
     <h1>Renewed Hope New Cast</h1>
-    <h3>Sepetember 18, 2020</h3>
-    
+    <h3 id="castDate">{{ date }}</h3>
+    <a href="{{ url_for('main.news_archive') }}">
+        <button id="archiveBtn" type="button" class="btn btn-info">Archives</button>
+    </a>
 </div>
+
 
 
 

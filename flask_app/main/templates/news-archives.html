@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta name=”description” content="Exciting news about Renewed Hope">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/news.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block body %}
+<div class="archive-header">
+
+    <h1>Archived News Casts from Renewed Hope</h1>
+
+</div>
+
+<div class="card-section">
+
+    {% for cast in news_casts %}
+
+
+    <div class="cast-card">{{ cast.embed|safe }}</div>
+    {% endfor %}
+
+</div>
+
+
+
+{% endblock %}

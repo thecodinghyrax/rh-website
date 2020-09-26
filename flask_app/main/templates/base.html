@@ -62,6 +62,7 @@
         }
         .green {
             background-color: green;
+            border-radius: 10px;
         }
 
         .green:hover:after {
@@ -70,6 +71,7 @@
 
         .red {
             background-color: red;
+            border-radius: 10px;
         }
        
         .red:hover:after {
@@ -105,9 +107,9 @@
                 <div class="name" data-text="Discord">Discord</div>
             </a></div> -->
 
-        <div class="grid-item"><a href="{{ url_for('main.shadowlands') }}">
+        <div class="grid-item"><a href="{{ url_for('main.news') }}">
             <div class="icon"><i class="far fa-newspaper"></i></div>
-            <div class="name" data-text="Guild News">Guild News</div>
+            <div class="name" data-text="Guild News">News Cast</div>
         </a></div>
 
         <div class="grid-item"><a href="{{ url_for('main.devotionals') }}">

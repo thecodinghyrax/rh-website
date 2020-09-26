@@ -110,7 +110,18 @@ class Announcement(db.Model):
     link = db.Column(db.String(1000), nullable=True)
 
     def __repr__(self):
-        return f"Calendar('{self.title}', '{self.description}', '{self.link}')"
+        return f"Announcement('{self.title}', '{self.description}', '{self.link}')"
+
+class News_cast(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=True)
+    date = db.Column(db.DateTime, nullable=False)
+    embed = db.Column(db.String(500), nullable=False)
+    description = db.Column(db.String(1000), nullable=True)
+
+
+    def __repr__(self):
+        return f"News_cast('{self.title}', '{self.date}', '{self.embed}', '{self.description}')"
 
 class Twitter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
