@@ -190,7 +190,7 @@ def news_archive():
 
 @ext.register_generator
 def news_archive():
-    yield 'main.news/archive', {}
+    yield 'main.news_archive', {}
 
 
 @main.route('/login', methods=['GET', 'POST'])
@@ -207,6 +207,10 @@ def login():
         else:
             flash('Login Unsuccessful. Please verify email and password', 'danger')
     return render_template('login.html', title="Login", form=form)
+
+@ext.register_generator
+def login():
+    yield 'main.login', {}
 
 
 def save_picture(form_picture, pic_to_delete):
