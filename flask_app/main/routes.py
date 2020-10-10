@@ -1,6 +1,6 @@
 from flask import Blueprint, request, send_from_directory, render_template, redirect, url_for, flash
 from flask_app import app, db, bcrypt, ext, mail
-from flask_app.models import Devotional, News, Calendar, User, Announcement, Application, UserMessages
+from flask_app.models import Devotional, News, Calendar, User, Announcement, Application, UserMessages, News_cast
 import os
 import calendar
 from datetime import date, datetime, timedelta
@@ -164,6 +164,34 @@ def shadowlands():
 def shadowlands():
     yield 'main.shadowlands', {}
 
+@main.route('/news')
+def news():
+    current_news_cast = News_cast.query.order_by(News_cast.date.desc()).first()
+    split_embed = current_news_cast.embed.split("=")
+    split_embed_id = split_embed[2].split("&")
+    i_frame_start = '<iframe class="mainIFrame" src="https://player.twitch.tv/?video='
+    i_frame_end = '&parent=www.renewedhope.us" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>'
+    full_embed = i_frame_start + split_embed_id[0] + i_frame_end
+    formatted_date = current_news_cast.date.strftime("%B %d, %Y")
+    return render_template('news.html', embed=full_embed, date=formatted_date, title="Check out our latest Renewed Hope News Cast")
+
+
+@ext.register_generator
+def news():
+    yield 'main.news', {}
+
+@main.route('/news/archive')
+def news_archive():
+    all_news_casts = News_cast.query.order_by(News_cast.date.desc()).all()
+    for cast in all_news_casts:
+        cast.embed = cast.embed.replace("www.example.com", "www.renewedhope.us")
+    return render_template('news-archives.html', title="Archived news casts from Renewed Hope", news_casts=all_news_casts)
+
+
+@ext.register_generator
+def news_archive():
+    yield 'main.news_archive', {}
+
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
@@ -179,6 +207,10 @@ def login():
         else:
             flash('Login Unsuccessful. Please verify email and password', 'danger')
     return render_template('login.html', title="Login", form=form)
+
+@ext.register_generator
+def login():
+    yield 'main.login', {}
 
 
 def save_picture(form_picture, pic_to_delete):

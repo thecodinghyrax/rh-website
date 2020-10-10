@@ -62,6 +62,7 @@
         }
         .green {
             background-color: green;
+            border-radius: 10px;
         }
 
         .green:hover:after {
@@ -70,6 +71,7 @@
 
         .red {
             background-color: red;
+            border-radius: 10px;
         }
        
         .red:hover:after {
@@ -100,10 +102,15 @@
                 <div class="name" data-text="guild_calendar">Events</div>
             </a></div>
 
-        <div class="grid-item"><a href="{{ url_for('main.discord') }}">
+        <!-- <div class="grid-item"><a href="{{ url_for('main.discord') }}">
                 <div class="icon"><i class="fab fa-discord"></i></div>
                 <div class="name" data-text="Discord">Discord</div>
-            </a></div>
+            </a></div> -->
+
+        <div class="grid-item"><a href="{{ url_for('main.news') }}">
+            <div class="icon"><i class="far fa-newspaper"></i></div>
+            <div class="name" data-text="Guild News">News Cast</div>
+        </a></div>
 
         <div class="grid-item"><a href="{{ url_for('main.devotionals') }}">
                 <div class="icon"><i class="fa fa-book-reader"></i></div>

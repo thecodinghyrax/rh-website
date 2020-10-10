@@ -241,6 +241,7 @@ hr {
     bottom: 0;
     right: 0;
     color: white;
+    border-radius: 10px;
 }
 .red {
     background-color: red;

@@ -1,0 +1,28 @@
+.info-panel {
+    color: lightgray;
+    text-align: center;
+}
+
+.archive-header {
+    color: white;
+    text-align: center;
+    margin-top: 5em;
+}
+
+.card-section {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: auto;
+    justify-content: space-evenly;
+}
+
+.cast-card {
+    background-color: darkslategrey;
+    outline: 1px solid bisque;
+    height: 378px;
+    width: 620px;
+    margin: 2em;
+    color: white;
+    font-size: large;
+}
