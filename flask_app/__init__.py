@@ -14,7 +14,9 @@ app = Flask(__name__)
 if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website') or \
     os.path.exists('/mnt/c/Users/drewc/Code-Local/rh-website'):
     print("!!!!!!!! I'm using the local desktop db path.")
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_PATH_LOCAL')
+    print(os.getenv('DB_PATH_LOCAL'))
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://drew:Canteat1@localhost/rh'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_PATH_LOCAL')
 
 # Linux Desktop
 elif os.path.exists('/home/drew/Code/rh-website'):

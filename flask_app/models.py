@@ -19,7 +19,7 @@ class Devotional(db.Model):
 
     def __repr__(self):
         return f"Devotional('{self.id}', '{self.title}', '{self.date}')"
-        # return '<Devotional %r>' % self.id
+        
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,6 +30,9 @@ class User(db.Model, UserMixin):
     rank = db.Column(db.Integer, nullable=False, default=10 )
     application = db.relationship('Application', back_populates="user", uselist=False)
     messages = db.relationship('UserMessages', back_populates='user')
+    notes = db.relationship('Notes', back_populates='user')
+
+
 
     def get_reset_token(self, expires_sec=18000):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
@@ -82,7 +85,21 @@ class Application(db.Model):
 
     def __repr__(self):
         return f"Application('{self.name}', '{self.app_date}', '{self.user_id}', '{self.join_how}', {self.find_how}, \
-                                {self.self_description}, '{self.b_tag}', '{self.status}')"
+                                {self.self_description}, '{self.b_tag}', '{self.status}', '{self.note}')"
+
+class Notes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    from_user = db.Column(db.String(50), nullable=False)
+    from_user_image = db.Column(db.String(50))
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
+    date_updated = db.Column(db.DateTime, default=datetime.utcnow)
+    note = db.Column(db.String(4000))
+    note_type = db.Column(db.String(100))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='notes')
+
+    def __repr__(self):
+        return f"Notes('{self.user_id}', '{self.from_user}', '{self.date_posted}', '{self.note}', '{self.note_type}')"
 
 class Calendar(db.Model):
     id = db.Column(db.Integer, primary_key=True)

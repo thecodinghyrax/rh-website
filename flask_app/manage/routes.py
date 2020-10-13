@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request, redirect, flash, send_from_directory, Blueprint
 from datetime import datetime, date, timedelta
 from flask_app import db
-from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages, Application, News_cast
+from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages, Application, News_cast, Notes
 from flask_login import current_user, login_required
 from sqlalchemy import and_, or_
 
@@ -88,7 +88,7 @@ def manage_devotionals():
     return render_template('manage_devotionals.html', devotionals=all_devotionals)
 
 
-@manage.route('/applications', methods=['GET', 'POST'])
+@manage.route('/applications', methods=['POST'])
 @login_required
 def manage_applications():
     if current_user.rank > 5:
@@ -139,22 +139,40 @@ def manage_applications():
             flash("The request.get('approve') was not = to 'True'", "danger")
             return redirect(url_for('manage.manage_applications'))
 
-    applications = Application.query.order_by(Application.status).order_by(Application.app_date.desc()).all()
-    return render_template('manage_applications.html', applications=applications)
+    # applications = Application.query.order_by(Application.status).order_by(Application.app_date.desc()).all()
+    # return render_template('manage_applications.html', applications=applications)
 
-
-
+@manage.route('/applications/<status>', methods=['GET'])
+@login_required
+def manage_applications_status(status):
+    if status == "pending":
+        applications = Application.query.filter(Application.status == "Application recieved").order_by(Application.app_date.desc()).all()
+        notes = Notes.query.all()
+        return render_template('manage_applications.html', applications=applications, notes=notes, title=status)
+    elif status == "approved":
+        applications = Application.query.filter(Application.status == "Approved").filter(Application.user_id != None).order_by(Application.app_date.desc()).all()
+        notes = Notes.query.all()
+        return render_template('manage_applications.html', applications=applications, notes=notes, title=status)
+    elif status == "rejected":
+        applications = Application.query.filter(Application.status == "Rejected").filter(Application.user_id != None).order_by(Application.app_date.desc()).all()
+        return render_template('manage_applications.html', applications=applications, title=status)
+    elif status == "deleted":
+        applications = Application.query.filter(Application.user_id == None).order_by(Application.app_date.desc()).all()
+        return render_template('manage_applications.html', applications=applications, title=status)
+    else:
+        return render_template('manage_applications.html', applications=applications, title=status)
 
 
 rank_list = ["Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Member", "Initiate", "Applicant", "Registered", "Rejected"]
 
 
-@manage.route('/manage_users', methods=['GET', 'POST'])
+@manage.route('/manage_users', methods=['GET'])
 @login_required
 def manage_users():
     if current_user.rank > 5:
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
+
     if request.method == 'POST':
         database = db_name_to_object[request.form['db']]
         user_to_update = database.query.get_or_404(request.form['id'])
@@ -167,8 +185,6 @@ def manage_users():
         except:
             flash("I was not able to update that user!", 'danger')
             return redirect('/manage_users')
-        
-            
 
     else:
         user_messages = UserMessages.query.order_by(UserMessages.message_date.desc()).all()
@@ -261,14 +277,15 @@ def update():
 
     return redirect('/admin')
 
-
+# Generic POST route to insert data to the db
+# You must pass the "db" in on the form and then create the object from the form data
+# Last try to insert this object into the db
 @manage.route('/insert', methods=['POST'])
 @login_required
 def insert():
     if current_user.rank > 5:
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
-    # Refactor this to use the db
     if request.form['db'] == 'Announcement':
         title = request.form['title']
         description = request.form['description']
@@ -366,8 +383,6 @@ def delete():
         flash("All search results were successfully deleted!")
         return redirect('/events')
     
-
-    # refactor this like the results page
     if request.form['db'] == 'Announcement':
         announcement_to_delete = Announcement.query.get_or_404(request.form['id'])
         try:
@@ -416,6 +431,39 @@ def delete():
             return "There was a problem deleting this User. Please go back!"
 
     return redirect('/admin')
+
+@manage.route('/notes', methods=['POST'])
+@login_required
+def notes():
+    req = request.form
+    from_user = req.get('from_user')
+    from_user_image = current_user.image_file
+    note_type = "application"
+    user_id = req.get('user_id')
+    note_text = req.get('note')
+
+
+# This is currently not getting the current_user.name
+# This is also not displaying the from_user_image correctly
+# Check the message route to see how I did it there
+
+
+    if req.get('return'):
+        return_path = req.get('return')
+    else:
+        return_path = "main.account"
+
+    note = Notes(from_user=from_user, from_user_image=from_user_image, note_type=note_type, user_id=user_id, note=note_text)
+    print(note)
+    try:
+        db.session.add(note)
+        db.session.commit()
+    except:
+        flash("There was an issue posting this note. My bad :( Please try again later", "danger")
+        return redirect(url_for('manage.manage_applications_status', status=return_path))
+
+    return redirect(url_for('manage.manage_applications_status', status=return_path))
+
 
 @manage.route('/changelog')
 def change_log():
