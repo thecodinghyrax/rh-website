@@ -49,6 +49,16 @@ Add ability to set announcment order
 
 Add todays calendar event to the announcments (updated daily)
 
-Add a way to add notes to Users
-
 Mythic plus group
+
+<!-- 
+
+Things seem to be testing well. Now its time to try to bring in a current copy of the db and test again.
+You will need to add the mysql info to the main __init__ file and then do a create_all().
+Next change the __init__ file back (so as not to commit it to github again)
+Test...then deploy. You will need to do a dump of the db so you can restore it on to the website with the new changes.
+
+Good luck my friend! -->
+
+
+

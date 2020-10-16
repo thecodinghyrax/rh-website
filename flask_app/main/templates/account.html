@@ -29,10 +29,12 @@
     {% if messages %}
     
     <div class="message-body" id='message-body'>
+        {% if current_user.rank < 9  %}
         <div class="button_section">
             <a href="" class="archive btn btn-warning btn-small" data-toggle="modal"
             data-target="#reply_modal" data-toggle2="tooltip" data-placement="left" title="This will send a message to the Renewed Hope leadership team.">Post a Reply</a>
         </div>
+        {% endif %}
         {% for message in messages %}
         {% if message.from_user == current_user.username %}
         <div class="message-body-inner-go-right">
@@ -102,14 +104,6 @@
                 </div>
             </form>
         </div>
-
-        <!-- <script>
-            function scrollDown() {
-                var objDiv = document.getElementById('message-body');
-                objDiv.scrollTop = objDiv.scrollHeight;
-            };
-            scrollDown();
-        </script> -->
 
     </div>
 
