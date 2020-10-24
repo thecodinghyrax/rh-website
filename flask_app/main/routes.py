@@ -343,6 +343,7 @@ def messages():
     if request.form.get('clear'):
         req = request.form
         user_id = req.get('id')
+        return_path = req.get('return')
         try:
             msg_to_update = UserMessages.query.filter(UserMessages.user_id == user_id).filter(UserMessages.acknowledged == False).all()
             for msg in msg_to_update:
@@ -352,7 +353,7 @@ def messages():
             flash("There was an issue acknowlaging the message. My bad :( Please try again later", "danger")
             print("There was an exception")
             
-        return redirect(url_for("manage.manage_users"))
+        return redirect(url_for(return_path, id=user_id))
     else:
         req = request.form
         user = User.query.get(current_user.id)
@@ -360,6 +361,8 @@ def messages():
         from_user_image = user.image_file
         message_date = datetime.utcnow()
         message_body = req.get('message_body')
+        user_id = req.get('id')
+     
         if req.get('id'):
             user_id = req.get('id')
         else:
@@ -380,16 +383,16 @@ def messages():
                 db.session.commit()
         except:
             flash("There was an issue acknowlaging the message. My bad :( Please try again later", "danger")
-            return redirect(url_for(return_path))
+            return redirect(url_for(return_path, id=user_id))
         try:
             message.user_id = user_id 
             db.session.add(message)
             db.session.commit()
             flash("Your message was submitted", "success")
-            return redirect(url_for(return_path))
+            return redirect(url_for(return_path, id=user_id))
         except:
             flash("There was an issue submitting your message. My bad :( Please try again later", "danger")
-            return redirect(url_for(return_path))
+            return redirect(url_for(return_path, id=user_id))
  
 
 
@@ -409,7 +412,7 @@ def register():
             from_user = "Renewed Hope WebBot"
             from_user_image = '655c9f17511a4133.png'
             message_date = datetime.utcnow()
-            message_body = 'You are now registered!\nWelcome to the home of the Renewed Hope guild. From here you can apply to join the guild, message our leadership (via the reply button), update your information or delete your account.'
+            message_body = 'You are now registered!\nWelcome to the home of the Renewed Hope guild. From here you can apply to join the guild, update your information or delete your account.'
             message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_date=message_date, message_body=message_body)
             message.user_id = current_user.id
             db.session.add(message)

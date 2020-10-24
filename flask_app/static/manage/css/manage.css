@@ -12,9 +12,16 @@ body {
 }
 
 .side-nav {
+    margin-top: 50px;
     grid-column: 0 / 2;
     position: fixed;
     }
+
+#sidebar {
+    position: absolute;
+    width: 400px;
+    height: 100%;
+}
 
 .nav-item {
     margin: 1.5em 0;
@@ -153,6 +160,10 @@ td.manage-btn {
     color: black;
     margin: 1rem;
 }
+
+.width-100 {
+    max-width: 100%;
+}
 .sent {
     background-color: lightskyblue;
     justify-content: flex-start;
@@ -161,6 +172,11 @@ td.manage-btn {
 
 .received {
     background-color: lightseagreen;
+}
+
+.note {
+    background-color: rgb(56, 56, 56);
+    color: white;
 }
 
 .message-each-sent {
@@ -276,4 +292,25 @@ tr.no-b-border td {
 
 .v-align h6 {
     color: rgb(141, 143, 143);
+}
+
+
+.account-img {
+    width: 30px;
+    height: 30px;
+}
+
+.user-nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+@media only screen and (max-width : 1400px) {
+    .side-nav a {
+        font-size: x-small;
+        width: 17vw;
+    }
+    .user-nav a {
+        font-size: smaller;
+    }
 }
