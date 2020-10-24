@@ -17,6 +17,9 @@ if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website') or 
     print(os.getenv('DB_PATH_LOCAL'))
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_PATH_LOCAL')
 
+
+
+
 # Linux Desktop
 elif os.path.exists('/home/drew/Code/rh-website'):
     print("!!!!!!!! I'm using the local Linux desktop db path.")

@@ -321,7 +321,7 @@ def apply():
         applied_message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_body=body)
 
         try:
-            # send_applied_email()
+            send_applied_email()
             user = User.query.get(current_user.id)
             applied_message.user_id = current_user.id
             user.rank = 9
