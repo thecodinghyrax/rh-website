@@ -138,7 +138,7 @@ Manage Users
                             <h6>Rank</h6>
                             {% for user in users %}
                             {% if user.id == application.user_id %}
-                            {{ rank_list[(user.rank - 1 )] }}
+                            {{ rank_list[(user.rank)] }}
                             {% endif %}
                             {% endfor %}
                         </td>

@@ -26,7 +26,7 @@
                         {% for announcement in announcements %}
                             {% if loop.index is eq 1 %}
                             {% if announcement.link %}
-                            <a href="http://{{ announcement.link|safe }}" target="_blank">
+                            <a href="{{ announcement.link|safe }}" target="_blank">
                                 <div class="carousel-item news_item active">
                                 <h2 class="new_list" alt="First Slide">{{ announcement.title }}</h2>
                                 <div class="new_list" alt="First Slide">{{ announcement.description }}</div>
@@ -37,9 +37,6 @@
                                 <div class="carousel-item news_item">
                                     <h2 class="new_list" alt="Next Slide">{{ announcement.title }}</h2>
                                     <div class="new_list" alt="Next Slide">{{ announcement.description }}</div>
-                                    {% if announcement.link %}
-                                        <div class="new_list" alt="Next Slide">{{ announcement.link }}</div>
-                                    {% endif %}
                                 </div>
                             {% endif %}
                         {% endfor %}
