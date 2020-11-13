@@ -150,7 +150,7 @@ User Control
                                     </div>
 
                                     <datalist id="ranks">
-                                        {% for i in range(current_user.rank, 11) %}
+                                        {% for i in range((current_user.rank + 1), 8) %}
                                         <option>{{rank_list[i]}}</option>
                                         {% endfor %}
                                     </datalist>

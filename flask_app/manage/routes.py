@@ -114,7 +114,7 @@ def manage_applications():
                 return redirect(url_for(return_path, id=user_id))
         elif request.form['approve'] == "False":
             user = User.query.get(request.form['user_id'])
-            user.rank = 11
+            user.rank = 10
             user.application.status = "Rejected"
             return_path = request.form['return']
             ##### message #####
@@ -161,7 +161,7 @@ def manage_applications_status(status):
         return redirect(url_for('manage.admin'))
 
 
-rank_list = ["Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Member", "Initiate", "Applicant", "Registered", "Rejected"]
+rank_list = ["Blank", "Web-Admin", "GM", "Assistant-GM", "Recruitment-Officer", "Officer", "Member", "Initiate", "Applicant", "Registered", "Rejected"]
 
 
 @manage.route('/edit_users', methods=['POST'])
@@ -459,7 +459,7 @@ def delete():
             db.session.delete(user_to_delete)
             db.session.commit()
             flash("User was deleted successfully!", "success")
-            return redirect('/manage_users')
+            return redirect(url_for('main.index'))
         except:
             flash("There was a problem deleting this account. Please try again later or send an email to drewxcom@gmail.com for support.", "danger")
             return "There was a problem deleting this User. Please go back!"

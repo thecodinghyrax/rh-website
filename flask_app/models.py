@@ -27,7 +27,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
-    rank = db.Column(db.Integer, nullable=False, default=10 )
+    rank = db.Column(db.Integer, nullable=False, default=9 )
     application = db.relationship('Application', back_populates="user", uselist=False)
     messages = db.relationship('UserMessages', back_populates='user')
     notes = db.relationship('Notes', back_populates='user')
