@@ -175,7 +175,7 @@ def edit_users():
         database = db_name_to_object[request.form['db']]
         user_to_update = database.query.get_or_404(request.form['id'])
         user_to_update.username = request.form['username']
-        user_to_update.rank = (rank_list.index(request.form['rank']) + 1)
+        user_to_update.rank = (rank_list.index(request.form['rank']))
         return_path = request.form['return']
         user_id = request.form['id']
         try:

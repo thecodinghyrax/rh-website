@@ -29,7 +29,7 @@ If you did not make this request, please ignore this email. No chnages will be m
     mail.send(msg)
 
 def send_applied_email():
-    mail_to_user_list = User.query.filter(User.rank <= 5).all()
+    mail_to_user_list = User.query.filter(User.rank < 5).all()
     mail_to_email_list = []
     for user in mail_to_user_list:
         mail_to_email_list.append(user.email)
@@ -69,7 +69,7 @@ def index():
                 has_read =+ 1
     else:
         has_read = 0
-    if current_user.is_authenticated and current_user.rank < 6:
+    if current_user.is_authenticated and current_user.rank < 5:
         no_ack_query = db.session.query(UserMessages.acknowledged).filter(UserMessages.acknowledged == False).all()
         no_ack = len(no_ack_query)
     else:
@@ -329,7 +329,7 @@ def apply():
             db.session.add(applied_message)
             db.session.add(application)
             db.session.commit()
-            flash('Your application has been recieved! Please check here offten for updates on the status of your request.', 'success')
+            flash('Your application has been recieved! Please check here often for updates on the status of your request.', 'success')
             return redirect(url_for('main.account'))
         except:
             flash('There was a problem submitting your application. We\'re sorry about that. Feel free to mail drewxcom@gmail.com about what happened!', 'danger')

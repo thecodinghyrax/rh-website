@@ -20,19 +20,22 @@ Admin Home
     {% if applicants %}
     <h1 class="text-success my-4">There Are Applicants Waiting For Approval!</h1>
     {% for applicant in applicants %}
-    
+    {% if applicant.user_id %}
     <h3 class="applicants my-2"><a class="message_user_btn btn btn-success btn-xs mb-1"
         href="{{ url_for('manage.user_control', id=applicant.user_id) }}">Application </a> {{ applicant.name }}  ({{ applicant.b_tag }}) applied on {{ applicant.app_date.strftime("%m/%d/%Y") }}</h3>
     <br>
+    {% endif %}
     {% endfor %}
     {% endif %}
     
     {% if no_ack %}
     <h1 class="text-danger my-4">There Are Messages Waiting To Be Acknowledged!</h1>
         {% for message in no_ack %}
+        {% if message.user_id %}
         <h3 class="applicants my-2"><a class="message_user_btn btn btn-danger btn-xs mb-1"
             href="{{ url_for('manage.user_control', id=message.user_id) }}">Message </a> From {{ message.from_user }} on {{ message.message_date.strftime("%m/%d/%Y")  }}</h3>
         <br>
+        {% endif %}
         {% endfor %}
     {% endif %}
 
