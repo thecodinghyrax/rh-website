@@ -29,17 +29,19 @@ If you did not make this request, please ignore this email. No chnages will be m
     mail.send(msg)
 
 def send_applied_email():
-    mail_to_user_list = User.query.filter(User.rank < 5).all()
+    mail_to_user_list = User.query.filter(User.rank < 6).all()
     mail_to_email_list = []
     for user in mail_to_user_list:
         mail_to_email_list.append(user.email)
     msg = Message('We have a new applicant', 
                     sender='noreply@renewedhope.us', 
-                    recipients=mail_to_email_list)
+                    recipients=None,
+                    bcc=mail_to_email_list)
     msg.body = f'''Someone just applied to join. Please login to the admin panel of the website to approve, reject or just message the appliciant. 
-{url_for('manage.manage_applications', _external=True)}
+{url_for('manage.manage_index', _external=True)}
 
 '''
+    print("Here are the people who should get the mail", mail_to_email_list)
     mail.send(msg)
 
 # @main.route('/testpage')
@@ -69,7 +71,7 @@ def index():
                 has_read =+ 1
     else:
         has_read = 0
-    if current_user.is_authenticated and current_user.rank < 5:
+    if current_user.is_authenticated and current_user.rank < 6:
         no_ack_query = db.session.query(UserMessages.acknowledged).filter(UserMessages.acknowledged == False).all()
         no_ack = len(no_ack_query)
     else:
@@ -227,7 +229,7 @@ def save_picture(form_picture, pic_to_delete):
         os.remove(picture_path_to_delete)
     return picture_fn
 
-rank_dict = {1:"Web-Admin", 2:"GM", 3:"Assistant-GM", 4:"Recruitment-Officer", 5:"Officer", 6:"Member", 7:"Member", 8:"Initiate", 9:"Applicant", 10:"Registered", 11:"Rejected"}
+rank_dict = {1:"Web-Admin", 2:"GM", 3:"Assistant-GM", 4:"Recruitment-Officer", 5:"Officer", 6:"Member", 7:"Initiate", 8:"Applicant", 9:"Registered", 10:"Rejected"}
 
 @main.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -324,7 +326,7 @@ def apply():
             send_applied_email()
             user = User.query.get(current_user.id)
             applied_message.user_id = current_user.id
-            user.rank = 9
+            user.rank = 8
             application.user_id = current_user.id
             db.session.add(applied_message)
             db.session.add(application)

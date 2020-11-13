@@ -57,9 +57,9 @@ Manage Applications
                             {% if application.status != "Approved" and application.status != "Rejected" %}
                             <form action="{{ url_for('manage.manage_applications') }}" method="POST">
                                 {% if application.have_auth == "Yes" %}
-                                <input type="hidden" name="rank" value=7>
+                                <input type="hidden" name="rank" value=6>
                                 {% else %}
-                                <input type="hidden" name="rank" value=8>
+                                <input type="hidden" name="rank" value=7>
                                 {% endif %}
                                 <input type="hidden" name="approve" value="True">
                                 <input type="hidden" name="user_id" value="{{  application.user_id }}">
