@@ -38,10 +38,11 @@ def send_applied_email():
                     recipients=None,
                     bcc=mail_to_email_list)
     msg.body = f'''Someone just applied to join. Please login to the admin panel of the website to approve, reject or just message the appliciant. 
-{url_for('manage.manage_index', _external=True)}
+{url_for('manage.admin', _external=True)}
 
 '''
-    print("Here are the people who should get the mail", mail_to_email_list)
+    # print("Here are the people who should get the mail", mail_to_email_list)
+    # print("Here is the url for manage.admin: ", url_for('manage.admin', _external=True))
     mail.send(msg)
 
 # @main.route('/testpage')
@@ -323,7 +324,6 @@ def apply():
         applied_message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_body=body)
 
         try:
-            send_applied_email()
             user = User.query.get(current_user.id)
             applied_message.user_id = current_user.id
             user.rank = 8
@@ -332,10 +332,22 @@ def apply():
             db.session.add(application)
             db.session.commit()
             flash('Your application has been recieved! Please check here often for updates on the status of your request.', 'success')
-            return redirect(url_for('main.account'))
+            
         except:
             flash('There was a problem submitting your application. We\'re sorry about that. Feel free to mail drewxcom@gmail.com about what happened!', 'danger')
             return redirect(url_for('main.index'))
+
+
+        try:
+            send_applied_email()
+            return redirect(url_for('main.account'))
+
+        except Exception as e:
+            flash('There was a slight issue on our end and there might be a bit of a delay in the notifying guild leadership. Fear not, we will get the issue sorted and the appropriate people will get in touch with you soon. Sorry for any inconvenience.', 'danger')
+            print('After send_applied_email() has failed...')
+            print('An exception occurred: {}'.format(e))
+            return redirect(url_for('main.account'))
+            
     else:
         return render_template('apply.html', title="Apply to join the Renewed Hope Guild", form=form)
 
