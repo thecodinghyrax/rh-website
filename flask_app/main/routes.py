@@ -33,8 +33,6 @@ def send_applied_email():
     mail_to_email_list = []
     for user in mail_to_user_list:
         mail_to_email_list.append(user.email)
-    #for testing
-    #mail_to_email_list = ['drewcom@hotmail.com', 'drewxcom@gmail.com', 'thecodinghyrax@gmail.com', '360homeinspectionsiowa@gmail.com']
     msg = Message('We have a new applicant', 
                     sender='noreply@renewedhope.us', 
                     recipients=None,
