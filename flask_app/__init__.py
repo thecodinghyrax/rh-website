@@ -10,14 +10,18 @@ from flask_mail import Mail
 
 
 app = Flask(__name__)
-# Desktop 
+# Desktop WSL
 if os.path.exists('/mnt/c/Users/drewc/OneDrive/Documents/GitHub/rh-website') or \
     os.path.exists('/mnt/c/Users/drewc/Code-Local/rh-website'):
     print("!!!!!!!! I'm using the local desktop db path.")
     print(os.getenv('DB_PATH_LOCAL'))
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_PATH_LOCAL')
 
-
+# Desktop PS
+if os.path.exists(r'C:\Users\drewc\Code-Local\rh-website\flask_app'):
+    print("!!!!!!!! I'm using the local desktop db path in the PS env.")
+    print(os.getenv('DB_PATH_LOCAL'))
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_PATH_LOCAL')
 
 
 # Linux Desktop

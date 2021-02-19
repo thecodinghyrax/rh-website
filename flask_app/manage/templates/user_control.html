@@ -89,7 +89,7 @@ User Control
                         <h6>Discription</h6> {{ user.application.self_description }}
                     </td>
                     <td class="v-align">
-                        <h6>Application Date</h6>{{ user.application.app_date.strftime("%-m-%-d-%Y %-I:%M") }} UTC
+                        <h6>Application Date</h6>{{ user.application.app_date.strftime("%m-%d-%Y %I:%M") }} CST
                     </td>
                 </tr>
 
@@ -249,7 +249,7 @@ User Control
 
                                                 <h5 class="msg-body">{{ message.message_body }}</h5>
 
-                                                <p>{{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
+                                                <p>{{ message.message_date.strftime("%m-%d-%y %I:%M %p")}} CST</p>
                                             </div>
                                         </div>
                                     </div>
@@ -280,7 +280,7 @@ User Control
                                                 <h5 class="msg-body">{{ message.message_body }}</h5>
                                                 {% endif %}
 
-                                                <p>{{ message.message_date.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
+                                                <p>{{ message.message_date.strftime("%m-%d-%y %I:%M %p")}} CST</p>
                                             </div>
                                         </div>
                                     </div>
@@ -307,10 +307,10 @@ User Control
 
             <!-- ------------------------------Notes section-------------------------------- -->
             <div class="modal-header">
-                <h2 class="modal-title text-white">Notes about {{ user.username }}</h2>
-
-
+                <h2 class="modal-title text-white">Notes about {{ user.username }}</h2>  
             </div>
+
+            <h3 class="text-danger">These notes will only be seen by people with Officer rank or above.</h3>
 
             <div class="modal-body">
                 <form action="{{ url_for('manage.notes') }}" method="POST">
@@ -350,7 +350,7 @@ User Control
                                 <h5 class="msg-body">{{ note.note }}</h5>
 
 
-                                <p>{{ note.date_posted.strftime("%-m-%-d-%y %-I:%M %p")}} UTC</p>
+                                <p>{{ note.date_posted.strftime("%m-%d-%y %I:%M %p")}} CST</p>
                             </div>
                         </div>
                     </div>
