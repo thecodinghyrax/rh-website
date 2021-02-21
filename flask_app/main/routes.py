@@ -158,15 +158,6 @@ def about():
     yield 'main.about', {}
 
 
-@main.route('/shadowlands')
-def shadowlands():
-    return render_template('shadowlands.html', title="Exciting news about the Shadowlands expansion.")
-
-
-@ext.register_generator
-def shadowlands():
-    yield 'main.shadowlands', {}
-
 @main.route('/news')
 def news():
     current_news_cast = News_cast.query.order_by(News_cast.date.desc()).first()
@@ -373,7 +364,7 @@ def messages():
         user = User.query.get(current_user.id)
         from_user = user.username
         from_user_image = user.image_file
-        message_date = datetime.utcnow()
+        message_date = datetime.now()
         message_body = req.get('message_body')
         user_id = req.get('id')
      
@@ -425,7 +416,7 @@ def register():
             login_user(user)
             from_user = "Renewed Hope WebBot"
             from_user_image = '655c9f17511a4133.png'
-            message_date = datetime.utcnow()
+            message_date = datetime.now()
             message_body = 'You are now registered!\nWelcome to the home of the Renewed Hope guild. From here you can apply to join the guild, update your information or delete your account.'
             message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_date=message_date, message_body=message_body)
             message.user_id = current_user.id

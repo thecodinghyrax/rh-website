@@ -1,0 +1,40 @@
+import http.client
+
+conn = http.client.HTTPSConnection("api.pepipost.com")
+
+payload = "{
+            \"from\":{\"email\":\"lesley.knope@parksnrec.com\",\"name\":\"Lesley Knope\"},
+            \"reply_to\":\"ron.swanson@shutthegovernment.com\",
+            \"subject\":\"Tribute to Lil'Sebastian\",
+            \"template_id\":0,\"tags\":[\"Pawnee\"],
+            \"content\":[{\"type\":\"html\",
+            \"value\":\"[%LEAD%] & [%BAND%] will be singing a tribute song for our Lil'Sebastian.\"}],
+            \"attachments\":[{\"name\":\"example.txt\",\"content\":\"base64 encoded file content\"}],
+            \"personalizations\":[{\"attributes\":{\"LEAD\":\"Andy Dwyer\", \"BAND\":\"Mouse Rat\"},
+            \"to\":[{\"email\":\"ann.perkins@parksnrec.com\", \"name\":\"Ann Perkins\"}],
+            \"cc\":[{\"email\":\"april.ludgate@parksnrec.com\"},
+            {\"email\":\"ben.white@parksnrec.com\"}],
+            \"bcc\":[{\"email\":\"jerry.gergich@parksnrec.com\"}],
+            \"token_to\":\"noble-land-mermaid\",
+            \"token_cc\":\"MSGID657243\",
+            \"token_bcc\":\"MSGID657244\",
+            \"attachments\":[{\"name\":\"example.pdf\", \"content\":\"base64 encoded file content\"}]}],
+            \"settings\":{\"open_track\":true, \"click_track\":true, \"unsubscribe_track\":true, \"ip_pool\":\"pool0\"},
+            \"bcc\":[{\"email\":\"donna.meagle@parksnrec.com\"}],
+            \"schedule\":1589908859
+            }"
+
+headers = { 'api_key': "<Your API Key>" }
+
+conn.request("POST", "/v5.1/mail/send", payload, headers)
+
+res = conn.getresponse()
+data = res.read()
+
+print(data.decode("utf-8"))
+
+
+
+Documention:
+https://developers.pepipost.com/email-api/email-api/sendemail
+

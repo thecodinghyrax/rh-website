@@ -5,6 +5,7 @@ from flask_app.models import Devotional, Calendar, Announcement, User, UserMessa
 from flask_login import current_user, login_required
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import load_only
+from math import floor
 
 manage = Blueprint('manage', __name__,
                     template_folder='templates') 
@@ -66,8 +67,8 @@ def manage_events():
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
     pag_number = 15
-    current_date = datetime.utcnow()
-    future_events = round(Calendar.query.filter(Calendar.date > current_date).count() / pag_number)
+    current_date = datetime.now()
+    future_events = floor(Calendar.query.filter(Calendar.date > current_date).count() / pag_number)
     page = request.args.get('page', (future_events + 1), type=int)
     all_events = Calendar.query.order_by(Calendar.date.desc()).paginate(page=page, per_page=pag_number)
     return render_template('manage_events.html', events=all_events)
@@ -278,7 +279,7 @@ def update():
         devotional_to_update.date = date
         devotional_to_update.content = request.form['content']
         devotional_to_update.download_link = request.form['download_link']
-        devotional_to_update.date_updated = datetime.utcnow()
+        devotional_to_update.date_updated = datetime.now()
         devotional_to_update.lead = request.form['lead']
 
         try:
