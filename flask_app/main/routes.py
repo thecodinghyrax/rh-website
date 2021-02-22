@@ -54,6 +54,11 @@ def send_applied_email():
 #     messages = UserMessages.query.all()
 #     return render_template('testpage.html', applications=applications, users=users, messages=messages, pic_route=pic_route)
 
+def get_cst():
+    datetime_utc = datetime.now()
+    datetime_cst = datetime_utc.astimezone(pytz.timezone('America/Chicago'))
+    return datetime_cst
+
 
 @main.route('/robots.txt')
 def static_from_root():
@@ -94,8 +99,7 @@ def favicon():
 
 @main.route('/guild_calendar')
 def guild_calendar():
-    today = datetime.now(tz=pytz.UTC)
-    today_cst = today.astimezone(pytz.timezone('America/Chicago'))
+    today_cst = get_cst()
     year = today_cst.year
     current_month = today_cst.month
     month = today_cst.month
@@ -366,10 +370,7 @@ def messages():
         user = User.query.get(current_user.id)
         from_user = user.username
         from_user_image = user.image_file
-        message_date_utc = datetime.now()
-        message_date = message_date_utc.astimezone(pytz.timezone('America/Chicago'))
-        print(f'utc is: {message_date_utc}')
-        print(f'cts is: {message_date}')
+        message_date = get_cst()
         message_body = req.get('message_body')
         user_id = req.get('id')
      
@@ -421,8 +422,7 @@ def register():
             login_user(user)
             from_user = "Renewed Hope WebBot"
             from_user_image = '655c9f17511a4133.png'
-            message_date_utc = datetime.now()
-            message_date = message_date_utc.astimezone(pytz.timezone('America/Chicago'))
+            message_date = get_cst()
             message_body = 'You are now registered!\nWelcome to the home of the Renewed Hope guild. From here you can apply to join the guild, update your information or delete your account.'
             message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_date=message_date, message_body=message_body)
             message.user_id = current_user.id

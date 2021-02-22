@@ -2,10 +2,16 @@ from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_app import db, login_manager, app
 from flask_login import UserMixin
+import pytz
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+def get_cst():
+    datetime_utc = datetime.now()
+    datetime_cst = datetime_utc.astimezone(pytz.timezone('America/Chicago'))
+    return datetime_cst
 
 class Devotional(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -13,7 +19,7 @@ class Devotional(db.Model):
     date = db.Column(db.String(40), nullable=False)
     content = db.Column(db.Text, nullable=False)
     download_link = db.Column(db.String(1000), nullable=False)
-    date_updated = db.Column(db.DateTime, default=datetime.utcnow)
+    date_updated = db.Column(db.DateTime, default=get_cst)
     lead = db.Column(db.String(20), nullable=False)
 
 
@@ -55,7 +61,7 @@ class UserMessages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     from_user = db.Column(db.String(50), nullable=False)
     from_user_image = db.Column(db.String(50))
-    message_date = db.Column(db.DateTime, default=datetime.utcnow)
+    message_date = db.Column(db.DateTime, default=get_cst)
     message_body = db.Column(db.String(2000), nullable=False)
     acknowledged = db.Column(db.Boolean(), default=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -69,7 +75,7 @@ class UserMessages(db.Model):
 
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    app_date = db.Column(db.DateTime, default=datetime.utcnow)
+    app_date = db.Column(db.DateTime, default=get_cst)
     name = db.Column(db.String(75), nullable=False)
     join_how = db.Column(db.String(50), nullable=False)
     find_how = db.Column(db.String(200), nullable=False)
@@ -91,8 +97,8 @@ class Notes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     from_user = db.Column(db.String(50), nullable=False)
     from_user_image = db.Column(db.String(50))
-    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
-    date_updated = db.Column(db.DateTime, default=datetime.utcnow)
+    date_posted = db.Column(db.DateTime, default=get_cst)
+    date_updated = db.Column(db.DateTime, default=get_cst)
     note = db.Column(db.String(4000))
     note_type = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

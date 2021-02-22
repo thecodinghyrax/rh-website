@@ -26,14 +26,18 @@ name_to_symbol ={
     'Other': '/static/main/img/other-icon.png' 
     }
 
+def get_cst():
+    datetime_utc = datetime.now()
+    datetime_cst = datetime_utc.astimezone(pytz.timezone('America/Chicago'))
+    return datetime_cst
+
 @manage.route('/admin', methods=['POST', 'GET'])
 @login_required
 def admin():
     if current_user.rank > 5:
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
-    today_utc = datetime.now()
-    today = today_utc.astimezone(pytz.timezone('America/Chicago'))
+    today = get_cst()
     devotionals = Devotional.query.order_by(Devotional.date.desc()).limit(3)
     events = Calendar.query.filter(Calendar.date >= today).order_by(Calendar.date.asc()).limit(7)
     announcements = Announcement.query.all()
@@ -69,9 +73,7 @@ def manage_events():
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
     pag_number = 15
-    current_date_utc = datetime.now()
-    current_date = current_date_utc.astimezone(pytz.timezone('America/Chicago'))
-
+    current_date = get_cst()
     future_events = floor(Calendar.query.filter(Calendar.date > current_date).count() / pag_number)
     page = request.args.get('page', (future_events + 1), type=int)
     all_events = Calendar.query.order_by(Calendar.date.desc()).paginate(page=page, per_page=pag_number)
@@ -283,8 +285,7 @@ def update():
         devotional_to_update.date = date
         devotional_to_update.content = request.form['content']
         devotional_to_update.download_link = request.form['download_link']
-        devotional_to_update_utc = datetime.now()
-        devotional_to_update.date_updated = devotional_to_update_utc.astimezone(pytz.timezone('America/Chicago'))
+        devotional_to_update.date_updated = get_cst()
         devotional_to_update.lead = request.form['lead']
 
         try:
@@ -492,6 +493,7 @@ def notes():
         return_path = "main.account"
 
     note = Notes(from_user=from_user, from_user_image=from_user_image, note_type=note_type, user_id=user_id, note=note_text)
+
 
     try:
         db.session.add(note)
