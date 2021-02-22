@@ -6,6 +6,7 @@ from flask_login import current_user, login_required
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import load_only
 from math import floor
+import pytz
 
 manage = Blueprint('manage', __name__,
                     template_folder='templates') 
@@ -31,7 +32,8 @@ def admin():
     if current_user.rank > 5:
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
-    today = datetime.now() - timedelta(hours=6)
+    today_utc = datetime.now()
+    today = today_utc.astimezone(pytz.timezone('America/Chicago'))
     devotionals = Devotional.query.order_by(Devotional.date.desc()).limit(3)
     events = Calendar.query.filter(Calendar.date >= today).order_by(Calendar.date.asc()).limit(7)
     announcements = Announcement.query.all()
@@ -67,7 +69,9 @@ def manage_events():
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
     pag_number = 15
-    current_date = datetime.now()
+    current_date_utc = datetime.now()
+    current_date = current_date_utc.astimezone(pytz.timezone('America/Chicago'))
+
     future_events = floor(Calendar.query.filter(Calendar.date > current_date).count() / pag_number)
     page = request.args.get('page', (future_events + 1), type=int)
     all_events = Calendar.query.order_by(Calendar.date.desc()).paginate(page=page, per_page=pag_number)
@@ -279,7 +283,8 @@ def update():
         devotional_to_update.date = date
         devotional_to_update.content = request.form['content']
         devotional_to_update.download_link = request.form['download_link']
-        devotional_to_update.date_updated = datetime.now()
+        devotional_to_update_utc = datetime.now()
+        devotional_to_update.date_updated = devotional_to_update_utc.astimezone(pytz.timezone('America/Chicago'))
         devotional_to_update.lead = request.form['lead']
 
         try:
