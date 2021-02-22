@@ -10,6 +10,7 @@ from flask_app.main.forms import LoginForm, RegistrationForm, RequestResetForm, 
 from flask_mail import Message
 import secrets
 from PIL import Image
+import pytz
 
 
 main = Blueprint('main', __name__,
@@ -53,6 +54,11 @@ def send_applied_email():
 #     messages = UserMessages.query.all()
 #     return render_template('testpage.html', applications=applications, users=users, messages=messages, pic_route=pic_route)
 
+def get_cst():
+    datetime_utc = datetime.now()
+    datetime_cst = datetime_utc.astimezone(pytz.timezone('America/Chicago'))
+    return datetime_cst
+
 
 @main.route('/robots.txt')
 def static_from_root():
@@ -93,10 +99,10 @@ def favicon():
 
 @main.route('/guild_calendar')
 def guild_calendar():
-    today = datetime.now() - timedelta(hours=6)
-    year = today.year
-    current_month = today.month
-    month = today.month
+    today_cst = get_cst()
+    year = today_cst.year
+    current_month = today_cst.month
+    month = today_cst.month
     if request.args.get('year'):
         year = int(request.args.get('year'))
     if request.args.get('month'):
@@ -109,7 +115,7 @@ def guild_calendar():
             year = year + 1
  
     events = Calendar.query.filter(extract('month', Calendar.date) == month, extract('year', Calendar.date) == year).all()
-    current_day = today.day
+    current_day = today_cst.day
     month_name = calendar.month_name[month]
     cal = calendar.Calendar()
     cal.setfirstweekday(calendar.SUNDAY)
@@ -364,7 +370,7 @@ def messages():
         user = User.query.get(current_user.id)
         from_user = user.username
         from_user_image = user.image_file
-        message_date = datetime.now()
+        message_date = get_cst()
         message_body = req.get('message_body')
         user_id = req.get('id')
      
@@ -416,7 +422,7 @@ def register():
             login_user(user)
             from_user = "Renewed Hope WebBot"
             from_user_image = '655c9f17511a4133.png'
-            message_date = datetime.now()
+            message_date = get_cst()
             message_body = 'You are now registered!\nWelcome to the home of the Renewed Hope guild. From here you can apply to join the guild, update your information or delete your account.'
             message = UserMessages(from_user=from_user, from_user_image=from_user_image, message_date=message_date, message_body=message_body)
             message.user_id = current_user.id
