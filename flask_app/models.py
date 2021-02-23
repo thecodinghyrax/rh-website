@@ -112,7 +112,7 @@ class Calendar(db.Model):
     title = db.Column(db.String(200), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     time = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(300), nullable=False)
+    description = db.Column(db.Text, nullable=False)
     symbol = db.Column(db.String(50), nullable=False)
     lead = db.Column(db.String(50), nullable=False)
 
