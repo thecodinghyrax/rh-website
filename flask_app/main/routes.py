@@ -125,16 +125,6 @@ def guild_calendar():
     yield 'main.guild_calendar', {}
 
 
-@main.route('/discord')
-def discord():
-    return render_template('discord.html', title="Renewed Hope Guild Discord")
-
-
-@ext.register_generator
-def discord():
-    yield 'main.discord', {}
-
-
 @main.route('/devotional')
 def devotionals():
     page = request.args.get('page', 1, type=int)
@@ -167,7 +157,7 @@ def news():
     i_frame_end = '&parent=www.renewedhope.us" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>'
     full_embed = i_frame_start + split_embed_id[0] + i_frame_end
     formatted_date = current_news_cast.date.strftime("%B %d, %Y")
-    return render_template('news.html', embed=full_embed, date=formatted_date, title="Check out our latest Renewed Hope News Cast")
+    return render_template('news.html', embed=full_embed, date=formatted_date, description=current_news_cast.description, title="Check out the latest Fun Detected Podcast")
 
 
 @ext.register_generator
@@ -178,7 +168,7 @@ def news():
 def news_archive():
     all_news_casts = News_cast.query.order_by(News_cast.date.desc()).all()
     for cast in all_news_casts:
-        cast.embed = cast.embed.replace("www.example.com", "www.renewedhope.us")
+        cast.embed = cast.embed.replace("www.example.com", "www.renewedhope.us&autoplay=false")
     return render_template('news-archives.html', title="Archived news casts from Renewed Hope", news_casts=all_news_casts)
 
 

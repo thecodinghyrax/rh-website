@@ -10,7 +10,7 @@
 {% block body %}
 <div class="archive-header">
 
-    <h1>Archived News Casts from Renewed Hope</h1>
+    <h1>Fun Detected Podcast Archives</h1>
 
 </div>
 
@@ -19,7 +19,8 @@
     {% for cast in news_casts %}
 
 
-    <div class="cast-card">{{ cast.embed|safe }}</div>
+    <div class="cast-card">{{ cast.embed|safe }}{{ cast.description }}</div>
+ 
     {% endfor %}
 
 </div>

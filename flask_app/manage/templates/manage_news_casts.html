@@ -14,8 +14,8 @@ News Casts
         <div class="col md-12">
             <div class="jumbotron p-3">
 
-                <h2>News Casts <button type='button' class="btn btn-success float-right" data-toggle='modal'
-                        data-target="#add_modal">Add New News Cast</button></h2>
+                <h2>Fun Detected Podcasts <button type='button' class="btn btn-success float-right" data-toggle='modal'
+                        data-target="#add_modal">Add New Podcast</button></h2>
 
                   <!--####################### Flashed message block ########################-->
                   {% with messages = get_flashed_messages(with_categories=true) %}
@@ -68,7 +68,7 @@ News Casts
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Update News Cast</h4>
+                                    <h4 class="modal-title">Update Podcast Posting</h4>
                                 </div>
                                 <div class="modal-body">
                                     <form action="{{ url_for('manage.update') }}" method="POST">
@@ -94,7 +94,7 @@ News Casts
 
 
 
-                                        <button class="btn btn-primary" type="submit">Update News Cast</button>
+                                        <button class="btn btn-primary" type="submit">Update Podcast Posting</button>
                                     </form>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@ News Casts
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add news_cast</h4>
+                <h4 class="modal-title">Add New Podcast</h4>
             </div>
             <div class="modal-body">
                 <form action="{{ url_for('manage.insert') }}" method="POST">
@@ -132,7 +132,7 @@ News Casts
                         <input type="text" class="form-control" name="description">
                     </div>
 
-                    <button class="btn btn-primary" type="submit">Add news_cast</button>
+                    <button class="btn btn-primary" type="submit">Add Podcast</button>
                 </form>
             </div>
         </div>
