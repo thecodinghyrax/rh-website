@@ -1,30 +1,39 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<meta name=”description” content="Exciting news about Renewed Hope">
+<meta name=”description” content="Archives of the Fun Detected Podcast">
 <link rel="stylesheet" href="{{ url_for('static', filename='main/css/news.css') }}">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap" rel="stylesheet">
 <title>{{ title }}</title>
 {% endblock %}
 
 {% block body %}
-<div class="archive-header">
+<div class="archive-container">
 
-    <h1>Fun Detected Podcast Archives</h1>
-
+    
+    <div class="archive-header">
+        
+        <!-- <h1>Fun Detected Podcast Archives</h1> -->
+        
+    </div>
+    
+    <div class="card-section">
+        
+        {% for cast in news_casts %}
+        
+        {% if cast.embed_yt != None and cast.embed_yt|length > 10 %}
+        <div class="cast-card">{{ cast.embed_yt|safe }}{{ cast.description }}</div>
+        {% else %}
+        <div class="cast-card">{{ cast.embed|safe }}{{ cast.description }}</div>
+        {% endif %}
+        
+        {% endfor %}
+        
+    </div>
 </div>
-
-<div class="card-section">
-
-    {% for cast in news_casts %}
-
-
-    <div class="cast-card">{{ cast.embed|safe }}{{ cast.description }}</div>
- 
-    {% endfor %}
-
-</div>
-
-
-
+    
+    
+    
 {% endblock %}

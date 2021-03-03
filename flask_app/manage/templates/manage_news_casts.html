@@ -36,7 +36,8 @@ News Casts
 
                     <tr>
                         <th>Date</th>
-                        <th>Embed Link</th>
+                        <th>Embed Link Twitch</th>
+                        <th>Embed Link YouTube</th>
                         <th>Title</th>
                         <th>Description (optional)</th>
                         <th></th>
@@ -46,6 +47,7 @@ News Casts
                     <tr>
                         <td>{{ news_cast.date }}</td>
                         <td>{{ news_cast.embed }}</td>
+                        <td>{{ news_cast.embed_yt }}</td>
                         <td>{{ news_cast.title }}</td>
                         <td>{{ news_cast.description }}</td>
                         <td>{{ news_cast.link }}</td>
@@ -79,8 +81,13 @@ News Casts
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Embed Link:</label>
-                                            <textarea type="text" rows="4" class="form-control" name="embed" required="1">{{ news_cast.embed }}</textarea>
+                                            <label>Twitch Embed Link:</label>
+                                            <textarea type="text" rows="5" class="form-control" name="embed" required="1">{{ news_cast.embed }}</textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>YouTube Embed Link:</label>
+                                            <textarea type="text" rows="5" class="form-control" name="embed_yt">{{ news_cast.embed_yt }}</textarea>
                                         </div>
 
                                         <input type="hidden" name="id" value="{{ news_cast.id }}">
@@ -123,8 +130,13 @@ News Casts
                     </div>
 
                     <div class="form-group">
-                        <label>Embed Link (Please only use the complete IFrame embed from Twitch):</label>
-                        <textarea type="text" rows="4" class="form-control" name="embed" required="1"></textarea>
+                        <label>Twitch Embed Link (Please only use the complete IFrame embed from Twitch):</label>
+                        <textarea type="text" rows="5" class="form-control" name="embed" required="1"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>YouTube Embed Link (Please only use the complete IFrame embed from YouTube):</label>
+                        <textarea type="text" rows="5" class="form-control" name="embed_yt"></textarea>
                     </div>
 
                     <div class="form-group"></div>

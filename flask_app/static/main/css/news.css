@@ -23,6 +23,43 @@
     height: 378px;
     width: 620px;
     margin: 2em;
+    margin-top: 10em;
     color: white;
     font-size: large;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.archive-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    background-image: url(../img/fd-bkg.webp);
+    background-position: top;
+    background-attachment: fixed;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+@media only screen and (max-width: 700px) {
+    .cast-card {
+        height: 75%;
+        width: 75%;
+        margin-top: 2em;
+    }
+
+    .archive-container {
+        background-image: none;
+        background-color: rgba(52,54,77,255);
+    }
+
+    .archive-header::after {
+        content: 'Fun Detected Podcast';
+        font-size: 3em;
+        font-family: 'Lakki Reddy', cursive;
+    }
 }

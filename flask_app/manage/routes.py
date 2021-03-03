@@ -291,12 +291,18 @@ def update():
 
     elif request.form['db'] == 'News_cast':
         news_cast_to_update = News_cast.query.get_or_404(request.form['id'])
-        # news_cast_to_update.title = request.form['title']
         date = request.form['date']
         split_date = date.split('-')
         news_cast_to_update.title = 'News Cast for ' + split_date[1] + "-" + split_date[2] + "-" + split_date[0]
         news_cast_to_update.date = date
         news_cast_to_update.embed = request.form['embed']
+        if "<iframe" not in news_cast_to_update.embed:
+            flash("It doesn't look like you have the correct <iframe> embed. Please try again!", "danger")
+            return redirect('/news-casts')
+        news_cast_to_update.embed_yt = request.form['embed_yt']
+        if len(news_cast_to_update.embed_yt) > 10 and "<iframe" not in news_cast_to_update.embed_yt:
+            flash("It doesn't look like you have the correct <iframe> embed. Please try again!", "danger")
+            return redirect('/news-casts')
         news_cast_to_update.description = request.form['description']
      
 
@@ -386,8 +392,17 @@ def insert():
         split_date = date.split('-')
         title = 'News Cast for ' + split_date[1] + "-" + split_date[2] + "-" + split_date[0]
         embed = request.form['embed']
+        if "<iframe" not in embed:
+            flash("It doesn't look like you have the correct Twitch <iframe> embed. Please try again!", "danger")
+            flash(embed, 'warning')
+            return redirect('/news-casts')
+        embed_yt = request.form['embed_yt']
+        if len(embed_yt) > 10:
+            if "<iframe" not in embed_yt:
+                flash("It doesn't look like you have the correct YouTube <iframe> embed. Please try again!", "danger")
+                return redirect('/news-casts')
         description = request.form['description']
-        new_news_cast = News_cast(title=title, date=date, embed=embed, description=description)
+        new_news_cast = News_cast(title=title, date=date, embed=embed, embed_yt=embed_yt, description=description)
         try:
             db.session.add(new_news_cast)
             db.session.commit()

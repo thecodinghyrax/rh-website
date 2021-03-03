@@ -133,7 +133,10 @@ class News_cast(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=True)
     date = db.Column(db.DateTime, nullable=False)
-    embed = db.Column(db.String(500), nullable=False)
+    # embed is used for Twitch embeds
+    embed = db.Column(db.String(500), nullable=False) 
+    # embed_yt is used for YouTube embeds
+    embed_yt = db.Column(db.String(500), nullable=False)
     description = db.Column(db.String(1000), nullable=True)
 
 

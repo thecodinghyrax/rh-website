@@ -169,6 +169,8 @@ def news_archive():
     all_news_casts = News_cast.query.order_by(News_cast.date.desc()).all()
     for cast in all_news_casts:
         cast.embed = cast.embed.replace("www.example.com", "www.renewedhope.us&autoplay=false")
+        if cast.embed_yt != None and len(cast.embed_yt) > 10:
+            cast.embed_yt = "<iframe width=\"620\" height=\"378\" " + cast.embed_yt[33:]
     return render_template('news-archives.html', title="Archived news casts from Renewed Hope", news_casts=all_news_casts)
 
 
