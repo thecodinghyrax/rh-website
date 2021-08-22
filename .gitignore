@@ -98,6 +98,8 @@ rh-env2/
 rh-env2\
 rh-psenv/
 rh-psenv\
+rhenv/
+rhenv\
 
 # Spyder project settings
 .spyderproject

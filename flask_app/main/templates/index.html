@@ -66,21 +66,19 @@
                     </div>
                 </a>
             </div>
-
-
         </div>
 
-         <!-- <div class="extra-life-container">
-                <h2>Extra-Life</h2>
-    
+         <div class="extra-life-container">
+                <h2>Extra Life</h2>
                 <div class="extra-life-widget">
-                    <iframe src="https://www.extra-life.org/index.cfm?fuseaction=widgets.200x420thermo&teamID=51849" width="202" height="422" frameborder="0" scrolling="no"><a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=51849">Make a Donation!</a></iframe>
+                    <iframe src="https://www.extra-life.org/index.cfm?fuseaction=widgets.200x420thermo&teamID=58104" width="202" height="422"
+                    frameborder="0" scrolling="no"><a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=58104">
+                        Make a Donation!</a></iframe>
                 </div>
-            </div> -->
+            </div>
 
         <div class="twitter-container">
             <h2>Twitter</h2>
-
             <div class="extra-life-widget">
                 <div class="extra-life-widget">
                     <a class="twitter-timeline" data-width="220" data-height="422" data-theme="dark"
@@ -97,12 +95,11 @@
                 <div class="wowhead-title"><img id="wowhead-logo"
                         src="{{ url_for('static', filename='main/img/wow-head-logo.png') }}">WowHead News</div>
                 {% for anchor in news %}
-                {% if loop.index is divisibleby 2 %}
-                <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
-                {% else %}
-                <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
-                {% endif %}
-
+                    {% if loop.index is divisibleby 2 %}
+                        <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
+                    {% else %}
+                        <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
+                    {% endif %}
                 {% endfor %}
             </div>
 
