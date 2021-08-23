@@ -19,7 +19,7 @@ This site was built using Python’s flask framework, SQL Alchemy ORM, and a MyS
 
 ### Things that work well
 
-Right now, the most used features are the management of guild applications and user messaging and posting/listening to guild devotionals. The application management is vital to bring onboard new applicates and the devotionals have really impressed potential new members (often nudging them to apply).
+Right now, the most used features are the management of guild applications, user messaging and posting/listening to guild devotionals. The application management is vital to bring onboard new applicates and the devotionals have really impressed potential new members (often nudging them to apply).
 
 ### Things that don’t work so well
 
