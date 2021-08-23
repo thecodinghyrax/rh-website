@@ -2,7 +2,7 @@
 
 ### Purpose:
 
-**This project fills two needs. **
+**This project fills two needs.**
 1.	This was an opportunity to learn more about Python using Flask 
 2.	Served as a feature rich replacement for the guilds original Wix page.
 
