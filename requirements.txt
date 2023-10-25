@@ -52,6 +52,6 @@ SQLAlchemy-Utils==0.36.3
 typed-ast==1.4.0
 urllib3==1.26.5
 URLObject==2.4.3
-Werkzeug==2.2.3
+Werkzeug==3.0.1
 wrapt==1.11.2
 WTForms==2.2.1
