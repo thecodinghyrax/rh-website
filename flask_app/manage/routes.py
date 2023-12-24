@@ -86,7 +86,12 @@ def manage_devotionals():
     if current_user.rank > 5:
         flash("You do not have a high enough rank to access this page!", 'danger')
         return redirect(url_for('main.index'))
-    all_devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
+    pag_number = 15
+    current_date = get_cst()
+    future_devotionals = floor(Devotional.query.filter(Devotional.date > current_date).count() / pag_number)
+    page = request.args.get('page', (future_devotionals + 1), type=int)
+    all_devotionals = Devotional.query.order_by(Devotional.date.desc()).paginate(page=page, per_page=pag_number)
+    # all_devotionals = Devotional.query.order_by(Devotional.date.desc()).all()
     return render_template('manage_devotionals.html', devotionals=all_devotionals)
 
 
@@ -209,7 +214,8 @@ def manage_users(status):
     elif status == "member":
         applications = Application.query.filter(Application.status == "Approved").filter(Application.user_id != None).order_by(Application.app_date.desc()).all()
         notes = Notes.query.order_by(Notes.date_posted.desc()).all()
-        users = User.query.options(load_only("id", "rank")).all()
+        # users = User.query.options(load_only("id", "rank")).all()
+        users = User.query.options(load_only(User.id, User.rank)).all()
         return render_template('manage_users.html', applications=applications, notes=notes, users=users, rank_list=rank_list, title=status)
     elif status == "rejected":
         applications = Application.query.filter(Application.status == "Rejected").filter(Application.user_id != None).order_by(Application.app_date.desc()).all()
