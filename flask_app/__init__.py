@@ -7,7 +7,12 @@ from flask_login import LoginManager
 from flask_sitemap import Sitemap
 from flask_mail import Mail
 
-
+# This is only for the local version. This part should be handeled by the 
+# workon my-virtualenv-name 
+# https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
+from dotenv import load_dotenv
+project_folder = os.path.expanduser('/home/drew/code/rh-website')
+load_dotenv(os.path.join(project_folder, '.env'))
 
 app = Flask(__name__)
 # Desktop WSL
@@ -24,8 +29,9 @@ if os.path.exists(r'C:'):
 
 
 # Linux Desktop
-elif os.path.exists('/home/drew/Code/rh-website'):
+elif os.path.exists('/home/drew/code/rh-website'):
     print("!!!!!!!! I'm using the local Linux desktop db path.")
+    print(os.getenv('DB_PATH_LOCAL_LINUX'))
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_PATH_LOCAL_LINUX')
         
 # Server
