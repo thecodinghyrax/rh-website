@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta name=”description” content="Check out our audio recordings from our weekly devotionals.">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/account.css') }}">
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block body %}
+<!--################## Main info Section ##########################-->
+<div class="content-section">
+    <div class="media">
+        <img src="{{ image_file }}" alt="user_image" class="rounded-circle account-img">
+        <div class="media-body">
+            <h2 class="account-heading">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
+            <p class="text-secondary">{{ rank }}</p>
+            {% if current_user.rank  < 6 %}
+            <a href="/admin" class="btn btn-primary float-right">Admin Panel</a>
+            {% endif %}
+            {% if current_user.rank == 9 %}
+
+            <a href="{{ url_for('main_bp.apply') }}" class="apply-btn">Apply to Join Renewed Hope</a>
+
+            {% endif %}
+        </div>
+    </div>
+    <!--################################ Message Section ##########################-->
+    {% if messages %}
+    
+    <div class="message-body" id='message-body'>
+        {% if current_user.rank < 9  %}
+        <div class="button_section">
+            <a href="" class="archive btn btn-warning btn-small" data-toggle="modal"
+            data-target="#reply_modal" data-toggle2="tooltip" data-placement="left" title="This will send a message to the Renewed Hope leadership team.">Post a Reply</a>
+        </div>
+        {% endif %}
+        {% for message in messages %}
+        {% if message.from_user == current_user.username %}
+        <div class="message-body-inner-go-right">
+        <div class="message-each-container sent">
+            <div class="message-each-sent">
+
+                <img src="{{ url_for('static', filename='main/img/profile_pics/' + message.from_user_image) }}" alt="profile picture">
+                <p>{{ message.from_user }} </p>
+            </div>
+            <div class="message-with-date">
+
+                <h5 class="msg-body">{{ message.message_body }}</h5>
+                
+                <p>{{ message.message_date.strftime("%m-%d-%y %I:%M %p")}} CST</p>
+            </div>
+        </div>
+    </div>
+        {% else %}
+        <div class="message-body-inner">
+        <div class="message-each-container received">
+            <div class="message-each-sent">
+
+                <img src="{{ url_for('static', filename='main/img/profile_pics/' + message.from_user_image) }}" alt="profile picture">
+                <p>{{ message.from_user }} </p>
+            </div>
+            <div class="message-with-date">
+
+                <h5 class="msg-body">{{ message.message_body }}</h5>
+                
+                <p>{{ message.message_date.strftime("%m-%d-%y %I:%M %p")}} CST</p>
+            </div>
+        </div>
+    </div>
+        {% endif %}
+
+        <br>
+
+           
+            {% endfor %}
+            
+
+            
+        </div>
+       
+
+
+
+        <div id="reply_modal" class="modal fade" role="dialog">
+            <form action="{{ url_for('main_bp.messages') }}" method="POST" id="reply_form">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">My reply</h4>
+                        </div>
+                        <input type="hidden" name="from_user" value="{{ current_user.id }}">
+                        <input type="hidden" name="return" value="main_bp.account">
+                        <input type="hidden" name="acknowledged" value="False">
+
+
+                        <div class="modal-body">
+                            <div class="bkg-raised">
+                                <textarea name="message_body" form="reply_form" placeholder="What would you like to tell us?"></textarea>
+                            </div>
+                            <input class="btn btn-primary" type="submit">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+    {% else %}
+    <div class="message_body with-border">
+        <h2>There are no messages for you at this time</h2>
+    </div>
+    {% endif %}
+
+   
+
+    <!--###########################     Setting Section   ########################-->
+    <div class="button_section">
+      
+            <button type="button" class="slide_settings"><i class="fa fa-cog" aria-hidden="true"></i></button>
+ 
+    </div>
+        
+    <div id="content-slide" class="content-section" style="display:none">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb4">Account Settings</legend>
+                <!-- username update section -->
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    {% if form.username.errors %}
+                    {{ form.username(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <!-- email update section -->
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                    {{ form.email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <!-- profile picture update section -->
+                <div class="form-group">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class="form-control-file") }}
+                    {% if form.picture.errors %}
+                    {% for error in form.picture.errors %}
+                    <span class="text-danger">{{ error }}</span><br>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </fieldset>
+
+            <div class="form-group form-group-btn">
+
+                {{ form.submit(class="btn btn-outline-info") }}
+
+                <div class="reset-password-button float-right btn btn-warning">
+                    <a href="{{ url_for('main_bp.reset_request') }}">Reset Password</a>
+                </div>
+            </form>
+                <div id="del-account-btn" style="display:none">
+                    <form action="{{ url_for('manage_bp.delete') }}" method="POST">
+                        <input type="hidden" name="db" value="User">
+                        <input type="hidden" name="id" value="{{ current_user.id }}">
+                        <input type="hidden" name="search" value="False">
+                        <button type="submit" class="btn btn-danger btn-xs"
+                            onclick="return confirm('Are you sure you want to delete your account? This can not be undone!')">Delete Account</button>
+                    </form>
+                </div>
+
+            </div>
+        
+
+    </div>
+
+
+
+
+</div>
+<script>
+    window.onload = function () {
+        $(".slide_settings").click(function () {
+            $("#content-slide").slideToggle();
+            $("#del-account-btn").slideToggle();
+            $("html, body").animate({ scrollTop: $(document).height() }, 1500);
+        });
+        $(function() {
+            var foundin = $('span:contains("Invalid email address")').length > 0;
+            
+            if (foundin == true) {               
+                $("#content-slide").slideToggle();
+            
+            };
+            
+        });
+        $('[data-toggle2="tooltip"]').tooltip(); 
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta name=”description” content="Welcome to the home of Renewed Hope - A Christian guild in World of Warcraft">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/slider.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/index.css') }}">
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="main-container">
+
+
+    <div class="text-center"><img class="banner-img"src="{{url_for('static', filename='main/img/New_DF.png')}}" alt="Renewed Hope Banner"></div>
+
+    <div class="content-container">
+
+        <div class="announcment-container">
+
+
+            <div id="myCarousel" class="carousel slide news" data-ride="carousel">
+                <!-- Wrapper for carousel items -->
+                <div class="carousel-inner news_list-container">
+                    <div class="news_list">
+                        {% for announcement in announcements %}
+                            {% if loop.index is eq 1 %}
+                            {% if announcement.link %}
+                            <a href="{{ announcement.link|safe }}" target="_blank">
+                                <div class="carousel-item news_item active">
+                                <h2 class="new_list" alt="First Slide">{{ announcement.title }}</h2>
+                                <div class="new_list" alt="First Slide">{{ announcement.description }}</div>
+                                <div class="new_list" alt="First Slide">{{ announcement.link }}</div></a>
+                                {% endif %}
+                                </div>
+                            {% else %}
+                                <a href="{{ announcement.link|safe }}" target="_blank">
+                                <div class="carousel-item news_item">
+                                <h2 class="new_list" alt="Next Slide">{{ announcement.title }}</h2>
+                                <div class="new_list" alt="Next Slide">{{ announcement.description }}</div>
+                                <div class="new_list" alt="First Slide">{{ announcement.link }}</div></a>
+                            </div>
+                                {% endif %}
+                                {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="nav-arrows">
+                <a class="carousel-ctrl-prev" href="#myCarousel" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-ctrl-next" href="#myCarousel" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+            </div>
+
+
+            <div>
+
+                <a id="devo" href="{{ devotional.download_link }}" target="_blank">
+                    <div class="devotional-card-label">
+                        <div class="devotional-card-content">
+                            <h2>{{ devotional.title }}</h2>
+                            {{ devotional.content }}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="extra-life-container">
+            <h2>Extra Life</h2>
+            <div class="extra-life-widget">
+               <a href="https://www.extra-life.org/team/63788">
+                   <img src="{{url_for('static', filename='main/img/el-web-logo.jpg')}}" alt="Extra Life Image">
+                    Make a Donation!</a>
+            </div>
+        </div>
+
+      
+        <!-- <div class="widgets text-center"> -->
+ 
+            <div class="widgets text-center">
+                <div class="wowhead-title"><img id="wowhead-logo"
+                        src="{{ url_for('static', filename='main/img/wow-head-logo.png') }}">WowHead News</div>
+                {% for anchor in news %}
+                    {% if loop.index is divisibleby 2 %}
+                        <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
+                    {% else %}
+                        <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+        <!-- </div> -->
+
+      
+    </div>
+
+</div>
+
+{% endblock %}

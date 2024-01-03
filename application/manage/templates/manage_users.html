@@ -1,0 +1,166 @@
+{% extends "manage_base.html" %}
+
+
+{% block title %}
+Manage Users
+{% endblock title %}
+
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="my-2 user-nav">
+
+                {% if title == "applicant" %}
+                <a class="btn btn-primary disabled"
+                {% else %}
+                <a class="btn btn-primary"
+                {% endif %}                
+                    href="{{ url_for('manage_bp.manage_users', status='applicant') }}">Applicants</a>
+
+                {% if title == "member" %}
+                <a class="btn btn-success disabled"
+                {% else %}
+                <a class="btn btn-success" 
+                {% endif %}    
+                    href="{{ url_for('manage_bp.manage_users', status='member') }}">Members<a>
+
+                {% if title == "rejected" %}
+                <a class="btn btn-warning disabled"
+                {% else %}
+                <a class="btn btn-warning" 
+                {% endif %}
+                    href="{{ url_for('manage_bp.manage_users', status='rejected') }}">Rejected<a>
+                
+                {% if title == "deleted" %}
+                <a class="btn btn-danger disabled"
+                {% else %}
+                <a class="btn btn-danger" 
+                {% endif %}
+                    href="{{ url_for('manage_bp.manage_users', status='deleted') }}">Deleted Users</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            
+            <div class="jumbotron p-3">
+                {% if title == 'applicant' %}
+                <h2 class="text-primary">{{ title|capitalize }} Info</h2>
+                {% elif title == 'member' %}
+                <h2 class="text-success">{{ title|capitalize }} Info</h2>
+                {% elif title == 'rejected' %}
+                <h2 class="text-warning">{{ title|capitalize }} User Info</h2>
+                {% else %}
+                <h2 class="text-danger">{{ title|capitalize }} Users</h2>
+                {% endif %}
+
+
+
+
+                <!--####################### Flashed message block ########################-->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+
+                <table class="table table-hover table-dark">
+
+                    {% for application in applications %}
+                    {% if application.user_id == None %}
+                    <table class="table table-hover table-dark">
+
+
+                        <tr class="no-b-border">
+                            <td class="v-align">
+                                <h6>Name</h6>{{ application.name }}
+                            </td>
+
+                            <td class="v-align">
+                                <h6>Authenticator?</h6>{{ application.have_auth }}
+                            </td>
+                            <td class="v-align">
+                                <h6>Joining how?</h6>{{ application.join_how }}
+                            </td>
+                            <td class="v-align">
+                                <h6>Discription</h6> {{ application.self_description }}
+                            </td>
+                            <td class="v-align">
+                                <h6>Application Date</h6>{{ application.app_date.strftime("%m-%d-%Y %I:%M") }} CST
+                            </td>
+                        </tr>
+
+                        <tr class="no-b-border">
+                            <td class="v-align">
+                                <h6>Battle Tag</h6>{{ application.b_tag }}
+                            </td>
+                            <td class="v-align">
+                                <h6>Found us how?</h6>{{ application.find_how }}
+                            </td>
+                            <td class="v-align">
+                                <h6>Application Status</h6> {{ application.status }}
+                            </td>
+                            <td class="v-align">
+                                <h6>When do you play?</h6>{{ application.play_when }}
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    {% else %}
+
+                    <tr class="no-b-border">
+                        <td class="v-align">
+                            <h6>Name</h6>{{ application.name }}
+                        </td>
+
+                        <td class="v-align">
+                            <h6>Battle Tag</h6>{{ application.b_tag }}
+                        </td>
+                        {% if title == "member" %}
+                        <td class="v-align">
+                            <h6>Rank</h6>
+                            {% for user in users %}
+                            {% if user.id == application.user_id %}
+                            {{ rank_list[(user.rank)] }}
+                            {% endif %}
+                            {% endfor %}
+                        </td>
+                        {% endif %}
+                        
+                        <td colspan="2">
+                            <a class="message_user_btn btn btn-primary btn-xs mb-1"
+                                href="{{ url_for('manage_bp.user_control', id=application.user_id) }}">User Control
+                                Page</a>
+
+                        </td>
+                    </tr>
+                    {% endif %}
+
+
+                    {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock body %}

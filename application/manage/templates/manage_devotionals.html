@@ -1,0 +1,182 @@
+{% extends "manage_base.html" %}
+
+
+{% block title %}
+Devotionals
+{% endblock title %}
+
+
+
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+
+                <h2>Devotionals <button type='button' class="btn btn-success float-right" data-toggle='modal'
+                        data-target="#devotional_modal">Add a Devotional</button></h2>
+
+                <!--####################### Flashed message block ########################-->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+   
+
+                <table class="table table-hover table-dark">
+
+                    <tr>
+                        <th id="title-cell">Title</th>
+                        <th id="date-cell">Date</th>
+                        <th id="content-cell">Content</th>
+                        <th id="link-cell">Link</th>
+                        <th id="updated-cell">Updated</th>
+                        <th id="lead-cell">Lead</th>
+                        <th></th>
+                    </tr>
+                    {% for devotional in devotionals %}
+                    <tr>
+                        <td>{{ devotional.title }}</td>
+                        <td>{{ devotional.date }}</td>
+                        <td>{{ devotional.content }}</td>
+                        <td class="devo_link">{{ devotional.download_link }}</td>
+
+                        {% if devotional.date_updated %}
+                            <td>{{ devotional.date_updated.strftime('%m-%d-%y') }}</td>
+                        {% else %}
+                        <td>{{ devotional.date_updated }}</td>
+                        {% endif %}
+                        <td>{{ devotional.lead }}</td>
+                        <td>
+                            <a href="" class="btn btn-warning btn-xs cell-5-vw" data-toggle="modal"
+                                data-target="#edit_modal{{ devotional.id }}">Edit</a>
+                            <form action="{{ url_for('manage_bp.delete') }}" method="POST">
+                                <input type="hidden" name="db" value="Devotional">
+                                <input type="hidden" name="id" value="{{ devotional.id }}">
+                                <input type="hidden" name="search" value="False">
+                                <button type="submit" class="btn btn-danger btn-xs cell-5-vw"
+                                    onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+
+                            </form>
+
+                        </td>
+                    </tr>
+
+                    <div id="edit_modal{{ devotional.id }}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Update Devotional</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('manage_bp.update') }}" method="POST">
+
+                                        <div class="form-group">
+                                            <label>Title:</label>
+                                            <input type="text" class="form-control" name="title" required="1"
+                                                value="{{ devotional.title }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Date:</label>
+                                            <input type="date" class="form-control" name="date" required="1"
+                                                value="{{ devotional.date }}">
+                                        </div>
+
+                                        <input type="hidden" name="id" value="{{ devotional.id }}">
+
+                                        <input type="hidden" name='db' value='Devotional'>
+
+                                        <div class="form-group">
+                                            <label>Content:</label>
+                                            <textarea type="text" rows="10" class="form-control" name="content">{{ devotional.content }}</textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Download Link:</label>
+                                            <input type="text" class="form-control" name="download_link" required="1"
+                                                value="{{ devotional.download_link }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Lead:</label>
+                                            <input type="text" class="form-control" name="lead" required="1"
+                                                value="{{ devotional.lead }}">
+                                        </div>
+
+                                        <button class="btn btn-primary" type="submit">Update Devotional</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="devotional_modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add a Devotional</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('manage_bp.insert') }}" method="POST">
+                    <input type="hidden" name='db' value='Devotional'>
+
+                    <div class="form-group">
+                        <label>Download Link:</label>
+                        <input type="text" class="form-control" name="download_link" required="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Date:</label>
+                        <input type="date" class="form-control" name="date" required="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Content:</label>
+                        <textarea type="text" rows="10" class="form-control" name="content" required="1"></textarea>
+                    </div>                    
+
+                    <div class="form-group">
+                        <label>Lead:</label>
+                        <input type="text" class="form-control" name="lead" required="1">
+                    </div>
+
+
+
+                    <button class="btn btn-primary" type="submit">Add a Devotional</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pag">
+    {% for page_num in devotionals.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+    {% if devotionals.page == page_num %}
+    <a class="btn btn-info mb-4" href="{{ url_for('manage_bp.manage_devotionals', page=page_num) }}">{{ page_num }}</a>
+    {% else %}
+    <a class="btn btn-outline-info mb-4" href="{{ url_for('manage_bp.manage_devotionals', page=page_num) }}">{{ page_num }}</a>
+    {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
+</div>
+<script src="{{ url_for('static', filename='manage/js/manage.js') }}"></script>
+{% endblock body %}

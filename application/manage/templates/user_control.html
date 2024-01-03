@@ -1,0 +1,392 @@
+{% extends "manage_base.html" %}
+
+
+{% block title %}
+User Control
+{% endblock title %}
+
+
+
+
+{% block body %}
+<div class="text-center">
+    <a class="btn btn-primary px-5 mx-5 my-3"
+        href="{{ url_for('manage_bp.manage_users', status='applicant') }}">Applicants</a>
+    <a class="btn btn-success px-5 mx-5 my-3" href="{{ url_for('manage_bp.manage_users', status='member') }}">Members<a>
+            <a class="btn btn-warning px-5 mx-5 my-3"
+                href="{{ url_for('manage_bp.manage_users', status='rejected') }}">Rejected<a>
+                    <a class="btn btn-danger px-5 mx-5 my-3"
+                        href="{{ url_for('manage_bp.manage_users', status='deleted') }}">Deleted Users</a>
+                    </div>
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+
+
+                <!--####################### Flashed message block ########################-->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+
+            <table class="table table-hover table-dark">
+                <tr class="no-b-border">
+
+                    {% if user.application.status == "Application recieved" %}
+                   <td>
+
+                       <h1 class="pt-2"><img src="{{ url_for('static', filename='main/img/profile_pics/' + user.image_file) }}"
+                        alt="profile picture"></h1>
+                    </td>
+                    <td colspan="3">
+                        <h1 class="pt-2">{{ user.username }}</h1>
+                        <h3>Applicant</h3>
+                    </td>
+                    <td>
+                        <td></td>
+
+
+                    </td>
+                        {% else %}
+                        <td>
+
+                            <h1 class="pt-2"><img src="{{ url_for('static', filename='main/img/profile_pics/' + user.image_file) }}"
+                                alt="profile picture"></h1>
+                            </td>
+                            <td>
+                                <h1 class="pt-2"> {{ user.username }}</h1>
+                                <h3>{{ rank_list[user.rank] }}</h3>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            {% endif %}
+                        </tr>
+
+
+                <tr class="no-b-border">
+                    <td class="v-align">
+                        <h6>Name</h6>{{ user.application.name }}
+                    </td>
+
+                    <td class="v-align">
+                        <h6>Authenticator?</h6>{{ user.application.have_auth }}
+                    </td>
+                    <td class="v-align">
+                        <h6>Joining how?</h6>{{ user.application.join_how }}
+                    </td>
+                    <td class="v-align">
+                        <h6>Discription</h6> {{ user.application.self_description }}
+                    </td>
+                    <td class="v-align">
+                        <h6>Application Date</h6>{{ user.application.app_date.strftime("%m-%d-%Y %I:%M") }} CST
+                    </td>
+                </tr>
+
+                <tr class="no-b-border">
+                    <td class="v-align">
+                        <h6>Battle Tag</h6>{{ user.application.b_tag }}
+                    </td>
+                    <td class="v-align">
+                        <h6>Found us how?</h6>{{ user.application.find_how }}
+                    </td>
+                    <td class="v-align">
+                        <h6>Application Status</h6> {{ user.application.status }}
+                    </td>
+                    <td class="v-align">
+                        <h6>When do you play?</h6>{{ user.application.play_when }}
+                    </td>
+                    <td></td>
+                </tr>
+
+                <td colspan="2"><a href="" class="message_user_btn btn btn-info btn-xs mb-1"
+                        data-toggle="modal" data-target="#message_modal{{ user.application.user_id }}"> Direct Message
+                        User</a></td>
+                {% if user.application.status == 'Approved' %}
+                <td class="manage-btn">
+                    <a href="" class="btn btn-warning btn-xs" data-toggle="modal"
+                        data-target="#edit_modal{{ user.id }}">Edit</a>
+                </td>
+                <td></td>
+
+                <!-- edit modal -->
+                <div id="edit_modal{{ user.id }}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Update User Info</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ url_for('manage_bp.edit_users') }}" method="POST">
+
+                                    <div class="form-group">
+                                        <label>Username:</label>
+                                        <input type="text" class="form-control" name="username"
+                                            required="1" value="{{ user.username }}">
+                                    </div>
+                                    <input type="hidden" name='return' value='manage_bp.user_control'>
+                                    <input type="hidden" name="id" value="{{ user.id }}">
+                                    <input type="hidden" name='db' value='User'>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <p class="form-control" name="email">{{ user.email }}</p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Rank:</label>
+                                        <input list="ranks" class="form-control" name="rank"
+                                            required="1"
+                                            placeholder="{{ rank_list[(user.rank )] }}">
+                                    </div>
+
+                                    <datalist id="ranks">
+                                        {% for i in range((current_user.rank + 1), 8) %}
+                                        <option>{{rank_list[i]}}</option>
+                                        {% endfor %}
+                                    </datalist>
+                                    <button class="btn btn-primary" type="submit">Update User
+                                        Info</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                {% endif %}
+
+                {% if user.application.status == "Application recieved" %}
+                <td></td>
+                <td align='right'>
+                    <form action="{{ url_for('manage_bp.manage_applications') }}" method="POST">
+                        {% if user.application.have_auth == "Yes" %}
+                        <input type="hidden" name="rank" value=6>
+                        {% else %}
+                        <input type="hidden" name="rank" value=7>
+                        {% endif %}
+                        <input type="hidden" name="approve" value="True">
+                        <input type="hidden" name="user_id" value="{{  user.application.user_id }}">
+                        <input type="hidden" name="from_user" value="{{ current_user.username }}">
+                        <input type="hidden" name="from_user_image" value="{{ current_user.image_file }}">
+                        <input type="hidden" name='return' value='manage_bp.user_control'>
+                        <button type="submit"
+                            onclick="return confirm('Are you sure you want to approve this application?')"
+                            class="btn btn-success hide-after-review mb-1">Approve</button>
+                    </form>
+                </td>
+
+                <td>
+                    <a href="" class="message_user_btn btn btn-danger btn-xs mb-1"
+                        data-toggle="modal" data-target="#reject_modal{{ user.application.user_id }}">Reject</a>
+                </td>
+                {% endif %}
+
+
+                <!-- Section for reading and replying to messages from the user -->
+                <div id="message_modal{{ user.id }}" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+
+
+                            <div class="modal-header">
+                                <h2 class="modal-title">Message User</h2>
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="{{ url_for('main_bp.messages') }}" method="POST">
+                                    <input type="hidden" name="from_user" value="{{ current_user.id }}">
+                                    <input type="hidden" name="id" value="{{ user.id }}">
+                                    <input type="hidden" name='db' value='User'>
+                                    <input type="hidden" name='return' value='manage_bp.user_control'>
+                                    <div class="form-group">
+                                        <label>Message Body</label>
+                                        <textarea type="text" rows="5" cols="60" class="form-control"
+                                            name="message_body" required="1" autofocus></textarea>
+                                    </div>
+
+                                    <button class="btn btn-primary" type="submit">Message
+                                        {{ user.application.name }} </button>
+                                </form>
+                            </div>
+
+                            <div class="previous-messages">
+                                <br>
+                                <h3 class="previous-messages-heading">Message history for {{ user.username }}</h3>
+                                <br>
+
+                                <div class="message-body" id='message-body'>
+                                    {% for message in user.messages|sort(attribute='message_date', reverse=True) %}
+                                    {% if message.user_id ==  user.id %}
+                                    {% if message.from_user != user.username %}
+                                    <div class="message-body-inner-go-right">
+                                        <div class="message-each-container sent">
+                                            <div class="message-each-sent">
+
+                                                <img src="{{ url_for('static', filename='main/img/profile_pics/' + message.from_user_image) }}"
+                                                    alt="profile picture">
+                                                <p>{{ message.from_user }} </p>
+                                            </div>
+                                            <div class="message-with-date">
+
+                                                <h5 class="msg-body">{{ message.message_body }}</h5>
+
+                                                <p>{{ message.message_date.strftime("%m-%d-%y %I:%M %p")}} CST</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="message-body-inner">
+                                        <div class="message-each-container received">
+                                            <div class="message-each-sent">
+
+                                                <img src="{{ url_for('static', filename='main/img/profile_pics/' + message.from_user_image) }}"
+                                                    alt="profile picture">
+                                                <p>{{ message.from_user }} </p>
+
+                                            </div>
+                                            <div class="message-with-date">
+
+                                                {% if not message.acknowledged %}
+                                                <h5 class="msg-body">{{ message.message_body }}</h5>
+                                                <form action="{{ url_for('main_bp.messages') }}" method="POST">
+                                                    <input type="hidden" name="clear" value="please">
+                                                    <input type="hidden" name="id" value="{{ user.id }}">
+                                                    <input type="hidden" name='db' value='User'>
+                                                    <input type="hidden" name='return' value='manage_bp.user_control'>                                                    
+                                                    <button class="btn btn-xs btn-danger"
+                                                        type="submit">Acknowledge</button>
+                                                </form>
+                                                {% else %}
+                                                <h5 class="msg-body">{{ message.message_body }}</h5>
+                                                {% endif %}
+
+                                                <p>{{ message.message_date.strftime("%m-%d-%y %I:%M %p")}} CST</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End Message modal -->
+
+                <!-- Section for rejecting an application-->
+                <div id="reject_modal{{ user.application.user_id }}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Reject Applicant</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ url_for('manage_bp.manage_applications') }}" method="POST">
+                                    <input type="hidden" name="approve" value="False">
+                                    <input type="hidden" name="user_id" value="{{  user.application.user_id }}">
+                                    <input type="hidden" name="from_user" value="{{ current_user.username }}">
+                                    <input type="hidden" name="from_user_image" value="{{ current_user.image_file }}">
+                                    <input type="hidden" name='return' value='manage_bp.user_control'>
+                                    <div class="form-group">
+                                        <label for="{{ user.application.user_id }}" text-align="left">Message:</label>
+                                        <textarea type="text" rows="10" cols="40" class="form-control" name="reject_message" id="{{ user.application.user_id }}" required="1">Thanks for applying. We’re terribly sorry but we are passing on your application. Not everyone would be a good fit for Renewed Hope and we sincerely hope that you find a guild that is perfect for you and your needs. Thank you for your interest.</textarea>
+                                    </div>                    
+
+                                    <button type="submit"
+                                    onclick="return confirm('Are you sure you want to reject this application?')"
+                                    class="btn btn-danger hide-after-review">Reject</button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Reject modal -->
+
+
+
+                </tr>
+            </table>
+
+
+
+
+            <!-- ------------------------------Notes section-------------------------------- -->
+            <div class="modal-header">
+                <h2 class="modal-title text-white">Notes about {{ user.username }}</h2>  
+            </div>
+
+            <h3 class="text-danger">These notes will only be seen by people with Officer rank or above.</h3>
+
+            <div class="modal-body">
+                <form action="{{ url_for('manage_bp.notes') }}" method="POST">
+                    <input type="hidden" name="type" value="application">
+                    <input type="hidden" name='user_id' value='{{ user.id }}'>
+                    <input type="hidden" name='return' value='manage_bp.user_control'>
+                    <div class="form-group">
+                        <label>New Note</label>
+                        <textarea type="text" rows="5" cols="60" class="form-control" name="note" required="1"
+                            autofocus></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">Add Note</button>
+                </form>
+            </div>
+
+            <div class="previous-messages">
+                <br>
+
+
+                <div class="message-body" id='message-body'>
+                    {% for note in user.notes|sort(attribute='date_posted', reverse = True) %}
+
+
+                    <div class="">
+                        <div class="message-each-container width-100 note">
+                            <div class="message-each-sent">
+
+                                <img src="{{ url_for('static', filename='main/img/profile_pics/' + note.from_user_image) }}"
+                                    alt="profile picture">
+                                <p>{{ note.from_user }} </p>
+
+                            </div>
+                            <div class="message-with-date">
+
+
+                                <h5 class="msg-body">{{ note.note }}</h5>
+
+
+                                <p>{{ note.date_posted.strftime("%m-%d-%y %I:%M %p")}} CST</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <!-- ----------------------------End Notes Section-----------------------------  -->
+
+
+
+
+            {% endblock body %}

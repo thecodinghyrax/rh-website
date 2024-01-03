@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta name=”description” content="All about Renewed Hope - A Christian guild in World of Warcraft">
+<link rel="stylesheet" href="{{ url_for('static', filename='main/css/about.css') }}">
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block body %}
+{% include "alerts.html" %}
+<div id="container">
+    <div id="content">
+        <h1 id="title">Renewed Hope</h1>
+        <br>
+        
+           
+                <h2 id="faction">Retail WoW:     Alliance  -  Alexstrasza/Terokkar</h2>
+                <h2 id="faction">Classic WoW:     Alliance  -  Atiesh</h2>
+             
+                <p>
+                <h3>We are recruiting:</h3>
+                We are recruiting for our progression raid team as well as for anyone who just wants a fun, family friendly environment to play in.
+
+                We are an established Christian guild full of believers and nonbelievers alike. Our main focus has been and always will be to provide a fun place for people to enjoy this game without dealing with all the harshness and vulgarity that you find in many other guilds. We don’t require that our members be Christians but you must respect the beliefs of others. At times (respectful) religious talk comes up in chat. If the thought of hearing some occasional “God talk” is bothersome to you than this guild probably would not be a good fit.
+                <br>
+                <br>
+                We have just a few rules in our guild in order to keep this a place we feel comfortable playing in.                
+                <ol>
+                    <li>
+                        Keep language and conversations clean. There are an infinite number of guilds where foul language and suggestive conversations are the norm. We are proud to be an alternative to that.
+                    </li>
+                    <br>
+                    <li>
+                        Respect each other. Well duh, right? We come from all walks of life and all backgrounds. We all carry our own views and opinions. We must be willing to respect each other even if we don’t always agree.    
+                    </li>
+                    <br>
+                    <li>
+                        Act honorably. When we are out in the game world we represent the guild as a whole. Being a jerk or mouthing off to people in game reflects poorly on all of us (and honestly accomplishes nothing).
+                    </li>
+                </ol>
+                <br>
+                <h3>What we do:</h3>
+                <br>
+                <b>Raiding:</b>
+                <br>
+                <br>
+                We have both casual raids and progression raids. Casual raid is mostly on normal difficulty. It is fun and relaxed but we do have some minimum ilevel requirements to join and ask that you can follow directions. Anyone who can do that can join us. Casual raid is Fridays from 8 pm to 11 pm.
+
+Our progression team has stricter requirements and more commitment. We typically have gotten AOTC on most raid tiers for the last few expansions and have downed a few mythic bosses. Progression raid nights are Tuesday and Thursday, 8pm to 10 pm.
+                <br>
+                <br>
+                <b>PVP:</b>
+                <br>
+                <br>
+                We do world PVP and BGs on Wednesday nights and Rated Battle Grounds on Saturday nights.
+                <br>
+                <br>
+                <b>Other Activities:</b>
+                <br>
+                <br>
+                We also like to get guildies together for island expeditions, warfronts, LFR, raiding old content, achievement runs, dungeons, leveling, etc.
+                <br>
+                <br>
+                <b>Devotionals:</b>
+                <br>
+                <br>
+                We hold a devotional every Monday night via our Discord server. We get together for a message and share some prayer requests or praise reports. Participation is not required.
+                <br>
+                <br>
+                <b>Still interested?</b>
+                <br>
+                <br>
+                That’s the guild in a nutshell. Not your cup of tea? Thanks for reading. Sound like your kind of place? Whisper me (Zillah#11810) or one of our other officers in game and we’ll talk. We also ask that you apply on our website 
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('main_bp.account') }}" target="#">here</a>.
+                {% else %}
+                <a href="{{ url_for('main_bp.register') }}" target="#">here</a>.
+                {% endif %}
+                <br>
+                <br>
+                </p>
+</div>
+</div>
+{% endblock %}
