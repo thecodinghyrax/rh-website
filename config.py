@@ -20,7 +20,7 @@ class Config:
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get('DB_PATH')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_POOL_RECYCLE = 299
+    SQLALCHEMY_ENGINE_OPTIONS = {'pool_recycle' : 280}
 
     # Email
     MAIL_SERVER = environ.get('MAIL_SERVER')
