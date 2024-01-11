@@ -2,8 +2,11 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
-from flask_app import app, db
-from flask_app.models import News
+from application import create_app
+from application.models import db, News
+
+app = create_app()
+
 with app.app_context():
     db.create_all()
     link = 'https://www.wowhead.com/news?type=1'
