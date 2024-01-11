@@ -33,12 +33,12 @@ If you did not make this request, please ignore this email. No chnages will be m
 
 def send_applied_email():
     mail_to_user_list = User.query.filter(User.rank < 6).all()
-# !!!!!!!!!!!!!!!!! TESTING - PLEASE CHANGE IN PROD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !!!!!!!!!!!!!!!!! TESTING - PLEASE COMMENT OUT IN PROD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     mail_to_email_list = ['drewxcom@gmail.com']
     for user in mail_to_user_list:
         print(f'Mail would be sent to: {user.email}')
         
-# !!!!!!!!!!!!!!!!! TESTING - PLEASE CHANGE IN PROD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !!!!!!!!!!!!!!!!! TESTING - PLEASE UNCOMMENT IN PROD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # mail_to_email_list = []
     # for user in mail_to_user_list:
     #     mail_to_email_list.append(user.email)

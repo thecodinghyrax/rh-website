@@ -56,6 +56,21 @@ Scheduled Events
                         <th></th>
                     </tr>
                     {% for event in events.items %}
+                        {% if event.symbol == '/static/main/img/m-plus-icon.png' %}
+                            {% set current = 'Mythic+' %}
+                        {% elif event.symbol == '/static/main/img/devo-icon.png' %}
+                            {% set current = 'Devotionals' %}
+                        {% elif event.symbol == '/static/main/img/p-raid-icon.png' %}
+                            {% set current = 'Progression Raid' %}
+                        {% elif event.symbol == '/static/main/img/c-raid-icon.png' %}
+                            {% set current = 'Casual Raid' %}
+                        {% else %}
+                            {% set current = 'Other' %}
+                        {% endif %}
+
+
+                    
+
                     <tr>
                         <td>{{ event.title }}</td>
                         <td>{{ event.date.strftime('%m-%d-%y') }}</td>
@@ -113,7 +128,7 @@ Scheduled Events
 
                                         <div class="form-group">
                                             <label>Description:</label>
-                                            <textarea type="text" rows="10" class="form-control" name="description" required="1" value="{{ event.description }}"></textarea>
+                                            <textarea type="text" rows="10" class="form-control" name="description" required="1">{{ event.description }}</textarea>
 
                                         </div>
 
@@ -124,7 +139,7 @@ Scheduled Events
 
                                         <div class="form-group">
                                             <label>Symbol:</label>
-                                            <input list="symbols" class="form-control" name="symbol" required="1">
+                                            <input list="symbols" class="form-control" name="symbol" required="1" placeholder="{{ current }}">
                                         </div>
 
                                         <datalist id="symbols">
