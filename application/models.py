@@ -1,6 +1,5 @@
 from datetime import datetime
-from itsdangerous import URLSafeTimedSerializer as Serializer
-# from flask_app import db, login_manager, app
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_login import UserMixin
 import pytz
 from . import db, login_manager
@@ -43,15 +42,15 @@ class User(db.Model, UserMixin):
 
 
     def get_reset_token(self, expires_sec=18000):
-        s = Serializer(environ.get("SECRET_KEY"), expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+        s = URLSafeTimedSerializer(environ.get("SECRET_KEY"))
+        return s.dumps([self.id])
 
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(environ.get("SECRET_KEY"))
+        s = URLSafeTimedSerializer(environ.get("SECRET_KEY"))
         try:
-            user_id = s.loads(token)['user_id']
-        except:
+            user_id = s.loads(token, max_age=18000)#['user_id']
+        except SignatureExpired:
             return None
         return User.query.get(user_id)
 

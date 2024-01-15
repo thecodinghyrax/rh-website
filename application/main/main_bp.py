@@ -10,7 +10,7 @@ from .forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordF
 from flask import Blueprint, url_for, request, send_from_directory, render_template, redirect, url_for, flash
 from ..models import db, Devotional, News, Calendar, User, Announcement, Application, UserMessages, datetime
 from flask_login import login_required, current_user, login_user, logout_user
-from application import bcrypt, ext, mail, root, remove, path, pytz, calendar
+from application import bcrypt, ext, mail, root, remove, path, pytz, calendar, Message
 
 
 main = Blueprint('main_bp', __name__,
@@ -19,12 +19,13 @@ main = Blueprint('main_bp', __name__,
 
 def send_reset_email(user):
     token = user.get_reset_token()
-    msg = mail.Message('Password Reset Request', 
-                    sender='noreply@renewedhope.us', 
+    print(f'The token is: {token}')
+    msg = Message('Password Reset Request',
+                    sender='noreply@renewedhope.us',
                     recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:
 {url_for('main_bp.reset_token', token=token, _external=True)}
-Please note: This token will expire in 30 minutes from the time this email is sent. 
+Please note: This token will expire in 30 minutes from the time this email is sent.
 
 If you did not make this request, please ignore this email. No chnages will be made.
 '''
@@ -34,33 +35,27 @@ If you did not make this request, please ignore this email. No chnages will be m
 def send_applied_email():
     mail_to_user_list = User.query.filter(User.rank < 6).all()
 # !!!!!!!!!!!!!!!!! TESTING - PLEASE COMMENT OUT IN PROD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    mail_to_email_list = ['drewxcom@gmail.com']
-    for user in mail_to_user_list:
-        print(f'Mail would be sent to: {user.email}')
-        
-# !!!!!!!!!!!!!!!!! TESTING - PLEASE UNCOMMENT IN PROD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    # mail_to_email_list = []
+    # mail_to_email_list = ['drewxcom@gmail.com']
     # for user in mail_to_user_list:
-    #     mail_to_email_list.append(user.email)
-    msg = mail.Message('We have a new applicant', 
-                    sender='noreply@renewedhope.us', 
+    #     print(f'Mail would be sent to: {user.email}')
+
+# !!!!!!!!!!!!!!!!! TESTING - PLEASE UNCOMMENT IN PROD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    mail_to_email_list = []
+    for user in mail_to_user_list:
+        mail_to_email_list.append(user.email)
+    msg = Message('We have a new applicant',
+                    sender='noreply@renewedhope.us',
                     recipients=None,
                     bcc=mail_to_email_list)
-    msg.body = f'''Someone just applied to join. Please login to the admin panel of the website to approve, reject or just message the appliciant. 
-{url_for('manage_bp.admin', _external=True)}
 
-'''
-    # print("Here are the people who should get the mail", mail_to_email_list)
-    # print("Here is the url for manage.admin: ", url_for('manage_bp.admin', _external=True))
+    admin_url = url_for('manage_bp.admin', _external=True)
+    msg.html = f'''
+    <p>Someone just applied to join. Please login to the admin panel of the website to approve, reject or just message the applicant.</p>
+    <p><a href="{admin_url}">Click here</a> to go to the admin page.</p>
+    '''
+
     mail.send(msg)
 
-# @main.route('/testpage')
-# def testpage():
-#     pic_route = url_for('static', filename='main/img/profile_pics/')
-#     applications = Application.query.filter(Application.status >= 'A').filter(Application.name >= "J").all()
-#     users = User.query.all()
-#     messages = UserMessages.query.all()
-#     return render_template('testpage.html', applications=applications, users=users, messages=messages, pic_route=pic_route)
 
 def get_cst():
     datetime_utc = datetime.now()

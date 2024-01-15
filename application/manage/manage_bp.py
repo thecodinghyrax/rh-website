@@ -74,7 +74,7 @@ def manage_events():
     future_events = floor(Calendar.query.filter(Calendar.date > current_date).count() / pag_number)
     page = request.args.get('page', (future_events + 1), type=int)
     all_events = Calendar.query.order_by(Calendar.date.desc()).paginate(page=page, per_page=pag_number)
-    return render_template('manage_events.html', events=all_events)
+    return render_template('manage_events.html', events=all_events, title='events')
 
 
 @manage.route('/devotionals')
