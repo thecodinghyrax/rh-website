@@ -38,21 +38,22 @@ def send_applied_email():
     # mail_to_email_list = ['drewxcom@gmail.com']
     # for user in mail_to_user_list:
     #     print(f'Mail would be sent to: {user.email}')
-        
+
 # !!!!!!!!!!!!!!!!! TESTING - PLEASE UNCOMMENT IN PROD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     mail_to_email_list = []
     for user in mail_to_user_list:
         mail_to_email_list.append(user.email)
-    msg = mail.Message('We have a new applicant', 
-                    sender='noreply@renewedhope.us', 
+    msg = Message('We have a new applicant',
+                    sender='noreply@renewedhope.us',
                     recipients=None,
                     bcc=mail_to_email_list)
-    msg.body = f'''Someone just applied to join. Please login to the admin panel of the website to approve, reject or just message the appliciant. 
-{url_for('manage_bp.admin', _external=True)}
 
-'''
-    # print("Here are the people who should get the mail", mail_to_email_list)
-    # print("Here is the url for manage.admin: ", url_for('manage_bp.admin', _external=True))
+    admin_url = url_for('manage_bp.admin', _external=True)
+    msg.html = f'''
+    <p>Someone just applied to join. Please login to the admin panel of the website to approve, reject or just message the applicant.</p>
+    <p><a href="{admin_url}">Click here</a> to go to the admin page.</p>
+    '''
+
     mail.send(msg)
 
 
