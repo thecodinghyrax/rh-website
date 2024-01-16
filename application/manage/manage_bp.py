@@ -1,12 +1,3 @@
-# from flask import render_template, url_for, request, redirect, flash, send_from_directory, Blueprint
-# from datetime import datetime, date, timedelta
-# from flask_app import db
-# from flask_app.models import Devotional, Calendar, Announcement, User, UserMessages, Application, News_cast, Notes
-# from flask_login import current_user, login_required
-# from sqlalchemy import and_, or_
-# from sqlalchemy.orm import load_only
-# from math import floor
-# import pytz
 import pytz
 from math import floor
 from datetime import datetime, timedelta

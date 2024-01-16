@@ -1,9 +1,3 @@
-# from flask import Blueprint, request, send_from_directory, render_template, redirect, url_for, flash
-# from flask_app import app, db, bcrypt, ext, mail
-# from flask_app.models import Devotional, News, Calendar, User, Announcement, Application, UserMessages, News_cast
-# from sqlalchemy import extract, and_, or_
-# from flask_login import current_user, login_user, logout_user, login_required
-# from flask_mail import Message
 import secrets
 from PIL import Image
 from .forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm, UpdateAccountForm, ApplyToGuildForm
