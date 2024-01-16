@@ -23,12 +23,12 @@ def send_reset_email(user):
     msg = Message('Password Reset Request',
                     sender='noreply@renewedhope.us',
                     recipients=[user.email])
-    msg.body = f'''To reset your password, visit the following link:
-{url_for('main_bp.reset_token', token=token, _external=True)}
-Please note: This token will expire in 30 minutes from the time this email is sent.
-
-If you did not make this request, please ignore this email. No chnages will be made.
-'''
+    reset_url = url_for('main_bp.reset_token', token=token, _external=True)
+    msg.html = f'''<p>To reset your password, visit the following link:</p>
+    <p><a href="{reset_url}">Click here</a> to go to the reset page</p>
+    <br>
+    <p>Please note: This token will expire in 30 minutes from the time this email is sent.</p>
+    <p>If you did not make this request, please ignore this email. No changes will be made.</p>'''
     mail.send(msg)
 
 
