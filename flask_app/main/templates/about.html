@@ -66,9 +66,9 @@ Our progression team has stricter requirements and more commitment. We typically
                 <br>
                 That’s the guild in a nutshell. Not your cup of tea? Thanks for reading. Sound like your kind of place? Whisper me (Zillah#11810) or one of our other officers in game and we’ll talk. We also ask that you apply on our website 
                 {% if current_user.is_authenticated %}
-                <a href="{{ url_for('main.account') }}" target="#">here</a>.
+                <a href="{{ url_for('main_bp.account') }}" target="#">here</a>.
                 {% else %}
-                <a href="{{ url_for('main.register') }}" target="#">here</a>.
+                <a href="{{ url_for('main_bp.register') }}" target="#">here</a>.
                 {% endif %}
                 <br>
                 <br>
