@@ -11,92 +11,86 @@
 
     <div class="main-container">
 
+        <div class="text-center"><img class="banner-img"src="{{url_for('static', filename='main/img/New_DF.png')}}" alt="Renewed Hope Banner"></div>
 
-    <div class="text-center"><img class="banner-img"src="{{url_for('static', filename='main/img/RenewedHope_Banner_cut.jpg')}}" alt="Renewed Hope Banner"></div>
-
-    <div class="content-container">
-
-        <div class="announcment-container">
+        <div class="content-container"> <!-- Holds the three main widgets -->
 
 
-            <div id="myCarousel" class="carousel slide news" data-ride="carousel">
-                <!-- Wrapper for carousel items -->
-                <div class="carousel-inner news_list-container">
-                    <div class="news_list">
+            <div class="announcment-container">
+
+
+                <div id="myCarousel" class="carousel slide news" data-ride="carousel">
+
+                    <div class="carousel-inner">
                         {% for announcement in announcements %}
-                            {% if loop.index is eq 1 %}
-                            {% if announcement.link %}
-                            <a href="{{ announcement.link|safe }}" target="_blank">
-                                <div class="carousel-item news_item active">
-                                <h2 class="new_list" alt="First Slide">{{ announcement.title }}</h2>
-                                <div class="new_list" alt="First Slide">{{ announcement.description }}</div>
-                                <div class="new_list" alt="First Slide">{{ announcement.link }}</div></a>
+                        
+                            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                {% if announcement.link %}
+                                <a href="{{ announcement.link|safe }}" target="_blank">
+                                    <h2>{{ announcement.title }}</h2>
+                                    <p>{{ announcement.description }}</p>
+                                    <p class="text-warning">{{ announcement.link }}</p>
+                                </a>
+                                {% else %}
+                                    <h2>{{ announcement.title }}</h2>
+                                    <p>{{ announcement.description }}</p>   
                                 {% endif %}
-                                </div>
-                            {% else %}
-                                <div class="carousel-item news_item">
-                                    <h2 class="new_list" alt="Next Slide">{{ announcement.title }}</h2>
-                                    <div class="new_list" alt="Next Slide">{{ announcement.description }}</div>
-                                </div>
-                            {% endif %}
+                            </div>
                         {% endfor %}
                     </div>
+
                 </div>
-            </div>
+                    
 
-
-            <div class="nav-arrows">
-                <a class="carousel-ctrl-prev" href="#myCarousel" data-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                </a>
-                <a class="carousel-ctrl-next" href="#myCarousel" data-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                </a>
-            </div>
-
-
-            <div>
-
-                <a id="devo" href="{{ devotional.download_link }}" target="_blank">
-                    <div class="devotional-card-label">
-                        <div class="devotional-card-content">
-                            <h2>{{ devotional.title }}</h2>
-                            {{ devotional.content }}
+                
+                <div class="nav-arrows">
+                    <a class="carousel-ctrl-prev" href="#myCarousel" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-ctrl-next" href="#myCarousel" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+                </div>
+                
+                
+                <div>
+                    
+                    <a id="devo" href="{{ devotional.download_link }}" target="_blank">
+                        <div class="devotional-card-label">
+                            <div class="devotional-card-content">
+                                <h2>{{ devotional.title }}</h2>
+                                {{ devotional.content }}
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-         <div class="extra-life-container">
-                <h2>Extra Life</h2>
-                <div class="extra-life-widget">
-                    <iframe src="https://www.extra-life.org/index.cfm?fuseaction=widgets.200x420thermo&teamID=58104" width="202" height="422"
-                    frameborder="0" scrolling="no"><a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=58104">
-                        Make a Donation!</a></iframe>
+                    </a>
                 </div>
+                
             </div>
-
-      
-        <!-- <div class="widgets text-center"> -->
- 
+            
+            <div class="extra-life-container">
+                <div class="extra-life-title">Extra Life</div>
+                <div class="extra-life-widget">
+                   <a href="https://www.extra-life.org/team/67571">
+                       <img src="{{url_for('static', filename='main/img/el-web-logo.jpg')}}" alt="Extra Life Image">
+                    </a>
+                </div>
+            </div>    
+                        
             <div class="widgets text-center">
                 <div class="wowhead-title"><img id="wowhead-logo"
-                        src="{{ url_for('static', filename='main/img/wow-head-logo.png') }}">WowHead News</div>
-                {% for anchor in news %}
+                    src="{{ url_for('static', filename='main/img/wow-head-logo.png') }}">WowHead News</div>
+                    {% for anchor in news %}
                     {% if loop.index is divisibleby 2 %}
-                        <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
+                    <div class="article-wowhead">{{ anchor.anchor|safe }}</div>
                     {% else %}
-                        <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
+                    <div class="article-wowhead wowhead-light">{{ anchor.anchor|safe }}</div>
                     {% endif %}
-                {% endfor %}
+                    {% endfor %}
             </div>
+                
+                    
+        </div> <!-- End content-container -->
 
-        <!-- </div> -->
-
-      
-    </div>
-
-</div>
+    </div><!-- End main-container -->
 
 {% endblock %}
